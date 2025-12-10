@@ -9,90 +9,94 @@
   <link rel="stylesheet" href="assets/css/dashboard.css" />
   <link rel="stylesheet" href="assets/css/modals.css" />
 </head>
-<body class="dash-body">
-  <div class="dash-shell">
-    <!-- Top bar -->
+<body class="theme-dark">
+  <div class="dashboard-page">
+
+    <!-- HEADER -->
     <header class="dash-header">
-      <div class="dash-brand">
-        <div class="p54-badge">
-          <span>P54</span>
+      <div class="dash-header-left">
+        <div class="logo-pill">
+          <img src="assets/img/logo/pay54-icon.svg" alt="P54" />
         </div>
-        <div class="brand-text">
+        <div class="brand-stack">
           <div class="brand-title">PAY54 Wallet • v7.0</div>
           <div class="brand-sub">HYBRID MONEY • NG ⇄ GLOBAL</div>
         </div>
       </div>
 
-      <div class="dash-controls">
-        <div class="currency-switch">
-          <button class="pill" data-currency="NGN">NGN</button>
-          <button class="pill" data-currency="USD">USD</button>
-          <button class="pill" data-currency="GBP">GBP</button>
-          <button class="pill pill-muted" id="themeToggle">◑ Dark</button>
-        </div>
+      <div class="dash-header-center">
+        <button class="pill pill-fx" data-currency="NGN">NGN</button>
+        <button class="pill pill-fx" data-currency="USD">USD</button>
+        <button class="pill pill-fx" data-currency="GBP">GBP</button>
+        <button id="themeToggle" class="pill pill-theme">◐ Dark</button>
+      </div>
 
-        <button class="btn-ghost" id="logoutBtn">Logout</button>
-
-        <button class="profile-chip" id="profileBtn">
-          <div class="profile-avatar" id="profileInitial">D</div>
-          <div class="profile-meta">
-            <div id="profileName">Demi Olawoye</div>
-            <small class="profile-tag" id="profileTag">@demi • PAY54 demo profile</small>
-          </div>
+      <div class="dash-header-right">
+        <button id="logoutBtn" class="btn-outline">Logout</button>
+        <button id="profileBtn" class="profile-pill">
+          <span class="profile-initial">D</span>
+          <span class="profile-meta">
+            <span id="profileName">Demi</span>
+            <span class="profile-sub">PAY54 demo profile</span>
+          </span>
         </button>
       </div>
     </header>
 
-    <!-- Main layout -->
-    <main class="dash-main">
-      <!-- Left column -->
+    <!-- MAIN GRID -->
+    <main class="dash-grid">
+
+      <!-- LEFT COLUMN -->
       <section class="dash-left">
-        <!-- Balance card -->
-        <section class="card balance-card">
-          <div class="card-head">
+
+        <!-- BALANCE CARD -->
+        <section class="card card-balance">
+          <div class="card-balance-top">
             <div>
-              <div class="label">TOTAL BALANCE</div>
+              <div class="label-overline">TOTAL BALANCE</div>
               <div class="balance-amount" id="balanceAmount">₦0.00</div>
-              <div class="balance-sub">
-                <span id="balanceSub">..</span>
-              </div>
+              <div class="balance-sub" id="balanceSub">••</div>
             </div>
+
             <div class="balance-actions">
-              <button class="pill primary" data-action="add-money">Add money</button>
-              <button class="pill" data-action="withdraw">Withdraw</button>
+              <button id="btnAddMoney" class="btn-chip">Add money</button>
+              <button id="btnWithdraw" class="btn-chip">Withdraw</button>
             </div>
           </div>
 
-          <div class="balance-meta">
-            <div>FX wallets: NGN • USD • GBP (demo)</div>
-            <div>
-              🔐 Device + PIN • 🛡 AI Risk Watch • 💳 PCI-style security (UI mock)
+          <div class="balance-footer">
+            <div id="fxWallets">FX wallets: NGN • USD • GBP (demo)</div>
+            <div class="balance-security">
+              Security: Device • PIN • AI Risk Watch (UI mock)
             </div>
           </div>
         </section>
 
-        <!-- Money moves -->
+        <!-- MONEY MOVES -->
         <section class="card">
-          <header class="card-header">
+          <div class="card-header">
             <div>
               <h2>Money moves</h2>
               <p>Instant P2P + banks + QR requests</p>
             </div>
-          </header>
+          </div>
+
           <div class="grid grid-2">
-            <button class="tile" data-action="send-p2p">
+            <button class="tile" data-action="send">
               <div class="tile-title">Send PAY54 → PAY54</div>
               <div class="tile-sub">Instant P2P transfers</div>
             </button>
+
             <button class="tile" data-action="receive">
               <div class="tile-title">Receive</div>
-              <div class="tile-sub">Show account, tag & QR</div>
+              <div class="tile-sub">Show account, tag &amp; QR</div>
             </button>
 
-            <button class="tile" data-action="add-money">
+            <button class="tile" data-action="add">
               <div class="tile-title">Add money</div>
               <div class="tile-sub">Card • Bank • Agents</div>
             </button>
+
             <button class="tile" data-action="withdraw">
               <div class="tile-title">Withdraw</div>
               <div class="tile-sub">Bank • Agents</div>
@@ -100,123 +104,140 @@
 
             <button class="tile" data-action="bank-transfer">
               <div class="tile-title">Bank transfer</div>
-              <div class="tile-sub">To NG banks & wallets</div>
+              <div class="tile-sub">To NG banks &amp; wallets</div>
             </button>
-            <button class="tile" data-action="request-money">
+
+            <button class="tile" data-action="request">
               <div class="tile-title">Request money</div>
               <div class="tile-sub">With notification list</div>
             </button>
           </div>
         </section>
 
-        <!-- Services -->
+        <!-- SERVICES -->
         <section class="card">
-          <header class="card-header">
+          <div class="card-header">
             <div>
               <h2>Services</h2>
-              <p>FX, bills, cards, checkout, agents & more</p>
+              <p>FX, bills, cards, checkout, agents &amp; more</p>
             </div>
-          </header>
+          </div>
+
           <div class="grid grid-2">
             <button class="tile" data-action="fx">
               <div class="tile-title">Cross-border FX</div>
               <div class="tile-sub">NGN ⇄ USD/GBP/EUR</div>
             </button>
+
             <button class="tile" data-action="savings">
               <div class="tile-title">Savings</div>
-              <div class="tile-sub">Goals & pots</div>
+              <div class="tile-sub">Goals &amp; pots</div>
             </button>
 
             <button class="tile" data-action="bills">
               <div class="tile-title">Pay bills</div>
               <div class="tile-sub">(Airtime/Data/Power/TV)</div>
             </button>
+
             <button class="tile" data-action="cards">
-              <div class="tile-title">Virtual & linked cards</div>
-              <div class="tile-sub">Control & spend</div>
+              <div class="tile-title">Virtual &amp; linked cards</div>
+              <div class="tile-sub">Control &amp; spend</div>
             </button>
 
             <button class="tile" data-action="checkout">
               <div class="tile-title">PAY54 Smart Checkout</div>
               <div class="tile-sub">Approve e-commerce payments</div>
             </button>
+
             <button class="tile" data-action="shop">
               <div class="tile-title">Shop on the Fly</div>
               <div class="tile-sub">Taxi • Food • Tickets • Shops</div>
             </button>
 
             <button class="tile" data-action="invest">
-              <div class="tile-title">Investments & stocks</div>
-              <div class="tile-sub">Local & global assets</div>
+              <div class="tile-title">Investments &amp; stocks</div>
+              <div class="tile-sub">Local &amp; global assets</div>
             </button>
+
             <button class="tile" data-action="bet">
               <div class="tile-title">Bet funding</div>
-              <div class="tile-sub">18+ age verification</div>
+              <div class="tile-sub">+18 age verification</div>
             </button>
 
             <button class="tile" data-action="risk">
               <div class="tile-title">AI Risk Watch</div>
               <div class="tile-sub">Suspicious activity alerts</div>
             </button>
+
             <button class="tile" data-action="agent">
               <div class="tile-title">Become an Agent</div>
-              <div class="tile-sub">Onboard & earn</div>
+              <div class="tile-sub">Onboard &amp; earn</div>
             </button>
           </div>
         </section>
       </section>
 
-      <!-- Right column -->
+      <!-- RIGHT COLUMN -->
       <section class="dash-right">
-        <!-- Requests & alerts -->
-        <section class="card requests-card">
-          <header class="card-header">
-            <h2>Requests & alerts</h2>
-            <button class="pill pill-muted" id="clearAlertsBtn">Clear all</button>
-          </header>
-          <ul class="list" id="alertsList">
-            <!-- Filled by JS -->
-          </ul>
+
+        <!-- REQUESTS & ALERTS -->
+        <section class="card card-right">
+          <div class="card-header">
+            <h2>Requests &amp; alerts</h2>
+            <button id="btnClearAlerts" class="btn-chip btn-small">Clear all</button>
+          </div>
+          <ul id="alertsList" class="list-plain"></ul>
         </section>
 
-        <!-- Quick shortcuts -->
-        <section class="card">
-          <header class="card-header">
+        <!-- QUICK SHORTCUTS -->
+        <section class="card card-right">
+          <div class="card-header">
             <h2>Quick shortcuts</h2>
-          </header>
+          </div>
           <div class="grid grid-2">
-            <button class="tile compact" data-shortcut="agent">
+            <button class="tile tile-small" data-action="agent">
               Become an Agent
             </button>
-            <button class="tile compact" data-shortcut="savings">
-              Open Savings Pot
-            </button>
-            <button class="tile compact" data-shortcut="shop">
+            <button class="tile tile-small" data-action="shop">
               Shop on the Fly
             </button>
-            <button class="tile compact" data-shortcut="invest">
-              Invest & Stocks
+            <button class="tile tile-small" data-action="savings">
+              Open Savings Pot
+            </button>
+            <button class="tile tile-small" data-action="invest">
+              Invest &amp; Stocks
             </button>
           </div>
         </section>
 
-        <!-- Recent transactions -->
-        <section class="card">
-          <header class="card-header">
+        <!-- RECENT TRANSACTIONS -->
+        <section class="card card-right">
+          <div class="card-header">
             <h2>Recent transactions</h2>
-            <button class="pill pill-muted" id="viewAllTxBtn">View all</button>
-          </header>
-          <ul class="list tx-list" id="txList">
-            <!-- Filled by JS -->
-          </ul>
+            <button id="btnViewAllTx" class="btn-chip btn-small">View all</button>
+          </div>
+          <ul id="txList" class="list-plain"></ul>
         </section>
+
       </section>
+
     </main>
   </div>
 
-  <!-- Modals & toasts containers -->
-  <div id="modalRoot"></div>
-  <div id="toastRoot"></div>
+  <!-- MODAL ROOT -->
+  <div id="modalRoot" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle"></h3>
+        <button id="modalClose" class="modal-close">×</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
+
+  <!-- TOASTS -->
+  <div id="toastContainer" class="toast-container"></div>
 
   <script type="module" src="assets/js/ui/dashboardUI.js"></script>
 </body>
