@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>PAY54 • Smart Wallet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PAY54 • Smart Wallet</title>
 
-  <!-- Optional: keep theme so background isn’t white while redirecting -->
-  <link rel="stylesheet" href="assets/css/theme.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #111827, #020617 55%);
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .boot-msg {
-      opacity: 0.7;
-      font-size: 14px;
-    }
- <script type="module" src="assets/js/core/state.js"></script>
-<script type="module" src="assets/js/core/router.js"></script>
-<script type="module" src="assets/js/core/session.js"></script>
-<script type="module" src="assets/js/core/loader.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/theme.css">
+    <link rel="stylesheet" href="./assets/css/auth.css">
 
+    <style>
+        #app {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 14px;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="boot-msg">Launching PAY54 Wallet v7.0…</div>
 
-  <script type="module">
-    import { getActiveUser } from "./assets/js/core/session.js";
+    <!-- Page Root -->
+    <div id="app">Launching PAY54 Wallet v7.0…</div>
 
-    const active = getActiveUser();
-    if (active) {
-      window.location.href = "dashboard.html";
-    } else {
-      window.location.href = "login.html";
-    }
-  </script>
+    <!-- Load Core Engine (order matters!) -->
+    <script type="module" src="./assets/js/core/state.js"></script>
+    <script type="module" src="./assets/js/core/session.js"></script>
+    <script type="module" src="./assets/js/core/router.js"></script>
+    <script type="module" src="./assets/js/core/loader.js"></script>
+
+    <!-- Boot Script -->
+    <script type="module">
+        import { getUser } from "./assets/js/core/session.js";
+
+        const user = getUser();
+
+        // Determine first page:
+        if (!user) {
+            window.location.href = "./login.html";
+        } else {
+            window.location.href = "./dashboard.html";
+        }
+    </script>
+
 </body>
 </html>
