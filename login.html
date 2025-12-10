@@ -12,17 +12,31 @@
 <body>
 
   <div class="auth-container">
-    <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" style="height:48px;margin-bottom:20px;" />
+    <img src="assets/img/logo/pay54-logo.svg"
+         alt="PAY54"
+         style="height:48px;margin-bottom:20px;" />
 
     <h1 class="auth-title">Sign in to PAY54</h1>
     <p class="auth-sub">Hybrid Wallet • NG ⇄ Global</p>
 
     <form id="loginForm">
       <label>Email or phone</label>
-      <input type="text" id="login-identifier" placeholder="you@example.com" required />
+      <input
+        type="text"
+        id="login-identifier"
+        placeholder="you@example.com"
+        autocomplete="username"
+        required />
 
       <label>Wallet PIN (4 digits)</label>
-      <input type="password" id="login-pin" maxlength="4" required />
+      <input
+        type="password"
+        id="login-pin"
+        maxlength="4"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="current-password"
+        required />
 
       <button type="submit">Sign in</button>
 
@@ -32,38 +46,56 @@
       </div>
     </form>
 
-    <div style="margin-top:30px;font-size:14px;opacity:0.8;">
+    <div style="margin-top:30px;font-size:14px;opacity:0.9;">
       <strong>Why PAY54?</strong><br />
-      • Instant P2P transfers & bank payouts.<br />
+      • Instant P2P transfers &amp; bank payouts.<br />
       • FX rails (NG ⇄ US/UK/EU).<br />
-      • Airtime, data, power, TV & more.<br />
-      • Virtual & linked cards.<br />
-      • Savings pots & mock investments.
+      • Airtime, data, power, TV &amp; more.<br />
+      • Virtual &amp; linked cards.<br />
+      • Savings pots &amp; mock investments.<br />
+      • AI Risk Watch for smarter security.
     </div>
   </div>
 
   <script type="module">
     import { getUser } from "./assets/js/core/session.js";
 
-    // If already logged-in, go straight to dashboard
-    const existing = getUser();
-    if (existing) {
-      window.location.href = "dashboard.html";
+    // If already logged in, go straight to dashboard
+    try {
+      const existing = typeof getUser === "function" ? getUser() : null;
+      if (existing) {
+        window.location.href = "dashboard.html";
+      }
+    } catch (e) {
+      console.warn("Session read failed on login:", e);
     }
 
     const form = document.getElementById("loginForm");
-    form.addEventListener("submit", async (e) => {
+
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const identifier = document.getElementById("login-identifier").value.trim();
-      const pin = document.getElementById("login-pin").value.trim();
+      const identifier = document
+        .getElementById("login-identifier")
+        .value
+        .trim();
+      const pin = document
+        .getElementById("login-pin")
+        .value
+        .trim();
 
       if (!identifier || pin.length !== 4) {
         alert("Enter a valid email/phone and 4-digit PIN.");
         return;
       }
 
-      const stored = getUser();
+      let stored = null;
+      try {
+        stored = getUser();
+      } catch (err) {
+        console.error("Error reading stored user:", err);
+      }
+
       if (!stored) {
         alert("No account found. Please create an account first.");
         window.location.href = "signup.html";
