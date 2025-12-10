@@ -1,296 +1,451 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>PAY54 • Smart Wallet Dashboard</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="assets/css/core.css">
-  <link rel="stylesheet" href="assets/css/theme.css">
-  <link rel="stylesheet" href="assets/css/dashboard.css">
-  <link rel="stylesheet" href="assets/css/modals.css">
+  <meta charset="UTF-8" />
+  <title>PAY54 • Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="assets/css/theme.css" />
+
+  <style>
+    .dash-wrap {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 16px 40px;
+    }
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .dash-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    .balance-card, .panel {
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .balance-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .balance-amount {
+      font-size: 32px;
+      font-weight: 700;
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-secondary {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .tile {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.02);
+      cursor: pointer;
+    }
+    .tile-title { font-weight: 600; margin-bottom: 4px; }
+    .tile-sub   { font-size: 12px; opacity: 0.8; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr;
+      gap: 18px;
+    }
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    .panel-title { font-weight: 600; margin-bottom: 10px; }
+
+    .list-item {
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Simple modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-card {
+      background: #050816;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 360px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .modal-card h3 { margin-top: 0; }
+    .modal-card label {
+      display: block;
+      font-size: 13px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+    .modal-card input, .modal-card select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 8px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-ghost {
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: inherit;
+      cursor: pointer;
+    }
+    .btn-primary {
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: #3b6cff;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body class="pay54-shell pay54-shell--dashboard">
-  <div class="pay54-max">
-
-    <!-- NAV -->
-    <header class="pay54-nav">
-      <div class="nav-left">
-        <div class="nav-logo-orb">P54</div>
-        <div class="nav-title">
-          <span class="nav-title-main">PAY54 Wallet • v7.0</span>
-          <span class="nav-title-sub">Hybrid Money • NG ⇄ Global</span>
+<body>
+  <div class="dash-wrap">
+    <div class="dash-header">
+      <div class="dash-header-left">
+        <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" style="height:40px;" />
+        <div>
+          <div style="font-weight:600;">PAY54 Wallet</div>
+          <div style="font-size:13px;opacity:0.8;">Hybrid Money • NG ⇄ Global</div>
         </div>
       </div>
-
-      <div class="nav-center">
-        <button class="nav-currency-pill" data-currency-pill="NGN">NGN</button>
-        <button class="nav-currency-pill" data-currency-pill="USD">USD</button>
-        <button class="nav-currency-pill" data-currency-pill="GBP">GBP</button>
-        <button class="theme-toggle" data-theme-toggle>
-          <span>☾</span>
-          <span data-theme-toggle-label>Dark</span>
-        </button>
+      <div>
+        <span class="badge" id="userTag">@tag</span>
+        <button class="btn-secondary" id="logoutBtn">Logout</button>
       </div>
+    </div>
 
-      <div class="nav-right">
-        <button class="btn-ghost btn-sm" onclick="PAY54.navigation.goLogin()">Logout</button>
-
-        <div class="profile-pill" data-profile-pill>
-          <div class="profile-initial" data-profile-initial>D</div>
-          <div class="profile-meta">
-            <div class="profile-meta-main" data-profile-name>Demi</div>
-            <div class="profile-meta-sub" data-profile-meta>PAY54 demo profile</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- DASHBOARD -->
-    <main class="dashboard-root">
-
-      <!-- MAIN COLUMN -->
-      <section class="column-main">
-
-        <!-- Balance -->
-        <article class="pay54-card balance-card">
-          <div class="balance-header">
-            <div class="balance-title-block">
-              <div class="balance-label">Total balance</div>
-              <div class="balance-amount" data-balance-amount>₦0.00</div>
-              <div class="balance-meta">
-                <span data-balance-kyc></span> •
-                <span data-balance-account></span> •
-                <span data-balance-tag></span>
-              </div>
-            </div>
-
-            <div class="balance-actions">
-              <button class="btn btn-secondary btn-sm" data-money-add>Add money</button>
-              <button class="btn btn-secondary btn-sm" data-money-withdraw>Withdraw</button>
-            </div>
-          </div>
-          <div class="balance-footer">
-            <span>FX wallets: NGN • USD • GBP (demo)</span>
-            <span>Security: Device + PIN + AI Risk Watch (UI mock)</span>
-          </div>
-        </article>
-
-        <!-- Money moves -->
-        <article class="pay54-card section-card">
-          <div class="section-title-row">
+    <div class="two-col">
+      <!-- LEFT: Balance + Money Moves + Services -->
+      <div>
+        <div class="balance-card">
+          <div class="balance-top">
             <div>
-              <div class="section-title">Money moves</div>
-              <div class="section-sub">Instant P2P + banks + QR requests</div>
+              <div style="font-size:13px;opacity:0.8;">Total balance</div>
+              <div class="balance-amount" id="walletBalance">₦0.00</div>
+            </div>
+            <div style="text-align:right;font-size:13px;">
+              <div id="walletName">Demo wallet</div>
+              <div id="walletId" style="opacity:0.8;">P54-000</div>
             </div>
           </div>
-          <div class="tile-grid">
-            <div class="tile" data-tile="send">
+
+          <div class="btn-row">
+            <button class="btn-secondary" data-action="add">Add money</button>
+            <button class="btn-secondary" data-action="withdraw">Withdraw</button>
+            <button class="btn-secondary" data-action="send">Send PAY54 → PAY54</button>
+            <button class="btn-secondary" data-action="bank">Bank transfer</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Money moves</div>
+          <div class="grid-2">
+            <div class="tile" data-action="send">
               <div class="tile-title">Send PAY54 → PAY54</div>
               <div class="tile-sub">Instant P2P transfers</div>
             </div>
-            <div class="tile" data-tile="receive">
+            <div class="tile" data-action="receive">
               <div class="tile-title">Receive</div>
               <div class="tile-sub">Show account, tag &amp; QR</div>
             </div>
-            <div class="tile" data-tile="add">
+            <div class="tile" data-action="add">
               <div class="tile-title">Add money</div>
               <div class="tile-sub">Card • Bank • Agents</div>
             </div>
-            <div class="tile" data-tile="withdraw">
+            <div class="tile" data-action="withdraw">
               <div class="tile-title">Withdraw</div>
               <div class="tile-sub">Bank • Agents</div>
             </div>
-            <div class="tile" data-tile="bank">
+            <div class="tile" data-action="bank">
               <div class="tile-title">Bank transfer</div>
               <div class="tile-sub">To NG banks &amp; wallets</div>
             </div>
-            <div class="tile" data-tile="request">
+            <div class="tile" data-action="request">
               <div class="tile-title">Request money</div>
               <div class="tile-sub">With notification list</div>
             </div>
           </div>
-        </article>
+        </div>
 
-        <!-- Services -->
-        <article class="pay54-card section-card">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Services</div>
-              <div class="section-sub">FX, bills, cards, checkout, agents &amp; more</div>
-            </div>
+        <div class="panel">
+          <div class="panel-title">Services</div>
+          <div class="grid-2">
+            <div class="tile" data-action="fx">Cross-border FX</div>
+            <div class="tile" data-action="savings">Savings</div>
+            <div class="tile" data-action="bills">Pay bills (Airtime/Data/Power/TV)</div>
+            <div class="tile" data-action="cards">Virtual &amp; linked cards</div>
+            <div class="tile" data-action="checkout">PAY54 Smart Checkout</div>
+            <div class="tile" data-action="shop">Shop on the Fly</div>
+            <div class="tile" data-action="invest">Investments &amp; stocks</div>
+            <div class="tile" data-action="bet">Bet funding</div>
+            <div class="tile" data-action="risk">AI Risk Watch</div>
+            <div class="tile" data-action="agent">Become an Agent</div>
           </div>
-          <div class="tile-grid">
-            <div class="tile" data-service="fx">
-              <div class="tile-title">Cross-border FX</div>
-              <div class="tile-sub">NGN ⇄ USD/GBP/EUR</div>
-            </div>
-            <div class="tile" data-service="savings">
-              <div class="tile-title">Savings</div>
-              <div class="tile-sub">Goals &amp; pots</div>
-            </div>
-            <div class="tile" data-service="bills">
-              <div class="tile-title">Pay bills</div>
-              <div class="tile-sub">(Airtime/Data/Power/TV)</div>
-            </div>
-            <div class="tile" data-service="cards">
-              <div class="tile-title">Virtual & linked cards</div>
-              <div class="tile-sub">Control &amp; spend</div>
-            </div>
-            <div class="tile" data-service="checkout">
-              <div class="tile-title">PAY54 Smart Checkout</div>
-              <div class="tile-sub">Approve e-commerce payments</div>
-            </div>
-            <div class="tile" data-service="shop">
-              <div class="tile-title">Shop on the Fly</div>
-              <div class="tile-sub">Taxi • Food • Tickets • Shops</div>
-            </div>
-            <div class="tile" data-service="invest">
-              <div class="tile-title">Investments & stocks</div>
-              <div class="tile-sub">Local &amp; global assets</div>
-            </div>
-            <div class="tile" data-service="bet">
-              <div class="tile-title">Bet funding</div>
-              <div class="tile-sub">+18 age verification</div>
-            </div>
-            <div class="tile" data-service="risk">
-              <div class="tile-title">AI Risk Watch</div>
-              <div class="tile-sub">Suspicious activity alerts</div>
-            </div>
-            <div class="tile" data-service="agent">
-              <div class="tile-title">Become an Agent</div>
-              <div class="tile-sub">Onboard &amp; earn</div>
-            </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Requests, Shortcuts, Recent -->
+      <div>
+        <div class="panel">
+          <div class="panel-title">Requests &amp; alerts</div>
+          <div id="requestsList">
+            <div class="list-item">No pending requests.</div>
           </div>
-        </article>
+        </div>
 
-      </section>
-
-      <!-- SIDE COLUMN -->
-      <aside class="column-side">
-
-        <!-- Requests & alerts -->
-        <article class="pay54-card section-card">
-          <div class="section-title-row">
-            <div class="section-title">Requests &amp; alerts</div>
-            <button class="btn-ghost btn-sm">Clear all</button>
+        <div class="panel">
+          <div class="panel-title">Quick shortcuts</div>
+          <div class="btn-row">
+            <button class="btn-secondary" data-action="agent">Become an Agent</button>
+            <button class="btn-secondary" data-action="shop">Shop on the Fly</button>
+            <button class="btn-secondary" data-action="savings">Open Savings Pot</button>
+            <button class="btn-secondary" data-action="invest">Invest &amp; Stocks</button>
           </div>
-          <ul class="request-list" data-requests-list></ul>
-        </article>
+        </div>
 
-        <!-- Quick shortcuts -->
-        <article class="pay54-card section-card">
-          <div class="section-title-row">
-            <div class="section-title">Quick shortcuts</div>
+        <div class="panel">
+          <div class="panel-title">Recent transactions</div>
+          <div id="txList">
+            <div class="list-item">Wallet created • ₦88,000.00</div>
           </div>
-          <div class="shortcut-grid">
-            <button class="shortcut-btn" data-shortcut="agent">Become an Agent</button>
-            <button class="shortcut-btn" data-shortcut="shop">Shop on the Fly</button>
-            <button class="shortcut-btn" data-shortcut="savings">Open Savings Pot</button>
-            <button class="shortcut-btn" data-shortcut="invest">Invest &amp; Stocks</button>
-          </div>
-        </article>
-
-        <!-- Recent transactions -->
-        <article class="pay54-card section-card">
-          <div class="section-title-row">
-            <div class="section-title">Recent transactions</div>
-            <button class="btn-ghost btn-sm">View all</button>
-          </div>
-          <ul class="tx-list" data-tx-list></ul>
-        </article>
-
-      </aside>
-
-    </main>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="toast-stack"></div>
+  <!-- Simple modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal-card">
+      <h3 id="modalTitle">Action</h3>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="modalCancel">Cancel</button>
+        <button class="btn-primary" id="modalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
 
-  <script src="assets/js/core/utils.js"></script>
-  <script src="assets/js/core/user.js"></script>
-  <script src="assets/js/core/session.js"></script>
-  <script src="assets/js/core/theme.js"></script>
+  <script type="module">
+    import { getUser, saveUser, logout } from "./assets/js/core/session.js";
 
-  <script src="assets/js/engine/walletEngine.js"></script>
-  <script src="assets/js/engine/p2pEngine.js"></script>
-  <script src="assets/js/engine/fxEngine.js"></script>
-  <script src="assets/js/engine/billsEngine.js"></script>
-  <script src="assets/js/engine/investEngine.js"></script>
+    const user = getUser();
+    if (!user) {
+      window.location.href = "login.html";
+    }
 
-  <script src="assets/js/ui/toasts.js"></script>
-  <script src="assets/js/ui/modals.js"></script>
-  <script src="assets/js/ui/dashboardUI.js"></script>
-  <script src="assets/js/ui/navigation.js"></script>
+    // --- Populate header + balance
+    const balanceEl = document.getElementById("walletBalance");
+    const tagEl = document.getElementById("userTag");
+    const walletNameEl = document.getElementById("walletName");
+    const walletIdEl = document.getElementById("walletId");
+    const txListEl = document.getElementById("txList");
 
-  <script>
-    // Guard: require session
-    PAY54.session.require("login.html");
-    PAY54.theme.init();
-    PAY54.walletEngine.setCurrency("NGN");
-    PAY54.dashboardUI.init();
+    function formatNaira(amount) {
+      return "₦" + amount.toLocaleString("en-NG", { minimumFractionDigits: 2 });
+    }
 
-    // Money Moves handlers (simple demo flows)
-    document.querySelector("[data-money-add]").addEventListener("click", () => {
-      PAY54.modals.open({
-        title: "Add money",
-        subtitle: "Top-up from linked card or bank (demo)",
-        submitLabel: "Add ₦10,000",
-        bodyHtml: `
-          <div class="modal-body">
-            <div class="pay54-field">
-              <label class="pay54-label">Source</label>
-              <select class="pay54-input" id="add-source">
-                <option>Visa • 4093</option>
-                <option>Mastercard • 8891</option>
-                <option>Bank transfer</option>
-              </select>
-            </div>
-          </div>`,
-        onSubmit: (sheet, close) => {
-          try {
-            const receipt = PAY54.p2pEngine.add({ amount: 10000, source: "Demo top-up" });
-            PAY54.toasts.show("₦10,000 added to your PAY54 wallet.");
-            close();
-          } catch (err) {
-            PAY54.toasts.show(err.message, "error");
-          }
-        }
-      });
+    function renderUser() {
+      const u = getUser();
+      balanceEl.textContent = formatNaira(u.balance ?? 0);
+      tagEl.textContent = u.tag || "@pay54demo";
+      walletNameEl.textContent = (u.name || "PAY54 demo wallet");
+      walletIdEl.textContent = u.walletId || "P54-001";
+    }
+
+    renderUser();
+
+    // --- Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      logout();
     });
 
-    document.querySelector("[data-money-withdraw]").addEventListener("click", () => {
-      PAY54.modals.open({
-        title: "Withdraw to bank",
-        subtitle: "Send funds from PAY54 wallet to your bank (demo)",
-        submitLabel: "Withdraw ₦5,000",
-        bodyHtml: `
-          <div class="pay54-field">
-            <label class="pay54-label">Destination bank</label>
-            <input class="pay54-input" value="GTBank (demo)">
-          </div>
-          <div class="pay54-field">
-            <label class="pay54-label">Account number</label>
-            <input class="pay54-input" value="0123456789">
-          </div>
-        `,
-        onSubmit: (sheet, close) => {
-          try {
-            PAY54.p2pEngine.withdraw({
-              amount: 5000,
-              bank: "GTBank demo",
-              account: "0123456789"
-            });
-            PAY54.toasts.show("₦5,000 withdrawal simulated.");
-            close();
-          } catch (err) {
-            PAY54.toasts.show(err.message, "error");
-          }
-        }
-      });
+    // --- Modal helpers
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const modalCancel = document.getElementById("modalCancel");
+    const modalConfirm = document.getElementById("modalConfirm");
+
+    function openModal(title, innerHtml, onConfirm) {
+      modalTitle.textContent = title;
+      modalBody.innerHTML = innerHtml;
+      modal.classList.add("show");
+      const handler = () => {
+        onConfirm && onConfirm();
+        closeModal();
+        modalConfirm.removeEventListener("click", handler);
+      };
+      modalConfirm.addEventListener("click", handler);
+    }
+
+    function closeModal() {
+      modal.classList.remove("show");
+    }
+
+    modalCancel.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
     });
 
-    // Tiles click mapping (Send, Receive, FX etc.) can be expanded next.
+    // --- Action handlers (demo behaviour)
+    function addTx(text) {
+      const div = document.createElement("div");
+      div.className = "list-item";
+      div.textContent = text;
+      txListEl.prepend(div);
+    }
+
+    function handleAction(action) {
+      const u = getUser();
+      switch (action) {
+        case "add":
+          openModal(
+            "Add money",
+            `<label>Amount (NGN)</label>
+             <input id="amountInput" type="number" min="1" />`,
+            () => {
+              const amt = Number(document.getElementById("amountInput").value);
+              if (!amt || amt <= 0) return;
+              const updated = { ...u, balance: (u.balance || 0) + amt };
+              saveUser(updated);
+              renderUser();
+              addTx(`Wallet top-up • +${formatNaira(amt)}`);
+            }
+          );
+          break;
+
+        case "withdraw":
+          openModal(
+            "Withdraw to bank",
+            `<label>Amount (NGN)</label>
+             <input id="amountInput" type="number" min="1" />`,
+            () => {
+              const amt = Number(document.getElementById("amountInput").value);
+              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
+              const updated = { ...u, balance: (u.balance || 0) - amt };
+              saveUser(updated);
+              renderUser();
+              addTx(`Withdrawal • -${formatNaira(amt)}`);
+            }
+          );
+          break;
+
+        case "send":
+          openModal(
+            "Send PAY54 → PAY54",
+            `<label>Recipient tag</label>
+             <input id="recTag" placeholder="@friend" />
+             <label>Amount (NGN)</label>
+             <input id="amountInput" type="number" min="1" />`,
+            () => {
+              const amt = Number(document.getElementById("amountInput").value);
+              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
+              const updated = { ...u, balance: (u.balance || 0) - amt };
+              saveUser(updated);
+              renderUser();
+              addTx(`Sent ${formatNaira(amt)} to PAY54 friend`);
+            }
+          );
+          break;
+
+        case "bank":
+          openModal(
+            "Bank transfer",
+            `<label>Bank</label>
+             <input placeholder="Bank name" />
+             <label>Account number</label>
+             <input maxlength="10" />
+             <label>Amount (NGN)</label>
+             <input id="amountInput" type="number" min="1" />`,
+            () => {
+              const amt = Number(document.getElementById("amountInput").value);
+              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
+              const updated = { ...u, balance: (u.balance || 0) - amt };
+              saveUser(updated);
+              renderUser();
+              addTx(`Bank transfer • -${formatNaira(amt)}`);
+            }
+          );
+          break;
+
+        case "receive":
+          openModal(
+            "Receive money",
+            `<p>Share your PAY54 tag and wallet ID:</p>
+             <p><strong>Tag:</strong> ${u.tag || "@pay54demo"}</p>
+             <p><strong>Wallet ID:</strong> ${u.walletId || "P54-001"}</p>`,
+            () => {}
+          );
+          break;
+
+        default:
+          openModal(
+            "Coming soon",
+            `<p>This is a demo preview for <strong>${action}</strong> in PAY54 v7.0.</p>`,
+            () => {}
+          );
+      }
+    }
+
+    document.querySelectorAll("[data-action]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const action = el.getAttribute("data-action");
+        handleAction(action);
+      });
+    });
   </script>
 </body>
 </html>
-
