@@ -8,110 +8,102 @@
   <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
-<body class="auth-body">
-  <div class="auth-shell">
-    <header class="auth-header">
-      <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" class="auth-logo" />
-      <div class="auth-badge">PAY54 Wallet • v7.0</div>
-      <p class="auth-tagline">Hybrid Money • NG ⇄ Global</p>
-    </header>
+<body class="theme-dark">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" class="auth-logo" />
+        <div>
+          <h1 class="auth-title">Sign in to PAY54</h1>
+          <p class="auth-sub">Hybrid Money • NG ⇄ Global</p>
+        </div>
+      </div>
 
-    <main class="auth-main">
-      <section class="auth-panel">
-        <h1 class="auth-title">Sign in to PAY54</h1>
-        <p class="auth-sub">Secure login • PIN + device</p>
+      <form id="loginForm" class="auth-form">
+        <label for="login-identifier">Email or phone</label>
+        <input
+          type="text"
+          id="login-identifier"
+          placeholder="you@example.com"
+          required
+        />
 
-        <form id="loginForm" class="auth-form">
-          <label for="login-identifier">Email or phone</label>
-          <input
-            type="text"
-            id="login-identifier"
-            placeholder="you@example.com"
-            autocomplete="username"
-            required
-          />
+        <label for="login-pin">Wallet PIN (4 digits)</label>
+        <input
+          type="password"
+          id="login-pin"
+          maxlength="4"
+          inputmode="numeric"
+          required
+        />
 
-          <label for="login-pin">Wallet PIN (4 digits)</label>
-          <input
-            type="password"
-            id="login-pin"
-            maxlength="4"
-            inputmode="numeric"
-            autocomplete="current-password"
-            required
-          />
+        <button type="submit" class="btn-primary">Sign in</button>
 
-          <button type="submit" class="auth-btn primary">Sign in</button>
+        <div class="auth-links">
+          <a href="recover.html">Forgot PIN?</a>
+          <span>·</span>
+          <a href="signup.html">Create account</a>
+        </div>
+      </form>
 
-          <div class="auth-links">
-            <a href="recover.html">Forgot PIN?</a>
-            <span>·</span>
-            <a href="signup.html">Create account</a>
-          </div>
-        </form>
-
-        <p class="auth-footnote">
-          By signing in you agree to PAY54’s
-          <a href="#">Terms</a> & <a href="#">Privacy Policy</a>.
-        </p>
-      </section>
-
-      <aside class="auth-why">
+      <div class="auth-why">
         <h2>Why PAY54?</h2>
         <ul>
-          <li>⚡ Instant P2P transfers & bank payouts.</li>
-          <li>💱 FX rails: NG ⇄ US/UK/EU (mock demo rates).</li>
-          <li>📡 Airtime, data, power, TV & more.</li>
-          <li>💳 Virtual & linked card control.</li>
-          <li>🏦 Savings pots & mock investments & stocks.</li>
-          <li>🛡 AI Risk Watch • device + PIN security.</li>
+          <li>Instant P2P transfers &amp; bank payouts.</li>
+          <li>FX rails (NG ⇄ US/UK/EU) – demo only.</li>
+          <li>Airtime, data, power, TV &amp; more.</li>
+          <li>Virtual &amp; linked cards control.</li>
+          <li>Savings pots &amp; mock investments.</li>
         </ul>
-      </aside>
-    </main>
+      </div>
 
-    <footer class="auth-footer">
-      <span>© PAY54 • v7.0 Smart Wallet (Demo only – no real payments).</span>
-    </footer>
+      <p class="auth-footnote">
+        PAY54 DEMO VERSION — Wallet UI simulation only. No real payments are processed.
+      </p>
+    </div>
   </div>
 
   <script type="module">
-    import { getActiveUser, getUser, setLoggedIn } from "./assets/js/core/session.js";
+    import { getUser, saveUser, isLoggedIn } from "./assets/js/core/session.js";
 
-    // Already signed in? Go straight to dashboard
-    const active = getActiveUser();
-    if (active) {
+    // If already logged-in, go to dashboard
+    if (isLoggedIn()) {
       window.location.href = "dashboard.html";
+    }
+
+    // Ensure there is at least one demo user if not signed up
+    const existing = getUser();
+    if (!existing) {
+      saveUser({
+        name: "Demi Olawoye",
+        email: "demi@example.com",
+        phone: "+2348000000000",
+        pin: "1234"
+      });
     }
 
     const form = document.getElementById("loginForm");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      const identifier = document.getElementById("login-identifier").value.trim();
+      const id = document.getElementById("login-identifier").value.trim();
       const pin = document.getElementById("login-pin").value.trim();
 
-      if (!identifier || pin.length !== 4) {
-        alert("Enter a valid email/phone and 4-digit PIN.");
-        return;
-      }
-
-      const stored = getUser();
-      if (!stored) {
-        alert("No PAY54 wallet found. Please create an account first.");
+      const user = getUser();
+      if (!user) {
+        alert("No demo user found. Please create an account.");
         window.location.href = "signup.html";
         return;
       }
 
-      const matchesId =
-        stored.email === identifier || stored.phone === identifier;
+      const idMatch = id === user.email || id === user.phone;
+      const pinMatch = pin === user.pin;
 
-      if (!matchesId || stored.pin !== pin) {
-        alert("Incorrect details. Check email/phone and PIN.");
+      if (!idMatch || !pinMatch) {
+        alert("Incorrect email/phone or PIN. Try again.");
         return;
       }
 
-      setLoggedIn(true);
       window.location.href = "dashboard.html";
     });
   </script>
