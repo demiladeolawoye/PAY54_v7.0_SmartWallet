@@ -1,17 +1,35 @@
-/* ============================================================
-   PAY54 v7.0 • Loader
-   Decides where index.html sends the user:
-   - If logged in  → dashboard.html
-   - If not logged → login.html
-   ============================================================ */
+// loader.js — FIXED for GitHub Pages
 
 import { getUser } from "./session.js";
 
-window.addEventListener("load", () => {
-  const user = getUser();
-  if (user) {
-    window.location.href = "dashboard.html";
-  } else {
-    window.location.href = "login.html";
-  }
+const root = document.getElementById("app");
+
+// Always use relative paths for GitHub Pages
+const ROUTES = {
+    login: "./login.html",
+    dashboard: "./dashboard.html",
+};
+
+export function loadPage(page) {
+    const url = ROUTES[page];
+
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            root.innerHTML = html;
+        })
+        .catch(err => {
+            root.innerHTML = `<p style="color:#fff">Error loading ${page}: ${err}</p>`;
+        });
+}
+
+// Auto-launch behaviour
+window.addEventListener("DOMContentLoaded", () => {
+    const user = getUser();
+
+    if (user) {
+        loadPage("dashboard");
+    } else {
+        loadPage("login");
+    }
 });
