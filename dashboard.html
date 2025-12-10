@@ -1,1 +1,296 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>PAY54 • Smart Wallet Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="assets/css/core.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <link rel="stylesheet" href="assets/css/modals.css">
+</head>
+<body class="pay54-shell pay54-shell--dashboard">
+  <div class="pay54-max">
+
+    <!-- NAV -->
+    <header class="pay54-nav">
+      <div class="nav-left">
+        <div class="nav-logo-orb">P54</div>
+        <div class="nav-title">
+          <span class="nav-title-main">PAY54 Wallet • v7.0</span>
+          <span class="nav-title-sub">Hybrid Money • NG ⇄ Global</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <button class="nav-currency-pill" data-currency-pill="NGN">NGN</button>
+        <button class="nav-currency-pill" data-currency-pill="USD">USD</button>
+        <button class="nav-currency-pill" data-currency-pill="GBP">GBP</button>
+        <button class="theme-toggle" data-theme-toggle>
+          <span>☾</span>
+          <span data-theme-toggle-label>Dark</span>
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button class="btn-ghost btn-sm" onclick="PAY54.navigation.goLogin()">Logout</button>
+
+        <div class="profile-pill" data-profile-pill>
+          <div class="profile-initial" data-profile-initial>D</div>
+          <div class="profile-meta">
+            <div class="profile-meta-main" data-profile-name>Demi</div>
+            <div class="profile-meta-sub" data-profile-meta>PAY54 demo profile</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <main class="dashboard-root">
+
+      <!-- MAIN COLUMN -->
+      <section class="column-main">
+
+        <!-- Balance -->
+        <article class="pay54-card balance-card">
+          <div class="balance-header">
+            <div class="balance-title-block">
+              <div class="balance-label">Total balance</div>
+              <div class="balance-amount" data-balance-amount>₦0.00</div>
+              <div class="balance-meta">
+                <span data-balance-kyc></span> •
+                <span data-balance-account></span> •
+                <span data-balance-tag></span>
+              </div>
+            </div>
+
+            <div class="balance-actions">
+              <button class="btn btn-secondary btn-sm" data-money-add>Add money</button>
+              <button class="btn btn-secondary btn-sm" data-money-withdraw>Withdraw</button>
+            </div>
+          </div>
+          <div class="balance-footer">
+            <span>FX wallets: NGN • USD • GBP (demo)</span>
+            <span>Security: Device + PIN + AI Risk Watch (UI mock)</span>
+          </div>
+        </article>
+
+        <!-- Money moves -->
+        <article class="pay54-card section-card">
+          <div class="section-title-row">
+            <div>
+              <div class="section-title">Money moves</div>
+              <div class="section-sub">Instant P2P + banks + QR requests</div>
+            </div>
+          </div>
+          <div class="tile-grid">
+            <div class="tile" data-tile="send">
+              <div class="tile-title">Send PAY54 → PAY54</div>
+              <div class="tile-sub">Instant P2P transfers</div>
+            </div>
+            <div class="tile" data-tile="receive">
+              <div class="tile-title">Receive</div>
+              <div class="tile-sub">Show account, tag &amp; QR</div>
+            </div>
+            <div class="tile" data-tile="add">
+              <div class="tile-title">Add money</div>
+              <div class="tile-sub">Card • Bank • Agents</div>
+            </div>
+            <div class="tile" data-tile="withdraw">
+              <div class="tile-title">Withdraw</div>
+              <div class="tile-sub">Bank • Agents</div>
+            </div>
+            <div class="tile" data-tile="bank">
+              <div class="tile-title">Bank transfer</div>
+              <div class="tile-sub">To NG banks &amp; wallets</div>
+            </div>
+            <div class="tile" data-tile="request">
+              <div class="tile-title">Request money</div>
+              <div class="tile-sub">With notification list</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Services -->
+        <article class="pay54-card section-card">
+          <div class="section-title-row">
+            <div>
+              <div class="section-title">Services</div>
+              <div class="section-sub">FX, bills, cards, checkout, agents &amp; more</div>
+            </div>
+          </div>
+          <div class="tile-grid">
+            <div class="tile" data-service="fx">
+              <div class="tile-title">Cross-border FX</div>
+              <div class="tile-sub">NGN ⇄ USD/GBP/EUR</div>
+            </div>
+            <div class="tile" data-service="savings">
+              <div class="tile-title">Savings</div>
+              <div class="tile-sub">Goals &amp; pots</div>
+            </div>
+            <div class="tile" data-service="bills">
+              <div class="tile-title">Pay bills</div>
+              <div class="tile-sub">(Airtime/Data/Power/TV)</div>
+            </div>
+            <div class="tile" data-service="cards">
+              <div class="tile-title">Virtual & linked cards</div>
+              <div class="tile-sub">Control &amp; spend</div>
+            </div>
+            <div class="tile" data-service="checkout">
+              <div class="tile-title">PAY54 Smart Checkout</div>
+              <div class="tile-sub">Approve e-commerce payments</div>
+            </div>
+            <div class="tile" data-service="shop">
+              <div class="tile-title">Shop on the Fly</div>
+              <div class="tile-sub">Taxi • Food • Tickets • Shops</div>
+            </div>
+            <div class="tile" data-service="invest">
+              <div class="tile-title">Investments & stocks</div>
+              <div class="tile-sub">Local &amp; global assets</div>
+            </div>
+            <div class="tile" data-service="bet">
+              <div class="tile-title">Bet funding</div>
+              <div class="tile-sub">+18 age verification</div>
+            </div>
+            <div class="tile" data-service="risk">
+              <div class="tile-title">AI Risk Watch</div>
+              <div class="tile-sub">Suspicious activity alerts</div>
+            </div>
+            <div class="tile" data-service="agent">
+              <div class="tile-title">Become an Agent</div>
+              <div class="tile-sub">Onboard &amp; earn</div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- SIDE COLUMN -->
+      <aside class="column-side">
+
+        <!-- Requests & alerts -->
+        <article class="pay54-card section-card">
+          <div class="section-title-row">
+            <div class="section-title">Requests &amp; alerts</div>
+            <button class="btn-ghost btn-sm">Clear all</button>
+          </div>
+          <ul class="request-list" data-requests-list></ul>
+        </article>
+
+        <!-- Quick shortcuts -->
+        <article class="pay54-card section-card">
+          <div class="section-title-row">
+            <div class="section-title">Quick shortcuts</div>
+          </div>
+          <div class="shortcut-grid">
+            <button class="shortcut-btn" data-shortcut="agent">Become an Agent</button>
+            <button class="shortcut-btn" data-shortcut="shop">Shop on the Fly</button>
+            <button class="shortcut-btn" data-shortcut="savings">Open Savings Pot</button>
+            <button class="shortcut-btn" data-shortcut="invest">Invest &amp; Stocks</button>
+          </div>
+        </article>
+
+        <!-- Recent transactions -->
+        <article class="pay54-card section-card">
+          <div class="section-title-row">
+            <div class="section-title">Recent transactions</div>
+            <button class="btn-ghost btn-sm">View all</button>
+          </div>
+          <ul class="tx-list" data-tx-list></ul>
+        </article>
+
+      </aside>
+
+    </main>
+  </div>
+
+  <div class="toast-stack"></div>
+
+  <script src="assets/js/core/utils.js"></script>
+  <script src="assets/js/core/user.js"></script>
+  <script src="assets/js/core/session.js"></script>
+  <script src="assets/js/core/theme.js"></script>
+
+  <script src="assets/js/engine/walletEngine.js"></script>
+  <script src="assets/js/engine/p2pEngine.js"></script>
+  <script src="assets/js/engine/fxEngine.js"></script>
+  <script src="assets/js/engine/billsEngine.js"></script>
+  <script src="assets/js/engine/investEngine.js"></script>
+
+  <script src="assets/js/ui/toasts.js"></script>
+  <script src="assets/js/ui/modals.js"></script>
+  <script src="assets/js/ui/dashboardUI.js"></script>
+  <script src="assets/js/ui/navigation.js"></script>
+
+  <script>
+    // Guard: require session
+    PAY54.session.require("login.html");
+    PAY54.theme.init();
+    PAY54.walletEngine.setCurrency("NGN");
+    PAY54.dashboardUI.init();
+
+    // Money Moves handlers (simple demo flows)
+    document.querySelector("[data-money-add]").addEventListener("click", () => {
+      PAY54.modals.open({
+        title: "Add money",
+        subtitle: "Top-up from linked card or bank (demo)",
+        submitLabel: "Add ₦10,000",
+        bodyHtml: `
+          <div class="modal-body">
+            <div class="pay54-field">
+              <label class="pay54-label">Source</label>
+              <select class="pay54-input" id="add-source">
+                <option>Visa • 4093</option>
+                <option>Mastercard • 8891</option>
+                <option>Bank transfer</option>
+              </select>
+            </div>
+          </div>`,
+        onSubmit: (sheet, close) => {
+          try {
+            const receipt = PAY54.p2pEngine.add({ amount: 10000, source: "Demo top-up" });
+            PAY54.toasts.show("₦10,000 added to your PAY54 wallet.");
+            close();
+          } catch (err) {
+            PAY54.toasts.show(err.message, "error");
+          }
+        }
+      });
+    });
+
+    document.querySelector("[data-money-withdraw]").addEventListener("click", () => {
+      PAY54.modals.open({
+        title: "Withdraw to bank",
+        subtitle: "Send funds from PAY54 wallet to your bank (demo)",
+        submitLabel: "Withdraw ₦5,000",
+        bodyHtml: `
+          <div class="pay54-field">
+            <label class="pay54-label">Destination bank</label>
+            <input class="pay54-input" value="GTBank (demo)">
+          </div>
+          <div class="pay54-field">
+            <label class="pay54-label">Account number</label>
+            <input class="pay54-input" value="0123456789">
+          </div>
+        `,
+        onSubmit: (sheet, close) => {
+          try {
+            PAY54.p2pEngine.withdraw({
+              amount: 5000,
+              bank: "GTBank demo",
+              account: "0123456789"
+            });
+            PAY54.toasts.show("₦5,000 withdrawal simulated.");
+            close();
+          } catch (err) {
+            PAY54.toasts.show(err.message, "error");
+          }
+        }
+      });
+    });
+
+    // Tiles click mapping (Send, Receive, FX etc.) can be expanded next.
+  </script>
+</body>
+</html>
 
