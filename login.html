@@ -1,1 +1,100 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <title>PAY54 • Sign in</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="assets/css/core.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body class="pay54-shell pay54-shell--auth auth-shell">
+  <div class="pay54-max auth-layout">
+
+    <!-- LEFT: FORM -->
+    <div class="pay54-card auth-panel">
+      <div class="auth-logo-row">
+        <div class="auth-logo-orb">P54</div>
+        <div class="auth-logo-title">
+          <span>PAY54</span>
+          <span>Hybrid Money • NG ⇄ Global</span>
+        </div>
+      </div>
+
+      <h1>Sign in to PAY54</h1>
+      <p>Secure login • PIN + device. Demo version – no real funds are moved.</p>
+
+      <form id="loginForm" class="auth-form">
+        <div class="pay54-field">
+          <label class="pay54-label">Email or phone</label>
+          <input class="pay54-input" name="email" type="text" placeholder="demi@example.com" required>
+        </div>
+
+        <div class="pay54-field">
+          <label class="pay54-label">Wallet PIN (4 digits)</label>
+          <input class="pay54-input" name="pin" type="password" maxlength="4" inputmode="numeric" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in to PAY54</button>
+
+        <div class="auth-footer">
+          <a href="recover.html">Forgot PIN?</a>
+          <span>New here? <a href="signup.html">Create account</a></span>
+        </div>
+      </form>
+
+      <div style="margin-top:16px;font-size:11px;color:var(--pay54-text-soft);">
+        By signing in you agree to PAY54’s Terms &amp; Conditions and Privacy Policy (demo).
+      </div>
+    </div>
+
+    <!-- RIGHT: WHY PAY54 -->
+    <div class="pay54-card auth-hero">
+      <div class="auth-hero-gradient"></div>
+      <div class="pay54-badge">PAY54 DEMO VERSION — UI only</div>
+      <h2>Why PAY54?</h2>
+      <p>
+        Hybrid wallet for Africa &amp; the world. One app for NGN wallets, FX rails, cards,
+        savings pots, bills, investments, agents and more.
+      </p>
+
+      <div class="auth-hero-badges">
+        <div class="auth-hero-badge">⚡ Instant P2P transfers</div>
+        <div class="auth-hero-badge">🌍 NGN ⇄ USD/GBP/EUR FX rails</div>
+        <div class="auth-hero-badge">💳 Virtual & linked cards</div>
+        <div class="auth-hero-badge">📡 Airtime, data, power, TV</div>
+        <div class="auth-hero-badge">📈 Savings pots & investments</div>
+        <div class="auth-hero-badge">🛡️ AI Risk Watch</div>
+      </div>
+
+      <div class="auth-hero-footer">
+        <span>Secure by design • 2025 © PAY54</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="assets/js/core/utils.js"></script>
+  <script src="assets/js/core/user.js"></script>
+  <script src="assets/js/core/session.js"></script>
+  <script src="assets/js/core/theme.js"></script>
+  <script src="assets/js/ui/navigation.js"></script>
+  <script>
+    PAY54.theme.init();
+
+    const form = document.getElementById("loginForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const pin = form.pin.value.trim();
+      if (pin.length !== 4) {
+        alert("Demo: enter any 4-digit PIN.");
+        return;
+      }
+      PAY54.session.login(email || "demo@pay54.app");
+      PAY54.navigation.goDashboard();
+    });
+  </script>
+</body>
+</html>
 
