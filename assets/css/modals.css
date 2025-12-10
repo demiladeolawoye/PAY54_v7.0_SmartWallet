@@ -1,1 +1,118 @@
+/* ============================================================
+   PAY54 v7.0 • Modals & Toasts
+   Used by Money Moves, Services, etc.
+   ============================================================ */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.modal-sheet {
+  width: 420px;
+  max-width: 96%;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left,
+    rgba(79, 70, 229, 0.32),
+    rgba(15, 23, 42, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  color: var(--pay54-text);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.9);
+  padding: 18px 18px 16px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-sub {
+  font-size: 12px;
+  color: var(--pay54-text-soft);
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  color: var(--pay54-text-soft);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Receipt block */
+
+.receipt-block {
+  border-radius: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.85);
+  font-size: 12px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.receipt-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Toasts */
+
+.toast-stack {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+}
+
+.toast {
+  min-width: 260px;
+  max-width: 320px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(34, 197, 94, 0.85);
+  color: #ecfdf3;
+  font-size: 13px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+}
+
+.toast-error {
+  border-color: rgba(239, 68, 68, 0.95);
+  background: rgba(127, 29, 29, 0.98);
+}
 
