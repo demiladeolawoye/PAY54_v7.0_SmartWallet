@@ -2,450 +2,686 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Dashboard</title>
+  <title>PAY54 • Wallet Dashboard</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="stylesheet" href="assets/css/theme.css" />
-
-  <style>
-    .dash-wrap {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 16px 40px;
-    }
-    .dash-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-    .dash-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.25);
-      font-size: 12px;
-      opacity: 0.9;
-    }
-    .balance-card, .panel {
-      background: rgba(255,255,255,0.04);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .balance-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .balance-amount {
-      font-size: 32px;
-      font-weight: 700;
-    }
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-    .btn-secondary {
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: transparent;
-      color: inherit;
-      cursor: pointer;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
-    .tile {
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.02);
-      cursor: pointer;
-    }
-    .tile-title { font-weight: 600; margin-bottom: 4px; }
-    .tile-sub   { font-size: 12px; opacity: 0.8; }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 2fr 1.4fr;
-      gap: 18px;
-    }
-    @media (max-width: 800px) {
-      .two-col { grid-template-columns: 1fr; }
-    }
-
-    .panel-title { font-weight: 600; margin-bottom: 10px; }
-
-    .list-item {
-      font-size: 14px;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    /* Simple modal */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-    }
-    .modal-backdrop.show { display: flex; }
-    .modal-card {
-      background: #050816;
-      padding: 20px;
-      border-radius: 16px;
-      max-width: 360px;
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .modal-card h3 { margin-top: 0; }
-    .modal-card label {
-      display: block;
-      font-size: 13px;
-      margin-top: 8px;
-      margin-bottom: 4px;
-    }
-    .modal-card input, .modal-card select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 8px;
-    }
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .btn-ghost {
-      border-radius: 8px;
-      padding: 8px 12px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: inherit;
-      cursor: pointer;
-    }
-    .btn-primary {
-      border-radius: 8px;
-      padding: 8px 12px;
-      background: #3b6cff;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
 </head>
 <body>
-  <div class="dash-wrap">
-    <div class="dash-header">
+
+  <div class="dashboard-shell">
+
+    <!-- HEADER -->
+    <header class="dash-header">
       <div class="dash-header-left">
-        <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" style="height:40px;" />
-        <div>
-          <div style="font-weight:600;">PAY54 Wallet</div>
-          <div style="font-size:13px;opacity:0.8;">Hybrid Money • NG ⇄ Global</div>
+        <div class="pay54-logo-pill">
+          <div class="pay54-logo-glow"></div>
+          <span class="pay54-logo-text">P54</span>
+        </div>
+        <div class="wallet-title-block">
+          <div class="wallet-name">PAY54 Wallet • v7.0</div>
+          <div class="wallet-tagline">Hybrid Money • NG ⇄ Global</div>
         </div>
       </div>
-      <div>
-        <span class="badge" id="userTag">@tag</span>
-        <button class="btn-secondary" id="logoutBtn">Logout</button>
-      </div>
-    </div>
 
-    <div class="two-col">
-      <!-- LEFT: Balance + Money Moves + Services -->
-      <div>
-        <div class="balance-card">
-          <div class="balance-top">
+      <div class="dash-header-right">
+        <div class="currency-toggle" id="currencyToggle">
+          <button type="button" class="pill active" data-currency="NGN">NGN</button>
+          <button type="button" class="pill" data-currency="USD">USD</button>
+          <button type="button" class="pill" data-currency="GBP">GBP</button>
+        </div>
+
+        <button type="button" class="pill" id="themeToggle">
+          ◐ Dark
+        </button>
+
+        <div class="profile-group">
+          <button type="button" class="profile-pill" id="profileButton">
+            <span class="profile-avatar">D</span>
+            <span class="profile-name" id="profileName">Demi Olawoye</span>
+          </button>
+          <button type="button" class="pill pill-danger" id="logoutButton">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN GRID -->
+    <main class="dash-main">
+
+      <!-- LEFT COLUMN -->
+      <section class="dash-column left">
+
+        <!-- BALANCE CARD -->
+        <section class="card balance-card">
+          <div class="card-header-row">
             <div>
-              <div style="font-size:13px;opacity:0.8;">Total balance</div>
-              <div class="balance-amount" id="walletBalance">₦0.00</div>
+              <div class="card-title">Total balance</div>
+              <div class="card-balance" id="balanceAmount">₦0.00</div>
+              <div class="card-sub" id="balanceMeta">FX wallets: NGN • USD • GBP (demo)</div>
+              <div class="card-sub">
+                Security: Device + PIN + AI Risk Watch (UI mock)
+              </div>
             </div>
-            <div style="text-align:right;font-size:13px;">
-              <div id="walletName">Demo wallet</div>
-              <div id="walletId" style="opacity:0.8;">P54-000</div>
+            <div class="balance-actions">
+              <button class="btn-primary" id="btnAddMoney">Add money</button>
+              <button class="btn-outline" id="btnWithdraw">Withdraw</button>
             </div>
           </div>
+        </section>
 
-          <div class="btn-row">
-            <button class="btn-secondary" data-action="add">Add money</button>
-            <button class="btn-secondary" data-action="withdraw">Withdraw</button>
-            <button class="btn-secondary" data-action="send">Send PAY54 → PAY54</button>
-            <button class="btn-secondary" data-action="bank">Bank transfer</button>
-          </div>
-        </div>
+        <!-- MONEY MOVES -->
+        <section class="card">
+          <h2 class="section-title">Money moves</h2>
+          <p class="section-sub">
+            Instant P2P + banks + QR requests
+          </p>
 
-        <div class="panel">
-          <div class="panel-title">Money moves</div>
-          <div class="grid-2">
-            <div class="tile" data-action="send">
+          <div class="grid grid-2 money-moves-grid">
+            <button class="tile" id="btnSendP2P">
               <div class="tile-title">Send PAY54 → PAY54</div>
               <div class="tile-sub">Instant P2P transfers</div>
-            </div>
-            <div class="tile" data-action="receive">
+            </button>
+
+            <button class="tile" id="btnReceive">
               <div class="tile-title">Receive</div>
               <div class="tile-sub">Show account, tag &amp; QR</div>
-            </div>
-            <div class="tile" data-action="add">
+            </button>
+
+            <button class="tile" id="btnAdd">
               <div class="tile-title">Add money</div>
               <div class="tile-sub">Card • Bank • Agents</div>
-            </div>
-            <div class="tile" data-action="withdraw">
+            </button>
+
+            <button class="tile" id="btnWithdrawTile">
               <div class="tile-title">Withdraw</div>
               <div class="tile-sub">Bank • Agents</div>
-            </div>
-            <div class="tile" data-action="bank">
+            </button>
+
+            <button class="tile" id="btnBankTransfer">
               <div class="tile-title">Bank transfer</div>
               <div class="tile-sub">To NG banks &amp; wallets</div>
-            </div>
-            <div class="tile" data-action="request">
+            </button>
+
+            <button class="tile" id="btnRequestMoney">
               <div class="tile-title">Request money</div>
               <div class="tile-sub">With notification list</div>
-            </div>
+            </button>
           </div>
-        </div>
+        </section>
 
-        <div class="panel">
-          <div class="panel-title">Services</div>
-          <div class="grid-2">
-            <div class="tile" data-action="fx">Cross-border FX</div>
-            <div class="tile" data-action="savings">Savings</div>
-            <div class="tile" data-action="bills">Pay bills (Airtime/Data/Power/TV)</div>
-            <div class="tile" data-action="cards">Virtual &amp; linked cards</div>
-            <div class="tile" data-action="checkout">PAY54 Smart Checkout</div>
-            <div class="tile" data-action="shop">Shop on the Fly</div>
-            <div class="tile" data-action="invest">Investments &amp; stocks</div>
-            <div class="tile" data-action="bet">Bet funding</div>
-            <div class="tile" data-action="risk">AI Risk Watch</div>
-            <div class="tile" data-action="agent">Become an Agent</div>
-          </div>
-        </div>
-      </div>
+        <!-- SERVICES -->
+        <section class="card">
+          <h2 class="section-title">Services</h2>
+          <p class="section-sub">
+            FX, bills, cards, checkout, agents &amp; more
+          </p>
 
-      <!-- RIGHT: Requests, Shortcuts, Recent -->
-      <div>
-        <div class="panel">
-          <div class="panel-title">Requests &amp; alerts</div>
-          <div id="requestsList">
-            <div class="list-item">No pending requests.</div>
-          </div>
-        </div>
+          <div class="grid grid-2 services-grid">
+            <button class="tile" data-service="fx">
+              <div class="tile-title">Cross-border FX</div>
+              <div class="tile-sub">NGN ⇄ USD/GBP/EUR</div>
+            </button>
 
-        <div class="panel">
-          <div class="panel-title">Quick shortcuts</div>
-          <div class="btn-row">
-            <button class="btn-secondary" data-action="agent">Become an Agent</button>
-            <button class="btn-secondary" data-action="shop">Shop on the Fly</button>
-            <button class="btn-secondary" data-action="savings">Open Savings Pot</button>
-            <button class="btn-secondary" data-action="invest">Invest &amp; Stocks</button>
-          </div>
-        </div>
+            <button class="tile" data-service="savings">
+              <div class="tile-title">Savings</div>
+              <div class="tile-sub">Goals &amp; growth pots</div>
+            </button>
 
-        <div class="panel">
-          <div class="panel-title">Recent transactions</div>
-          <div id="txList">
-            <div class="list-item">Wallet created • ₦88,000.00</div>
+            <button class="tile" data-service="bills">
+              <div class="tile-title">Pay bills</div>
+              <div class="tile-sub">(Airtime/Data/Power/TV)</div>
+            </button>
+
+            <button class="tile" data-service="cards">
+              <div class="tile-title">Virtual &amp; linked cards</div>
+              <div class="tile-sub">Secure online payments</div>
+            </button>
+
+            <button class="tile" data-service="checkout">
+              <div class="tile-title">PAY54 Smart Checkout</div>
+              <div class="tile-sub">Approve payments in-app</div>
+            </button>
+
+            <button class="tile" data-service="shop">
+              <div class="tile-title">Shop on the Fly</div>
+              <div class="tile-sub">Taxi, food, tickets &amp; more</div>
+            </button>
+
+            <button class="tile" data-service="invest">
+              <div class="tile-title">Investments &amp; stocks</div>
+              <div class="tile-sub">Global &amp; local assets</div>
+            </button>
+
+            <button class="tile" data-service="bet">
+              <div class="tile-title">Bet funding</div>
+              <div class="tile-sub">With age verification</div>
+            </button>
+
+            <button class="tile" data-service="risk">
+              <div class="tile-title">AI Risk Watch</div>
+              <div class="tile-sub">Flag risky activity</div>
+            </button>
+
+            <button class="tile" data-service="agent">
+              <div class="tile-title">Become an Agent</div>
+              <div class="tile-sub">Earn with PAY54</div>
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <section class="dash-column right">
+
+        <!-- REQUESTS & ALERTS -->
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="section-title">Requests &amp; alerts</h2>
+            <button class="link-button" id="btnClearAlerts">Clear all</button>
+          </div>
+          <ul class="list" id="alertsList">
+            <!-- Populated via JS -->
+          </ul>
+        </section>
+
+        <!-- QUICK SHORTCUTS -->
+        <section class="card">
+          <h2 class="section-title">Quick shortcuts</h2>
+          <div class="quick-grid">
+            <button class="pill-ghost" data-shortcut="agent">Become an Agent</button>
+            <button class="pill-ghost" data-shortcut="shop">Shop on the Fly</button>
+            <button class="pill-ghost" data-shortcut="savings">Open Savings Pot</button>
+            <button class="pill-ghost" data-shortcut="invest">Invest &amp; Stocks</button>
+          </div>
+        </section>
+
+        <!-- RECENT TRANSACTIONS -->
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="section-title">Recent transactions</h2>
+            <button class="link-button" id="btnViewAllTx">View all</button>
+          </div>
+          <ul class="list" id="transactionsList">
+            <!-- Populated via JS -->
+          </ul>
+        </section>
+
+      </section>
+
+    </main>
   </div>
 
-  <!-- Simple modal -->
-  <div class="modal-backdrop" id="modal">
-    <div class="modal-card">
-      <h3 id="modalTitle">Action</h3>
+  <!-- MODAL + TOAST (Simple versions, styled via CSS) -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h2 id="modalTitle"></h2>
       <div id="modalBody"></div>
       <div class="modal-actions">
-        <button class="btn-ghost" id="modalCancel">Cancel</button>
-        <button class="btn-primary" id="modalConfirm">Confirm</button>
+        <button id="modalPrimary" class="btn-primary">Continue</button>
+        <button id="modalClose" class="btn-outline">Close</button>
       </div>
     </div>
   </div>
 
+  <div id="toast" class="toast hidden"></div>
+
   <script type="module">
-    import { getUser, saveUser, logout } from "./assets/js/core/session.js";
+    import { getUser } from "./assets/js/core/session.js";
 
-    const user = getUser();
-    if (!user) {
-      window.location.href = "login.html";
-    }
+    // ---------- SIMPLE STATE ----------
+    const state = {
+      currency: "NGN",
+      balances: {
+        NGN: 0,
+        USD: 0,
+        GBP: 0,
+      },
+      transactions: [],
+      alerts: [
+        { id: 1, text: "Prem requested ₦12,000", type: "request" },
+        { id: 2, text: "Agent onboarding pending", type: "info" },
+        { id: 3, text: "AI Risk Watch flagged unusual login", type: "risk" },
+      ],
+    };
 
-    // --- Populate header + balance
-    const balanceEl = document.getElementById("walletBalance");
-    const tagEl = document.getElementById("userTag");
-    const walletNameEl = document.getElementById("walletName");
-    const walletIdEl = document.getElementById("walletId");
-    const txListEl = document.getElementById("txList");
+    // ---------- UTILITIES ----------
+    const fmt = (amount, currency) => {
+      const sign = amount < 0 ? "-" : "";
+      const n = Math.abs(amount).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      const symbol = currency === "USD" ? "$" :
+                     currency === "GBP" ? "£" : "₦";
+      return `${sign}${symbol}${n}`;
+    };
 
-    function formatNaira(amount) {
-      return "₦" + amount.toLocaleString("en-NG", { minimumFractionDigits: 2 });
-    }
+    const showToast = (message) => {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.remove("hidden");
+      toast.classList.add("visible");
+      setTimeout(() => {
+        toast.classList.remove("visible");
+        toast.classList.add("hidden");
+      }, 2600);
+    };
 
-    function renderUser() {
-      const u = getUser();
-      balanceEl.textContent = formatNaira(u.balance ?? 0);
-      tagEl.textContent = u.tag || "@pay54demo";
-      walletNameEl.textContent = (u.name || "PAY54 demo wallet");
-      walletIdEl.textContent = u.walletId || "P54-001";
-    }
-
-    renderUser();
-
-    // --- Logout
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      logout();
-    });
-
-    // --- Modal helpers
-    const modal = document.getElementById("modal");
+    // ---------- MODAL HANDLING ----------
+    const modalOverlay = document.getElementById("modalOverlay");
     const modalTitle = document.getElementById("modalTitle");
     const modalBody = document.getElementById("modalBody");
-    const modalCancel = document.getElementById("modalCancel");
-    const modalConfirm = document.getElementById("modalConfirm");
+    const modalPrimary = document.getElementById("modalPrimary");
+    const modalClose = document.getElementById("modalClose");
 
-    function openModal(title, innerHtml, onConfirm) {
+    let modalHandler = null;
+
+    const openModal = (title, bodyHtml, primaryLabel = "Continue", onPrimary = null) => {
       modalTitle.textContent = title;
-      modalBody.innerHTML = innerHtml;
-      modal.classList.add("show");
-      const handler = () => {
-        onConfirm && onConfirm();
+      modalBody.innerHTML = bodyHtml;
+      modalPrimary.textContent = primaryLabel;
+      modalHandler = onPrimary;
+      modalOverlay.classList.remove("hidden");
+    };
+
+    const closeModal = () => {
+      modalOverlay.classList.add("hidden");
+      modalHandler = null;
+    };
+
+    modalClose.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    modalPrimary.addEventListener("click", () => {
+      if (typeof modalHandler === "function") {
+        modalHandler();
+      } else {
         closeModal();
-        modalConfirm.removeEventListener("click", handler);
-      };
-      modalConfirm.addEventListener("click", handler);
-    }
-
-    function closeModal() {
-      modal.classList.remove("show");
-    }
-
-    modalCancel.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
+      }
     });
 
-    // --- Action handlers (demo behaviour)
-    function addTx(text) {
-      const div = document.createElement("div");
-      div.className = "list-item";
-      div.textContent = text;
-      txListEl.prepend(div);
-    }
+    // ---------- RENDER FUNCTIONS ----------
+    const renderBalance = () => {
+      const el = document.getElementById("balanceAmount");
+      el.textContent = fmt(state.balances[state.currency], state.currency);
 
-    function handleAction(action) {
-      const u = getUser();
-      switch (action) {
-        case "add":
-          openModal(
-            "Add money",
-            `<label>Amount (NGN)</label>
-             <input id="amountInput" type="number" min="1" />`,
-            () => {
-              const amt = Number(document.getElementById("amountInput").value);
-              if (!amt || amt <= 0) return;
-              const updated = { ...u, balance: (u.balance || 0) + amt };
-              saveUser(updated);
-              renderUser();
-              addTx(`Wallet top-up • +${formatNaira(amt)}`);
-            }
-          );
-          break;
+      const meta = document.getElementById("balanceMeta");
+      meta.textContent = `FX wallets: NGN • USD • GBP (demo • showing ${state.currency})`;
+    };
 
-        case "withdraw":
-          openModal(
-            "Withdraw to bank",
-            `<label>Amount (NGN)</label>
-             <input id="amountInput" type="number" min="1" />`,
-            () => {
-              const amt = Number(document.getElementById("amountInput").value);
-              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
-              const updated = { ...u, balance: (u.balance || 0) - amt };
-              saveUser(updated);
-              renderUser();
-              addTx(`Withdrawal • -${formatNaira(amt)}`);
-            }
-          );
-          break;
-
-        case "send":
-          openModal(
-            "Send PAY54 → PAY54",
-            `<label>Recipient tag</label>
-             <input id="recTag" placeholder="@friend" />
-             <label>Amount (NGN)</label>
-             <input id="amountInput" type="number" min="1" />`,
-            () => {
-              const amt = Number(document.getElementById("amountInput").value);
-              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
-              const updated = { ...u, balance: (u.balance || 0) - amt };
-              saveUser(updated);
-              renderUser();
-              addTx(`Sent ${formatNaira(amt)} to PAY54 friend`);
-            }
-          );
-          break;
-
-        case "bank":
-          openModal(
-            "Bank transfer",
-            `<label>Bank</label>
-             <input placeholder="Bank name" />
-             <label>Account number</label>
-             <input maxlength="10" />
-             <label>Amount (NGN)</label>
-             <input id="amountInput" type="number" min="1" />`,
-            () => {
-              const amt = Number(document.getElementById("amountInput").value);
-              if (!amt || amt <= 0 || amt > (u.balance || 0)) return;
-              const updated = { ...u, balance: (u.balance || 0) - amt };
-              saveUser(updated);
-              renderUser();
-              addTx(`Bank transfer • -${formatNaira(amt)}`);
-            }
-          );
-          break;
-
-        case "receive":
-          openModal(
-            "Receive money",
-            `<p>Share your PAY54 tag and wallet ID:</p>
-             <p><strong>Tag:</strong> ${u.tag || "@pay54demo"}</p>
-             <p><strong>Wallet ID:</strong> ${u.walletId || "P54-001"}</p>`,
-            () => {}
-          );
-          break;
-
-        default:
-          openModal(
-            "Coming soon",
-            `<p>This is a demo preview for <strong>${action}</strong> in PAY54 v7.0.</p>`,
-            () => {}
-          );
+    const renderAlerts = () => {
+      const ul = document.getElementById("alertsList");
+      ul.innerHTML = "";
+      if (!state.alerts.length) {
+        ul.innerHTML = '<li class="list-empty">No alerts.</li>';
+        return;
       }
+      state.alerts.forEach((a) => {
+        const li = document.createElement("li");
+        li.className = `list-item alert-${a.type}`;
+        li.textContent = a.text;
+        ul.appendChild(li);
+      });
+    };
+
+    const renderTransactions = () => {
+      const ul = document.getElementById("transactionsList");
+      ul.innerHTML = "";
+      if (!state.transactions.length) {
+        ul.innerHTML = '<li class="list-empty">No transactions yet.</li>';
+        return;
+      }
+
+      state.transactions.slice(-6).reverse().forEach((tx) => {
+        const li = document.createElement("li");
+        li.className = "list-item tx-item";
+        li.innerHTML = `
+          <div>
+            <div class="tx-title">${tx.title}</div>
+            <div class="tx-meta">${tx.time}</div>
+          </div>
+          <div class="tx-amount ${tx.amount < 0 ? "tx-debit" : "tx-credit"}">
+            ${fmt(tx.amount, tx.currency)}
+          </div>
+        `;
+        ul.appendChild(li);
+      });
+    };
+
+    const pushTx = (title, amount) => {
+      const now = new Date();
+      state.transactions.push({
+        title,
+        amount,
+        currency: state.currency,
+        time: now.toLocaleString(),
+      });
+      renderTransactions();
+    };
+
+    // ---------- SESSION GUARD ----------
+    let currentUser = null;
+    try {
+      currentUser = typeof getUser === "function" ? getUser() : null;
+    } catch (e) {
+      console.error("Get user failed:", e);
     }
 
-    document.querySelectorAll("[data-action]").forEach((el) => {
-      el.addEventListener("click", () => {
-        const action = el.getAttribute("data-action");
-        handleAction(action);
+    if (!currentUser) {
+      window.location.href = "login.html";
+    } else {
+      const profileName = document.getElementById("profileName");
+      profileName.textContent = currentUser.name || currentUser.fullName || "PAY54 User";
+    }
+
+    // ---------- HEADER ACTIONS ----------
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      try {
+        // best-effort clear
+        localStorage.clear();
+      } catch (e) {
+        console.warn("Could not clear storage:", e);
+      }
+      window.location.href = "login.html";
+    });
+
+    document.getElementById("profileButton").addEventListener("click", () => {
+      openModal(
+        "Profile & Settings",
+        `
+          <p>This is a demo profile view for <strong>${currentUser?.name || "PAY54 user"}</strong>.</p>
+          <ul class="list">
+            <li>Wallet ID: <code>PAY54-DEMO-0001</code></li>
+            <li>Tier: KYC Level 1 (demo)</li>
+            <li>AI Risk Watch: enabled (mock)</li>
+          </ul>
+        `,
+        "Close"
+      );
+    });
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("theme-light");
+      const isLight = document.body.classList.contains("theme-light");
+      document.getElementById("themeToggle").textContent = isLight ? "◐ Light" : "◐ Dark";
+    });
+
+    // Currency switch
+    document.querySelectorAll("#currencyToggle .pill").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document
+          .querySelectorAll("#currencyToggle .pill")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        state.currency = btn.dataset.currency;
+        renderBalance();
+        renderTransactions();
       });
     });
+
+    // ---------- MONEY MOVE HANDLERS ----------
+    const handleAddMoney = (sourceLabel = "Top-up") => {
+      openModal(
+        "Add money",
+        `
+          <p>Enter the amount to add to your <strong>${state.currency}</strong> wallet.</p>
+          <input id="amountInput" type="number" min="0" step="0.01"
+                 class="modal-input" placeholder="Amount" />
+        `,
+        "Add",
+        () => {
+          const input = document.getElementById("amountInput");
+          const value = parseFloat(input.value);
+          if (isNaN(value) || value <= 0) {
+            alert("Enter a valid amount.");
+            return;
+          }
+          state.balances[state.currency] += value;
+          renderBalance();
+          pushTx(`${sourceLabel}`, value);
+          showToast("Balance updated (demo).");
+          closeModal();
+        }
+      );
+    };
+
+    const handleWithdraw = () => {
+      openModal(
+        "Withdraw to bank",
+        `
+          <p>Enter the amount to withdraw from your <strong>${state.currency}</strong> wallet.</p>
+          <input id="amountInput" type="number" min="0" step="0.01"
+                 class="modal-input" placeholder="Amount" />
+        `,
+        "Withdraw",
+        () => {
+          const input = document.getElementById("amountInput");
+          const value = parseFloat(input.value);
+          if (isNaN(value) || value <= 0) {
+            alert("Enter a valid amount.");
+            return;
+          }
+          if (value > state.balances[state.currency]) {
+            alert("Insufficient balance (demo).");
+            return;
+          }
+          state.balances[state.currency] -= value;
+          renderBalance();
+          pushTx("Withdraw to bank", -value);
+          showToast("Withdrawal simulated (demo).");
+          closeModal();
+        }
+      );
+    };
+
+    document.getElementById("btnAddMoney").addEventListener("click", () => handleAddMoney("Wallet top-up"));
+    document.getElementById("btnAdd").addEventListener("click", () => handleAddMoney("Add money"));
+
+    document.getElementById("btnWithdraw").addEventListener("click", handleWithdraw);
+    document.getElementById("btnWithdrawTile").addEventListener("click", handleWithdraw);
+
+    document.getElementById("btnSendP2P").addEventListener("click", () => {
+      openModal(
+        "Send PAY54 → PAY54",
+        `
+          <p>Send instant P2P to another PAY54 user (demo).</p>
+          <input id="sendTag" class="modal-input" placeholder="@PayTag or email" />
+          <input id="amountInput" type="number" min="0" step="0.01"
+                 class="modal-input" placeholder="Amount" />
+        `,
+        "Send",
+        () => {
+          const amountField = document.getElementById("amountInput");
+          const tagField = document.getElementById("sendTag");
+          const value = parseFloat(amountField.value);
+          if (!tagField.value.trim() || isNaN(value) || value <= 0) {
+            alert("Enter recipient and valid amount.");
+            return;
+          }
+          if (value > state.balances[state.currency]) {
+            alert("Insufficient balance (demo).");
+            return;
+          }
+          state.balances[state.currency] -= value;
+          renderBalance();
+          pushTx(`Send to ${tagField.value.trim()}`, -value);
+          showToast("P2P transfer simulated (demo).");
+          closeModal();
+        }
+      );
+    });
+
+    document.getElementById("btnReceive").addEventListener("click", () => {
+      openModal(
+        "Receive money",
+        `
+          <p>Share your PAY54 details to receive money.</p>
+          <ul class="list">
+            <li>Account: <code>0123456789</code></li>
+            <li>Tag ID: <code>@${(currentUser?.tag || "demi-pay54").toLowerCase()}</code></li>
+          </ul>
+          <p>QR code (demo):</p>
+          <div class="qr-placeholder">QR</div>
+        `,
+        "Close"
+      );
+    });
+
+    document.getElementById("btnBankTransfer").addEventListener("click", () => {
+      handleWithdraw(); // for demo, same logic, different label
+    });
+
+    document.getElementById("btnRequestMoney").addEventListener("click", () => {
+      openModal(
+        "Request money",
+        `
+          <p>Enter request details (demo only).</p>
+          <input id="reqFrom" class="modal-input" placeholder="From (name or tag)" />
+          <input id="amountInput" type="number" min="0" step="0.01"
+                 class="modal-input" placeholder="Amount" />
+        `,
+        "Create request",
+        () => {
+          const from = document.getElementById("reqFrom").value.trim();
+          const amount = parseFloat(document.getElementById("amountInput").value);
+          if (!from || isNaN(amount) || amount <= 0) {
+            alert("Enter a valid name and amount.");
+            return;
+          }
+          state.alerts.unshift({
+            id: Date.now(),
+            text: `${from} requested ${fmt(amount, state.currency)}`,
+            type: "request",
+          });
+          renderAlerts();
+          showToast("Request created (demo).");
+          closeModal();
+        }
+      );
+    });
+
+    // ---------- SERVICES & SHORTCUTS ----------
+    const openServiceModal = (service) => {
+      const map = {
+        fx: {
+          title: "Cross-border FX (demo)",
+          body: `
+            <p>Simulated FX transfer: NGN ⇄ USD/GBP/EUR.</p>
+            <p>This is a UI mock – no real FX is processed.</p>
+          `,
+        },
+        savings: {
+          title: "Savings pots (demo)",
+          body: `
+            <p>Create and track savings goals visually.</p>
+            <p>In the live app, each goal will have auto-contributions.</p>
+          `,
+        },
+        bills: {
+          title: "Pay bills & top-up (demo)",
+          body: `
+            <p>Airtime, data, power &amp; TV bundles UI.</p>
+            <p>Live version will plug into real biller APIs.</p>
+          `,
+        },
+        cards: {
+          title: "Virtual & linked cards (demo)",
+          body: `
+            <p>Manage virtual cards and linked debit cards.</p>
+            <p>Freeze/unfreeze, set limits and more (mock).</p>
+          `,
+        },
+        checkout: {
+          title: "PAY54 Smart Checkout (demo)",
+          body: `
+            <p>Imagine PAY54 on e-commerce checkout like PayPal.</p>
+            <p>Customer approves in-app, merchant gets instant confirmation.</p>
+          `,
+        },
+        shop: {
+          title: "Shop on the Fly (demo)",
+          body: `
+            <p>Taxi, cinema, food and shopping partners.</p>
+            <p>In live builds this will deep-link to Uber/Jumia/JustEat etc.</p>
+          `,
+        },
+        invest: {
+          title: "Investments & stocks (demo)",
+          body: `
+            <p>Mock portfolio for stocks, indexes & fractional Lagos real estate.</p>
+            <p>USD holdings will show NGN equivalent with fees.</p>
+          `,
+        },
+        bet: {
+          title: "Bet funding (demo)",
+          body: `
+            <p>Age-gated wallet top-ups for bet platforms.</p>
+            <p>Live version will enforce age verification via KYC.</p>
+          `,
+        },
+        risk: {
+          title: "AI Risk Watch (demo)",
+          body: `
+            <p>Shows simulated risk alerts for unusual activity.</p>
+            <p>Educates users about safety and fraud prevention.</p>
+          `,
+        },
+        agent: {
+          title: "Become an Agent (demo)",
+          body: `
+            <p>Agent onboarding form (name, location, business).</p>
+            <p>Live app will route this to PAY54 back-office for approval.</p>
+          `,
+        },
+      };
+
+      const cfg = map[service];
+      if (!cfg) return;
+
+      openModal(cfg.title, cfg.body, "OK");
+    };
+
+    document.querySelectorAll(".services-grid .tile").forEach((tile) => {
+      tile.addEventListener("click", () => {
+        openServiceModal(tile.dataset.service);
+      });
+    });
+
+    document.querySelectorAll(".quick-grid .pill-ghost").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.shortcut;
+        openServiceModal(key);
+      });
+    });
+
+    // ---------- ALERT & TX BUTTONS ----------
+    document.getElementById("btnClearAlerts").addEventListener("click", () => {
+      state.alerts = [];
+      renderAlerts();
+      showToast("Alerts cleared (demo).");
+    });
+
+    document.getElementById("btnViewAllTx").addEventListener("click", () => {
+      openModal(
+        "All transactions (demo)",
+        `
+          <p>This shows the last ${state.transactions.length} simulated transactions.</p>
+          <p>In production this will paginate + filter by type/date.</p>
+        `,
+        "Close"
+      );
+    });
+
+    // ---------- INITIAL RENDER ----------
+    renderBalance();
+    renderAlerts();
+    renderTransactions();
   </script>
 </body>
 </html>
