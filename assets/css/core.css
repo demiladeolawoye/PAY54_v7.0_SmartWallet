@@ -1,1 +1,271 @@
+/* ============================================================
+   PAY54 v7.0 • Core Styles
+   Base layout, typography, global reset
+   Neo-fintech dark foundation
+   ============================================================ */
+
+:root {
+  --pay54-bg: #020617;
+  --pay54-bg-soft: #02091d;
+  --pay54-card: rgba(15, 23, 42, 0.95);
+  --pay54-card-soft: rgba(15, 23, 42, 0.8);
+  --pay54-border: rgba(148, 163, 184, 0.35);
+  --pay54-border-strong: rgba(148, 163, 184, 0.7);
+  --pay54-text: #e5e7eb;
+  --pay54-text-soft: #9ca3af;
+  --pay54-accent: #4f46e5;
+  --pay54-accent-soft: rgba(79, 70, 229, 0.4);
+  --pay54-accent-strong: #6366f1;
+  --pay54-danger: #f97373;
+  --pay54-success: #22c55e;
+  --pay54-warning: #eab308;
+
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+  --blur-card: 22px;
+
+  --nav-height: 68px;
+  --transition-fast: 160ms ease-out;
+  --transition-med: 220ms ease-out;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
+    "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+}
+
+/* Light theme tokens are switched in theme.css */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background: radial-gradient(circle at top, #020617 0, #000 40%, #020617 100%);
+  color: var(--pay54-text);
+  min-height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Layout shells */
+
+.pay54-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.pay54-shell--auth {
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.25), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.2), transparent 55%),
+    #020617;
+}
+
+.pay54-shell--dashboard {
+  padding: 16px;
+}
+
+.pay54-max {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Glass card */
+
+.pay54-card {
+  background: linear-gradient(135deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(15, 23, 42, 0.9));
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(var(--blur-card));
+}
+
+/* Utility classes */
+
+.pay54-pill {
+  border-radius: var(--radius-pill);
+}
+
+.pay54-badge {
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, rgba(148, 163, 184, 0.25), transparent 60%);
+  color: var(--pay54-text-soft);
+}
+
+.pay54-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  font-size: 12px;
+  color: var(--pay54-text-soft);
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background var(--transition-med),
+              border-color var(--transition-med),
+              box-shadow var(--transition-med),
+              transform var(--transition-fast),
+              color var(--transition-med);
+}
+
+.btn-primary {
+  background: radial-gradient(circle at top left,
+    var(--pay54-accent-strong),
+    #1d4ed8);
+  border-color: rgba(129, 140, 248, 0.9);
+  color: white;
+  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 50px rgba(59, 130, 246, 0.45);
+}
+
+.btn-secondary {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: var(--pay54-text-soft);
+}
+
+.btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.4);
+  color: var(--pay54-text-soft);
+}
+
+.btn-ghost:hover {
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--pay54-text);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at top,
+    rgba(15, 23, 42, 0.9),
+    rgba(15, 23, 42, 0.7));
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* Inputs */
+
+.pay54-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pay54-label {
+  font-size: 13px;
+  color: var(--pay54-text-soft);
+}
+
+.pay54-input-wrap {
+  position: relative;
+}
+
+.pay54-input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--pay54-text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-med),
+              box-shadow var(--transition-med),
+              background var(--transition-med);
+}
+
+.pay54-input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.pay54-input:focus {
+  border-color: rgba(129, 140, 248, 0.95);
+  box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.85);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+/* Simple grid */
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pay54-shell {
+    padding: 18px 12px;
+  }
+}
 
