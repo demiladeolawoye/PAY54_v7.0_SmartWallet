@@ -8,69 +8,116 @@
   <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
-<body>
+<body class="auth-body">
+  <div class="auth-shell">
+    <header class="auth-header">
+      <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" class="auth-logo" />
+      <div class="auth-badge">Create your PAY54 Wallet</div>
+      <p class="auth-tagline">Hybrid Money • NG ⇄ Global</p>
+    </header>
 
-  <div class="auth-container">
-    <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" style="height:48px;margin-bottom:20px;" />
+    <main class="auth-main">
+      <section class="auth-panel">
+        <h1 class="auth-title">Create account</h1>
+        <p class="auth-sub">Demo wallet • No real payments processed.</p>
 
-    <h1 class="auth-title">Create your PAY54 wallet</h1>
-    <p class="auth-sub">Set up once. Use everywhere.</p>
+        <form id="signupForm" class="auth-form">
+          <label for="name">Full name</label>
+          <input id="name" type="text" placeholder="Demi Olawoye" required />
 
-    <form id="signupForm">
-      <label>Full name</label>
-      <input type="text" id="su-name" required />
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
 
-      <label>Email</label>
-      <input type="email" id="su-email" required />
+          <label for="phone">Phone</label>
+          <input id="phone" type="tel" placeholder="+234…" required />
 
-      <label>Phone</label>
-      <input type="tel" id="su-phone" required />
+          <label for="tag">PAY54 tag (username)</label>
+          <input id="tag" type="text" placeholder="@demi" required />
 
-      <label>Wallet PIN (4 digits)</label>
-      <input type="password" id="su-pin" maxlength="4" required />
+          <label for="pin">Wallet PIN (4 digits)</label>
+          <input
+            id="pin"
+            type="password"
+            maxlength="4"
+            inputmode="numeric"
+            required
+          />
 
-      <button type="submit">Create wallet</button>
+          <button type="submit" class="auth-btn primary">Create wallet</button>
 
-      <div class="auth-links">
-        Already have an account? <a href="login.html">Sign in</a>
-      </div>
-    </form>
+          <div class="auth-links">
+            <span>Already have an account?</span>
+            <a href="login.html">Sign in</a>
+          </div>
+        </form>
+
+        <p class="auth-footnote">
+          This is a UI simulation only. No real KYC or payments occur.
+        </p>
+      </section>
+
+      <aside class="auth-why">
+        <h2>What you get in this demo</h2>
+        <ul>
+          <li>Mock balance with FX wallets (NGN / USD / GBP).</li>
+          <li>Money moves: Send, Receive, Add, Withdraw, Bank transfer.</li>
+          <li>Services: FX, Bills, Savings, Cards, Checkout, Agents & more.</li>
+          <li>AI Risk Watch & Requests feed.</li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer class="auth-footer">
+      <span>© PAY54 • v7.0 Demo Wallet</span>
+    </footer>
   </div>
 
   <script type="module">
-    import { saveUser } from "./assets/js/core/session.js";
+    import {
+      saveUser,
+      setLoggedIn,
+      getWallet,
+      saveWallet,
+      saveSettings,
+    } from "./assets/js/core/session.js";
 
     const form = document.getElementById("signupForm");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const name  = document.getElementById("su-name").value.trim();
-      const email = document.getElementById("su-email").value.trim();
-      const phone = document.getElementById("su-phone").value.trim();
-      const pin   = document.getElementById("su-pin").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const tag = document.getElementById("tag").value.trim();
+      const pin = document.getElementById("pin").value.trim();
 
-      if (!name || !email || !phone || pin.length !== 4) {
+      if (!name || !email || !phone || !tag || pin.length !== 4) {
         alert("Please fill all fields and use a 4-digit PIN.");
         return;
       }
 
-      const user = {
+      const user = saveUser({
         name,
         email,
         phone,
+        tag,
         pin,
-        tag: "@pay54demo",
-        walletId: "P54-001",
-        currency: "NGN",
-        balance: 88000,
-      };
+        loggedIn: true,
+      });
 
-      saveUser(user);
-      alert("Wallet created successfully. You can now sign in.");
-      window.location.href = "login.html";
+      // Seed wallet with small demo balance
+      const wallet = getWallet();
+      wallet.balances.NGN = wallet.balances.NGN || 88000;
+      saveWallet(wallet);
+
+      // Default settings
+      saveSettings({ currency: "NGN", theme: "dark" });
+
+      setLoggedIn(true);
+      alert(`Welcome to PAY54, ${user.name}!`);
+      window.location.href = "dashboard.html";
     });
   </script>
 </body>
 </html>
-
