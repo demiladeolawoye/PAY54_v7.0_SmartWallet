@@ -5,240 +5,248 @@
   <title>PAY54 • Smart Wallet Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Base + dashboard styles -->
   <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/dashboard.css" />
-  <link rel="stylesheet" href="assets/css/modals.css" />
 </head>
-<body class="theme-dark">
-  <div class="dashboard-page">
+<body class="pay54-body">
+
+  <div class="dashboard-shell">
 
     <!-- HEADER -->
-    <header class="dash-header">
-      <div class="dash-header-left">
-        <div class="logo-pill">
-          <img src="assets/img/logo/pay54-icon.svg" alt="P54" />
+    <header class="pay54-header">
+      <div class="brand-block">
+        <div class="brand-logo">
+          <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" />
         </div>
-        <div class="brand-stack">
+        <div class="brand-text">
           <div class="brand-title">PAY54 Wallet • v7.0</div>
-          <div class="brand-sub">HYBRID MONEY • NG ⇄ GLOBAL</div>
+          <div class="brand-sub">Hybrid Money • NG ⇄ Global</div>
         </div>
       </div>
 
-      <div class="dash-header-center">
-        <button class="pill pill-fx" data-currency="NGN">NGN</button>
-        <button class="pill pill-fx" data-currency="USD">USD</button>
-        <button class="pill pill-fx" data-currency="GBP">GBP</button>
-        <button id="themeToggle" class="pill pill-theme">◐ Dark</button>
-      </div>
+      <div class="header-right">
+        <div class="currency-toggle" id="currencyToggle">
+          <button class="chip chip-active" data-currency="NGN">NGN</button>
+          <button class="chip" data-currency="USD">USD</button>
+          <button class="chip" data-currency="GBP">GBP</button>
+          <button class="chip chip-mode" id="modeToggle">◐ Dark</button>
+        </div>
 
-      <div class="dash-header-right">
-        <button id="logoutBtn" class="btn-outline">Logout</button>
-        <button id="profileBtn" class="profile-pill">
-          <span class="profile-initial">D</span>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
+
+        <button class="profile-pill" id="profileBtn">
+          <span class="profile-avatar">D</span>
           <span class="profile-meta">
-            <span id="profileName">Demi</span>
-            <span class="profile-sub">PAY54 demo profile</span>
+            <span class="profile-name">Demi</span>
+            <span class="profile-tag">PAY54 demo profile</span>
           </span>
         </button>
       </div>
     </header>
 
     <!-- MAIN GRID -->
-    <main class="dash-grid">
+    <main class="dashboard-grid">
 
       <!-- LEFT COLUMN -->
-      <section class="dash-left">
+      <section class="left-column">
 
         <!-- BALANCE CARD -->
-        <section class="card card-balance">
-          <div class="card-balance-top">
-            <div>
-              <div class="label-overline">TOTAL BALANCE</div>
-              <div class="balance-amount" id="balanceAmount">₦0.00</div>
-              <div class="balance-sub" id="balanceSub">••</div>
-            </div>
-
-            <div class="balance-actions">
-              <button id="btnAddMoney" class="btn-chip">Add money</button>
-              <button id="btnWithdraw" class="btn-chip">Withdraw</button>
-            </div>
+        <section class="card-glass balance-card">
+          <div class="balance-header-row">
+            <div class="balance-label">TOTAL BALANCE</div>
           </div>
 
-          <div class="balance-footer">
-            <div id="fxWallets">FX wallets: NGN • USD • GBP (demo)</div>
-            <div class="balance-security">
-              Security: Device • PIN • AI Risk Watch (UI mock)
-            </div>
+          <div class="balance-main-row">
+            <div class="balance-amount" id="walletBalance">₦0.00</div>
+          </div>
+
+          <div class="balance-controls-row">
+            <button class="btn-pill" id="btnAddMoney">Add money</button>
+            <button class="btn-pill btn-outline" id="btnWithdraw">Withdraw</button>
+          </div>
+
+          <div class="balance-meta">
+            <div>FX wallets: NGN • USD • GBP (demo)</div>
+            <div>Security: Device • PIN • AI Risk Watch (UI mock)</div>
           </div>
         </section>
 
         <!-- MONEY MOVES -->
-        <section class="card">
-          <div class="card-header">
-            <div>
-              <h2>Money moves</h2>
-              <p>Instant P2P + banks + QR requests</p>
-            </div>
-          </div>
+        <section class="card-glass section-card">
+          <header class="section-header">
+            <h2>Money moves</h2>
+            <p>Instant P2P + banks + QR requests</p>
+          </header>
 
-          <div class="grid grid-2">
-            <button class="tile" data-action="send">
-              <div class="tile-title">Send PAY54 → PAY54</div>
-              <div class="tile-sub">Instant P2P transfers</div>
+          <div class="grid-2">
+            <button class="tile-btn" id="mmSend">
+              <span class="tile-title">Send PAY54 → PAY54</span>
+              <span class="tile-sub">Instant P2P transfers</span>
             </button>
 
-            <button class="tile" data-action="receive">
-              <div class="tile-title">Receive</div>
-              <div class="tile-sub">Show account, tag &amp; QR</div>
+            <button class="tile-btn" id="mmReceive">
+              <span class="tile-title">Receive</span>
+              <span class="tile-sub">Show account, tag &amp; QR</span>
             </button>
 
-            <button class="tile" data-action="add">
-              <div class="tile-title">Add money</div>
-              <div class="tile-sub">Card • Bank • Agents</div>
+            <button class="tile-btn" id="mmAdd">
+              <span class="tile-title">Add money</span>
+              <span class="tile-sub">Card • Bank • Agents</span>
             </button>
 
-            <button class="tile" data-action="withdraw">
-              <div class="tile-title">Withdraw</div>
-              <div class="tile-sub">Bank • Agents</div>
+            <button class="tile-btn" id="mmWithdraw">
+              <span class="tile-title">Withdraw</span>
+              <span class="tile-sub">Bank • Agents</span>
             </button>
 
-            <button class="tile" data-action="bank-transfer">
-              <div class="tile-title">Bank transfer</div>
-              <div class="tile-sub">To NG banks &amp; wallets</div>
+            <button class="tile-btn" id="mmBankTransfer">
+              <span class="tile-title">Bank transfer</span>
+              <span class="tile-sub">To NG banks &amp; wallets</span>
             </button>
 
-            <button class="tile" data-action="request">
-              <div class="tile-title">Request money</div>
-              <div class="tile-sub">With notification list</div>
+            <button class="tile-btn" id="mmRequest">
+              <span class="tile-title">Request money</span>
+              <span class="tile-sub">With notification list</span>
             </button>
           </div>
         </section>
 
         <!-- SERVICES -->
-        <section class="card">
-          <div class="card-header">
-            <div>
-              <h2>Services</h2>
-              <p>FX, bills, cards, checkout, agents &amp; more</p>
-            </div>
-          </div>
+        <section class="card-glass section-card">
+          <header class="section-header">
+            <h2>Services</h2>
+            <p>FX, bills, cards, checkout, agents &amp; more</p>
+          </header>
 
-          <div class="grid grid-2">
-            <button class="tile" data-action="fx">
-              <div class="tile-title">Cross-border FX</div>
-              <div class="tile-sub">NGN ⇄ USD/GBP/EUR</div>
+          <div class="grid-2">
+            <button class="tile-btn" id="svcFx">
+              <span class="tile-title">Cross-border FX</span>
+              <span class="tile-sub">NGN ⇄ USD/GBP/EUR</span>
             </button>
 
-            <button class="tile" data-action="savings">
-              <div class="tile-title">Savings</div>
-              <div class="tile-sub">Goals &amp; pots</div>
+            <button class="tile-btn" id="svcSavings">
+              <span class="tile-title">Savings</span>
+              <span class="tile-sub">Goals &amp; pots</span>
             </button>
 
-            <button class="tile" data-action="bills">
-              <div class="tile-title">Pay bills</div>
-              <div class="tile-sub">(Airtime/Data/Power/TV)</div>
+            <button class="tile-btn" id="svcBills">
+              <span class="tile-title">Pay bills</span>
+              <span class="tile-sub">(Airtime/Data/Power/TV)</span>
             </button>
 
-            <button class="tile" data-action="cards">
-              <div class="tile-title">Virtual &amp; linked cards</div>
-              <div class="tile-sub">Control &amp; spend</div>
+            <button class="tile-btn" id="svcCards">
+              <span class="tile-title">Virtual &amp; linked cards</span>
+              <span class="tile-sub">Control &amp; spend</span>
             </button>
 
-            <button class="tile" data-action="checkout">
-              <div class="tile-title">PAY54 Smart Checkout</div>
-              <div class="tile-sub">Approve e-commerce payments</div>
+            <button class="tile-btn" id="svcCheckout">
+              <span class="tile-title">PAY54 Smart Checkout</span>
+              <span class="tile-sub">Approve e-commerce payments</span>
             </button>
 
-            <button class="tile" data-action="shop">
-              <div class="tile-title">Shop on the Fly</div>
-              <div class="tile-sub">Taxi • Food • Tickets • Shops</div>
+            <button class="tile-btn" id="svcShop">
+              <span class="tile-title">Shop on the Fly</span>
+              <span class="tile-sub">Taxi • Food • Tickets • Shops</span>
             </button>
 
-            <button class="tile" data-action="invest">
-              <div class="tile-title">Investments &amp; stocks</div>
-              <div class="tile-sub">Local &amp; global assets</div>
+            <button class="tile-btn" id="svcInvest">
+              <span class="tile-title">Investments &amp; stocks</span>
+              <span class="tile-sub">Local &amp; global assets</span>
             </button>
 
-            <button class="tile" data-action="bet">
-              <div class="tile-title">Bet funding</div>
-              <div class="tile-sub">+18 age verification</div>
+            <button class="tile-btn" id="svcBet">
+              <span class="tile-title">Bet funding</span>
+              <span class="tile-sub">+18 age verification</span>
             </button>
 
-            <button class="tile" data-action="risk">
-              <div class="tile-title">AI Risk Watch</div>
-              <div class="tile-sub">Suspicious activity alerts</div>
+            <button class="tile-btn" id="svcRisk">
+              <span class="tile-title">AI Risk Watch</span>
+              <span class="tile-sub">Suspicious activity alerts</span>
             </button>
 
-            <button class="tile" data-action="agent">
-              <div class="tile-title">Become an Agent</div>
-              <div class="tile-sub">Onboard &amp; earn</div>
+            <button class="tile-btn" id="svcAgent">
+              <span class="tile-title">Become an Agent</span>
+              <span class="tile-sub">Onboard &amp; earn</span>
             </button>
           </div>
         </section>
       </section>
 
       <!-- RIGHT COLUMN -->
-      <section class="dash-right">
+      <section class="right-column">
 
         <!-- REQUESTS & ALERTS -->
-        <section class="card card-right">
-          <div class="card-header">
-            <h2>Requests &amp; alerts</h2>
-            <button id="btnClearAlerts" class="btn-chip btn-small">Clear all</button>
+        <section class="card-glass section-card requests-card">
+          <header class="section-header section-header-row">
+            <div>
+              <h2>Requests &amp; alerts</h2>
+            </div>
+            <button class="chip chip-small" id="btnClearAlerts">Clear all</button>
+          </header>
+
+          <ul class="requests-list" id="requestsList">
+            <!-- filled by JS -->
+          </ul>
+          <div class="empty-state" id="requestsEmpty">
+            No requests or alerts yet.
           </div>
-          <ul id="alertsList" class="list-plain"></ul>
         </section>
 
         <!-- QUICK SHORTCUTS -->
-        <section class="card card-right">
-          <div class="card-header">
+        <section class="card-glass section-card">
+          <header class="section-header">
             <h2>Quick shortcuts</h2>
-          </div>
-          <div class="grid grid-2">
-            <button class="tile tile-small" data-action="agent">
-              Become an Agent
-            </button>
-            <button class="tile tile-small" data-action="shop">
-              Shop on the Fly
-            </button>
-            <button class="tile tile-small" data-action="savings">
-              Open Savings Pot
-            </button>
-            <button class="tile tile-small" data-action="invest">
-              Invest &amp; Stocks
-            </button>
+          </header>
+          <div class="quick-grid">
+            <button class="chip wide-chip" id="qsAgent">Become an Agent</button>
+            <button class="chip wide-chip" id="qsSavings">Open Savings Pot</button>
+            <button class="chip wide-chip" id="qsShop">Shop on the Fly</button>
+            <button class="chip wide-chip" id="qsInvest">Invest &amp; Stocks</button>
           </div>
         </section>
 
         <!-- RECENT TRANSACTIONS -->
-        <section class="card card-right">
-          <div class="card-header">
-            <h2>Recent transactions</h2>
-            <button id="btnViewAllTx" class="btn-chip btn-small">View all</button>
+        <section class="card-glass section-card">
+          <header class="section-header section-header-row">
+            <div>
+              <h2>Recent transactions</h2>
+            </div>
+            <button class="chip chip-small" id="btnViewAllTx">View all</button>
+          </header>
+
+          <ul class="tx-list" id="txList">
+            <!-- filled by JS -->
+          </ul>
+          <div class="empty-state" id="txEmpty">
+            No transactions yet.
           </div>
-          <ul id="txList" class="list-plain"></ul>
         </section>
-
       </section>
-
     </main>
   </div>
 
-  <!-- MODAL ROOT -->
-  <div id="modalRoot" class="modal-backdrop hidden">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="modalTitle"></h3>
-        <button id="modalClose" class="modal-close">×</button>
+  <!-- BASIC MODAL FOR DEMO FLOWS -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal card-glass" id="modalCard">
+      <header class="modal-header">
+        <h3 id="modalTitle">Action</h3>
+        <button class="modal-close" id="modalClose">×</button>
+      </header>
+      <div class="modal-body" id="modalBody">
+        <!-- dynamic content -->
       </div>
-      <div id="modalBody" class="modal-body"></div>
-      <div class="modal-footer" id="modalFooter"></div>
+      <footer class="modal-footer">
+        <button class="btn-pill" id="modalPrimary">OK</button>
+      </footer>
     </div>
   </div>
 
-  <!-- TOASTS -->
-  <div id="toastContainer" class="toast-container"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
+  <!-- JS wiring -->
   <script type="module" src="assets/js/ui/dashboardUI.js"></script>
 </body>
 </html>
+
