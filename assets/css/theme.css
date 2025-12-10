@@ -1,23 +1,32 @@
 /* ============================================================
-   PAY54 v7.0 • Theme Tokens
-   Dark (default) + Light modes
-   Applied via data-theme attribute on <html>
+   PAY54 v7.0 • Global Theming
+   Neo-Fintech Gradient + Adaptive Light/Dark Switching
    ============================================================ */
 
-html[data-theme="light"] {
-  --pay54-bg: #f1f5f9;
-  --pay54-bg-soft: #e5edf6;
-  --pay54-card: #ffffff;
-  --pay54-card-soft: #f8fafc;
-  --pay54-border: rgba(148, 163, 184, 0.5);
-  --pay54-border-strong: rgba(30, 64, 175, 0.7);
-  --pay54-text: #0f172a;
-  --pay54-text-soft: #64748b;
-  --pay54-accent: #4f46e5;
-  --pay54-accent-soft: rgba(79, 70, 229, 0.12);
-  --pay54-accent-strong: #4338ca;
-  --pay54-danger: #b91c1c;
-  --pay54-success: #059669;
-  --pay54-warning: #ca8a04;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 20% 20%, #0f1b3a, #000);
+    color: #fff;
 }
 
+/* Light Mode */
+body.light {
+    background: #f7f9fc;
+    color: #111;
+}
+
+/* Universal card style */
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+}
+
+body.light .card {
+    background: #fff;
+    color: #111;
+}
