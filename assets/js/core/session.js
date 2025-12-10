@@ -1,43 +1,18 @@
-// ============================================================
-// PAY54 v7.0 • Session Manager
-// Simple localStorage demo session
-// ============================================================
-window.PAY54 = window.PAY54 || {};
-const P = window.PAY54;
+/* ============================================================
+   PAY54 v7.0 • Session Manager
+   Handles login, logout, and user persistence
+   ============================================================ */
 
-const SESSION_KEY = "pay54_demo_session";
+export function saveUser(user) {
+    localStorage.setItem("pay54_user", JSON.stringify(user));
+}
 
-P.session = {
-  login(emailOrPhone) {
-    const payload = {
-      userId: P.user.id,
-      email: emailOrPhone,
-      createdAt: new Date().toISOString()
-    };
-    localStorage.setItem(SESSION_KEY, JSON.stringify(payload));
-    return payload;
-  },
+export function getUser() {
+    const u = localStorage.getItem("pay54_user");
+    return u ? JSON.parse(u) : null;
+}
 
-  logout() {
-    localStorage.removeItem(SESSION_KEY);
-  },
-
-  get() {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return null;
-    }
-  },
-
-  require(onMissingRedirect) {
-    const s = this.get();
-    if (!s && onMissingRedirect) {
-      window.location.href = onMissingRedirect;
-    }
-    return s;
-  }
-};
-
+export function logout() {
+    localStorage.removeItem("pay54_user");
+    window.location.href = "index.html";
+}
