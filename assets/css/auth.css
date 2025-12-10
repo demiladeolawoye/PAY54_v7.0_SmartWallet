@@ -1,183 +1,55 @@
 /* ============================================================
-   PAY54 v7.0 • Auth Screens (Login / Signup / OTP / Recover)
-   Neo-fintech hero + form layout
+   PAY54 v7.0 • AUTHENTICATION UI
+   Login | Signup | Recover PIN
    ============================================================ */
 
-.auth-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: 32px;
-  align-items: center;
+.auth-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 30px;
+    text-align: left;
 }
 
-.auth-panel {
-  padding: 26px 26px 24px;
+.auth-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
-.auth-panel h1 {
-  font-size: 26px;
-  margin: 0 0 6px;
+.auth-sub {
+    opacity: 0.7;
+    margin-bottom: 25px;
 }
 
-.auth-panel p {
-  margin: 0 0 20px;
-  font-size: 14px;
-  color: var(--pay54-text-soft);
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 14px;
 }
 
-.auth-logo-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3b6cff;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.auth-logo-orb {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 20% 0%, #ffffff 0, #4f46e5 38%, #111827 70%);
-  box-shadow:
-    0 0 25px rgba(79, 70, 229, 0.9),
-    0 12px 40px rgba(15, 23, 42, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: white;
-  font-size: 15px;
+button:hover {
+    background: #5a82ff;
 }
 
-.auth-logo-title {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
+.auth-links {
+    margin-top: 12px;
+    font-size: 14px;
 }
 
-.auth-logo-title span:first-child {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+.auth-links a {
+    color: #4a90ff;
 }
-
-.auth-logo-title span:last-child {
-  font-size: 11px;
-  text-transform: uppercase;
-  color: var(--pay54-text-soft);
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 6px;
-}
-
-.auth-footer {
-  margin-top: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--pay54-text-soft);
-}
-
-.auth-footer a {
-  color: var(--pay54-accent-strong);
-}
-
-.auth-hero {
-  padding: 26px 26px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.auth-chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.auth-hero h2 {
-  font-size: 22px;
-  margin: 0 0 8px;
-}
-
-.auth-hero p {
-  margin: 0 0 14px;
-  font-size: 13px;
-  color: var(--pay54-text-soft);
-}
-
-.auth-hero-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.auth-hero-badge {
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  background: radial-gradient(circle at top left,
-    rgba(79, 70, 229, 0.35),
-    rgba(15, 23, 42, 0.9));
-}
-
-.auth-hero-footer {
-  margin-top: 22px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--pay54-text-soft);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.auth-hero-gradient {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(96, 165, 250, 0.28), transparent 55%),
-    radial-gradient(circle at 90% 100%, rgba(244, 114, 182, 0.25), transparent 55%),
-    linear-gradient(135deg, #020617, #020617);
-  opacity: 0.85;
-  z-index: -1;
-}
-
-/* PIN input for verify/recover */
-
-.pin-row {
-  display: flex;
-  gap: 10px;
-}
-
-.pin-input {
-  width: 46px;
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  background: rgba(15, 23, 42, 0.95);
-  color: var(--pay54-text);
-}
-
-/* Mobile */
-
-@media (max-width: 900px) {
-  .auth-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .auth-shell {
-    padding-top: 18px;
-  }
-}
-
