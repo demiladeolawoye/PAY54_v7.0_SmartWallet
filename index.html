@@ -1,103 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>PAY54 • Smart Wallet</title>
 
-    <!-- =============================
-         PAY54 V7.0 UI ENTRYPOINT
-         Loads:
-         - Core theme engine
-         - Auth styling
-         - Neo-Fintech layout
-       ============================= -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
 
-    <!-- Global Theme + Core Styles -->
-    <link rel="stylesheet" href="assets/css/theme.css" />
-    <link rel="stylesheet" href="assets/css/core.css" />
-
-    <!-- Auth Page Styles -->
-    <link rel="stylesheet" href="assets/css/auth.css" />
-
+    <!-- App Root -->
+    <style>
+        #app {
+            min-height: 100vh;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- =========================================================
-         LOGIN SCREEN (v7.0 Modern Neo-Fintech)
-         This is the NEW standard login shell.
-       ========================================================= -->
+    <!-- Root container where pages load -->
+    <div id="app"></div>
 
-    <div class="auth-container">
-        <div class="auth-card">
-
-            <!-- Logo -->
-            <div class="auth-logo">
-                <img src="assets/img/logo/pay54-logo.svg" alt="PAY54 Logo" />
-            </div>
-
-            <h1 class="auth-title">Sign in to PAY54</h1>
-            <p class="auth-subtitle">Hybrid Wallet • NG ⇄ Global</p>
-
-            <!-- Login Form -->
-            <form id="loginForm">
-                <label>Email or Phone</label>
-                <input type="text" id="login-identifier" placeholder="you@example.com" required />
-
-                <label>Wallet PIN (4 digits)</label>
-                <input type="password" id="login-pin" maxlength="4" required />
-
-                <button type="submit" class="btn-primary">Sign in</button>
-
-                <div class="auth-links">
-                    <a href="recover.html">Forgot PIN?</a>
-                    <a href="signup.html">Create account</a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- =========================================================
-         SCRIPT LOADING ORDER (EXTREMELY IMPORTANT)
-         1. utils.js        → Helper functions
-         2. session.js      → Login / logout / user memory
-         3. theme.js        → Dark mode, system theme
-         4. navigation.js   → Redirects to dashboard after login
-       ========================================================= -->
-
-    <!-- Core Utilities -->
-    <script src="assets/js/core/utils.js"></script>
-
-    <!-- Login + Session Memory Engine -->
-    <script src="assets/js/core/session.js"></script>
-
-    <!-- Theme Engine (dark/light toggle awareness) -->
-    <script src="assets/js/core/theme.js"></script>
-
-    <!-- Navigation Engine: handles redirect after login -->
-    <script src="assets/js/ui/navigation.js"></script>
-
-    <!-- AUTH PAGE SCRIPT -->
-    <script>
-        // v7.0 – Login handler connecting to session.js
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const identifier = document.getElementById("login-identifier").value.trim();
-            const pin = document.getElementById("login-pin").value.trim();
-
-            const success = PAY54_Session.login(identifier, pin);
-
-            if (success) {
-                window.location.href = "dashboard.html";
-            } else {
-                alert("Invalid login details. Try again.");
-            }
-        });
-    </script>
+    <!-- JS Order Matters -->
+    <script type="module" src="assets/js/core/state.js"></script>
+    <script type="module" src="assets/js/core/router.js"></script>
+    <script type="module" src="assets/js/core/session.js"></script>
+    <script type="module" src="assets/js/core/loader.js"></script>
 
 </body>
 </html>
-
