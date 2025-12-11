@@ -17,6 +17,7 @@
     <header class="pay54-header">
       <div class="brand-block">
         <div class="brand-logo">
+          <!-- Use the agreed P54 logo -->
           <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" />
         </div>
         <div class="brand-text">
@@ -61,21 +62,55 @@
             <div class="balance-amount" id="walletBalance">₦0.00</div>
           </div>
 
+          <!-- NEW: Hybrid account grid (Option C format + Option B realistic style) -->
+          <div class="account-grid">
+            <div class="account-col">
+              <div class="account-row">
+                <span class="account-label">NGN Account:</span>
+                <span class="account-value">0224519873</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">KYC Level:</span>
+                <span class="account-value">Tier 2 · Verified (Demo)</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">Compliance:</span>
+                <span class="account-value">PCI-DSS • AML/CFT • Sandbox</span>
+              </div>
+            </div>
+
+            <div class="account-col">
+              <div class="account-row">
+                <span class="account-label">USD Account:</span>
+                <span class="account-value">7410 983 442</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">GBP Account:</span>
+                <span class="account-value">88-10-223344</span>
+              </div>
+              <div class="account-row">
+                <span class="account-label">Tag ID:</span>
+                <span class="account-value">@demi_p54</span>
+              </div>
+            </div>
+          </div>
+
           <div class="balance-controls-row">
             <button class="btn-pill" id="btnAddMoney">Add money</button>
             <button class="btn-pill btn-outline" id="btnWithdraw">Withdraw</button>
           </div>
 
+          <!-- Security & financial stamps -->
           <div class="balance-meta">
-            <div>FX wallets: NGN • USD • GBP (demo)</div>
-            <div>Security: Device • PIN • AI Risk Watch (UI mock)</div>
+            <div>Security: Device • Wallet PIN • AI Risk Watch (Demo)</div>
+            <div>Financial Stamps: PCI-DSS • AML/CFT • PAY54 Sandbox</div>
           </div>
         </section>
 
-        <!-- MONEY MOVES -->
+        <!-- MONEY MOVES (capitalisation fix) -->
         <section class="card-glass section-card">
           <header class="section-header">
-            <h2>Money moves</h2>
+            <h2>Money Moves</h2>
             <p>Instant P2P + banks + QR requests</p>
           </header>
 
@@ -176,27 +211,27 @@
       <!-- RIGHT COLUMN -->
       <section class="right-column">
 
-        <!-- REQUESTS & ALERTS -->
+        <!-- REQUESTS & ALERTS (capitalisation fix) -->
         <section class="card-glass section-card requests-card">
           <header class="section-header section-header-row">
             <div>
-              <h2>Requests &amp; alerts</h2>
+              <h2>Requests &amp; Alerts</h2>
             </div>
             <button class="chip chip-small" id="btnClearAlerts">Clear all</button>
           </header>
 
           <ul class="requests-list" id="requestsList">
-            <!-- filled by JS -->
+            <!-- Initially empty, can be filled by JS later -->
           </ul>
           <div class="empty-state" id="requestsEmpty">
             No requests or alerts yet.
           </div>
         </section>
 
-        <!-- QUICK SHORTCUTS -->
-        <section class="card-glass section-card">
+        <!-- QUICK SHORTCUTS (capitalisation fix) -->
+        <section class="card-glass section-card quick-shortcuts-card">
           <header class="section-header">
-            <h2>Quick shortcuts</h2>
+            <h2>Quick Shortcuts</h2>
           </header>
           <div class="quick-grid">
             <button class="chip wide-chip" id="qsAgent">Become an Agent</button>
@@ -206,19 +241,21 @@
           </div>
         </section>
 
-        <!-- RECENT TRANSACTIONS -->
+        <!-- RECENT TRANSACTIONS (capitalisation fix + demo data) -->
         <section class="card-glass section-card">
           <header class="section-header section-header-row">
             <div>
-              <h2>Recent transactions</h2>
+              <h2>Recent Transactions</h2>
             </div>
             <button class="chip chip-small" id="btnViewAllTx">View all</button>
           </header>
 
           <ul class="tx-list" id="txList">
-            <!-- filled by JS -->
+            <li>PAY54 → PAY54 • Sent ₦5,000 to @prem54</li>
+            <li>Card Top-Up • Added ₦20,000</li>
+            <li>Bill Payment • DSTV • ₦6,500</li>
           </ul>
-          <div class="empty-state" id="txEmpty">
+          <div class="empty-state" id="txEmpty" style="display:none;">
             No transactions yet.
           </div>
         </section>
@@ -226,7 +263,7 @@
     </main>
   </div>
 
-  <!-- BASIC MODAL FOR DEMO FLOWS -->
+  <!-- MODAL OVERLAY (for future flows) -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal card-glass" id="modalCard">
       <header class="modal-header">
@@ -245,8 +282,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- JS wiring -->
+  <!-- JS wiring (we’ll enhance behaviour later) -->
   <script type="module" src="assets/js/ui/dashboardUI.js"></script>
 </body>
 </html>
-
