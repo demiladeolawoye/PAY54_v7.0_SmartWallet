@@ -1,1 +1,55 @@
+<!-- assets/img/logo/pay54-logo.svg -->
+<svg width="180" height="40" viewBox="0 0 180 40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="p54_logo_bg" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#4f46e5"/>
+      <stop offset="60%" stop-color="#1d2a5a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
 
+    <filter id="p54_logo_glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0.35
+                0 0 0 0 0.56
+                0 0 0 0 1
+                0 0 0 0.8 0" />
+    </filter>
+  </defs>
+
+  <!-- Icon halo -->
+  <circle cx="20" cy="20" r="16" fill="#3b82f6" opacity="0.35" filter="url(#p54_logo_glow)"/>
+  <!-- Icon pill -->
+  <circle cx="20" cy="20" r="14" fill="url(#p54_logo_bg)" />
+
+  <!-- Icon text -->
+  <text x="20" y="24"
+        text-anchor="middle"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="700"
+        letter-spacing="0.09em"
+        fill="#f9fafb">
+    P54
+  </text>
+
+  <!-- Wordmark -->
+  <text x="44" y="23"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif"
+        font-size="16"
+        font-weight="700"
+        letter-spacing="0.12em"
+        fill="#e5e7eb">
+    PAY54
+  </text>
+
+  <!-- Tagline -->
+  <text x="44" y="32"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif"
+        font-size="9"
+        letter-spacing="0.18em"
+        fill="#9ca3af">
+    HYBRID MONEY • NG ⇄ GLOBAL
+  </text>
+</svg>
