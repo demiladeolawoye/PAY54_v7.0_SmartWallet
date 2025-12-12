@@ -1,638 +1,637 @@
 // assets/js/ui/dashboardUI.js
-import {
-  getUser,
-  ensureLoggedIn,
-  logout,
-  getTheme,
-  setTheme,
-  getFxCurrency,
-  setFxCurrency,
-} from "../core/session.js";
+// PAY54 v7.0 • Dashboard Engine (FX + Modals + UI)
+// ONE WALLET. EVERYWHERE.
 
-ensureLoggedIn();
+document.addEventListener("DOMContentLoaded", () => {
 
-const user = getUser();
-const state = {
-  currency: getFxCurrency(),
-  theme: getTheme(),
-  balance: 0,
-  transactions: [],
-  alerts: [
-    "Prem requested ₦12,000",
-    "Agent onboarding pending",
-    "AI Risk Watch flagged unusual login",
-  ],
-};
+  // ====== ELEMENT HOOKS ======
+  const body = document.body;
 
-const els = {
-  balanceAmount: document.getElementById("balanceAmount"),
-  balanceSub: document.getElementById("balanceSub"),
-  fxWallets: document.getElementById("fxWallets"),
-  alertsList: document.getElementById("alertsList"),
-  txList: document.getElementById("txList"),
-  profileName: document.getElementById("profileName"),
-  logoutBtn: document.getElementById("logoutBtn"),
-  profileBtn: document.getElementById("profileBtn"),
-  clearAlerts: document.getElementById("btnClearAlerts"),
-  viewAllTx: document.getElementById("btnViewAllTx"),
-  themeToggle: document.getElementById("themeToggle"),
-  fxButtons: Array.from(document.querySelectorAll(".pill-fx")),
-  addMoneyBtn: document.getElementById("btnAddMoney"),
-  withdrawBtn: document.getElementById("btnWithdraw"),
-  tiles: Array.from(document.querySelectorAll(".tile")),
-  modalRoot: document.getElementById("modalRoot"),
-  modalTitle: document.getElementById("modalTitle"),
-  modalBody: document.getElementById("modalBody"),
-  modalFooter: document.getElementById("modalFooter"),
-  modalClose: document.getElementById("modalClose"),
-  toastContainer: document.getElementById("toastContainer"),
-};
+  const modeToggle = document.getElementById("modeToggle");
+  const currencyToggle = document.getElementById("currencyToggle");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const profileBtn = document.getElementById("profileBtn");
 
-/* ---------- INIT ---------- */
+  const walletBalanceEl = document.getElementById("walletBalance");
+  const walletLabelEl = document.getElementById("walletLabel");
+  const accountNumberEl = document.getElementById("accountNumber");
 
-function initTheme() {
-  const t = state.theme;
-  document.body.classList.toggle("theme-dark", t === "dark");
-  document.body.classList.toggle("theme-light", t === "light");
-  els.themeToggle.textContent = t === "dark" ? "◐ Dark" : "◑ Light";
-}
+  const txListEl = document.getElementById("txList");
+  const txEmptyEl = document.getElementById("txEmpty");
 
-function initFxButtons() {
-  els.fxButtons.forEach((btn) => {
-    if (btn.dataset.currency === state.currency) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
+  const requestsListEl = document.getElementById("requestsList");
+  const requestsEmptyEl = document.getElementById("requestsEmpty");
+
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitleEl = document.getElementById("modalTitle");
+  const modalBodyEl = document.getElementById("modalBody");
+  const modalCloseBtn = document.getElementById("modalClose");
+  const modalPrimaryBtn = document.getElementById("modalPrimary");
+
+  const toastEl = document.getElementById("toast");
+
+  // Money Moves
+  const btnSend = document.getElementById("mmSend");
+  const btnReceive = document.getElementById("mmReceive");
+  const btnAdd = document.getElementById("mmAdd");
+  const btnWithdrawMM = document.getElementById("mmWithdraw");
+  const btnBankTransfer = document.getElementById("mmBankTransfer");
+  const btnRequest = document.getElementById("mmRequest");
+
+  // Services
+  const btnFx = document.getElementById("svcFx");
+  const btnSavings = document.getElementById("svcSavings");
+  const btnBills = document.getElementById("svcBills");
+  const btnCards = document.getElementById("svcCards");
+  const btnCheckout = document.getElementById("svcCheckout");
+  const btnShop = document.getElementById("svcShop");
+  const btnInvest = document.getElementById("svcInvest");
+  const btnBet = document.getElementById("svcBet");
+  const btnRisk = document.getElementById("svcRisk");
+  const btnAgent = document.getElementById("svcAgent");
+
+  // Shortcuts
+  const qsAgent = document.getElementById("qsAgent");
+  const qsSavings = document.getElementById("qsSavings");
+  const qsShop = document.getElementById("qsShop");
+  const qsInvest = document.getElementById("qsInvest");
+
+  // Requests / Alerts
+  const btnClearAlerts = document.getElementById("btnClearAlerts");
+
+  // Tx view all
+  const btnViewAllTx = document.getElementById("btnViewAllTx");
+
+  // Balance controls
+  const btnAddMoney = document.getElementById("btnAddMoney");
+  const btnWithdraw = document.getElementById("btnWithdraw");
+
+
+  // ====== DEMO DATA & FX ENGINE ======
+
+  // Base NGN balance
+  const baseBalanceNgn = 540000; // demo figure
+
+  // Mock FX rates: NGN value of 1 unit of each foreign currency
+  const fxRates = {
+    NGN: 1,
+    USD: 1600, // 1 USD = 1,600 NGN
+    GBP: 2000, // 1 GBP = 2,000 NGN
+    EUR: 1700  // 1 EUR = 1,700 NGN
+  };
+
+  let currentCurrency = "NGN";
+
+  function getSymbol(cur) {
+    switch (cur) {
+      case "USD": return "$";
+      case "GBP": return "£";
+      case "EUR": return "€";
+      default: return "₦";
     }
-  });
-  els.fxWallets.textContent = `FX wallets: NGN • USD • GBP (demo, base ${state.currency})`;
-}
-
-function initProfile() {
-  if (!user) return;
-  els.profileName.textContent = user.name || "PAY54 User";
-}
-
-/* ---------- Render ---------- */
-
-function formatMoney(amount, currency = "NGN") {
-  const prefix = currency === "NGN" ? "₦" : currency === "USD" ? "$" : "£";
-  return `${prefix}${amount.toLocaleString("en-NG", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-}
-
-function renderBalance() {
-  els.balanceAmount.textContent = formatMoney(state.balance, state.currency);
-  els.balanceSub.textContent = state.balance === 0 ? "Today +₦0 • This month +₦0" : "";
-}
-
-function renderAlerts() {
-  els.alertsList.innerHTML = "";
-  if (!state.alerts.length) {
-    const li = document.createElement("li");
-    li.textContent = "No active alerts.";
-    li.style.opacity = "0.7";
-    els.alertsList.appendChild(li);
-    return;
   }
-  state.alerts.forEach((msg) => {
-    const li = document.createElement("li");
-    li.textContent = msg;
-    els.alertsList.appendChild(li);
-  });
-}
 
-function renderTxList(limit = 4) {
-  els.txList.innerHTML = "";
-  if (!state.transactions.length) {
-    const li = document.createElement("li");
-    li.textContent = "No transactions yet.";
-    li.style.opacity = "0.7";
-    els.txList.appendChild(li);
-    return;
+  function formatMoney(amount, currency = "NGN") {
+    const symbol = getSymbol(currency);
+    const value = Number(amount || 0);
+    return `${symbol}${value.toLocaleString("en-NG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
   }
-  state.transactions.slice(-limit).reverse().forEach((tx) => {
-    const li = document.createElement("li");
-    li.textContent = `${tx.type.toUpperCase()} · ${tx.label} · ${formatMoney(
-      tx.amount,
-      tx.currency
-    )}`;
-    els.txList.appendChild(li);
-  });
-}
 
-/* ---------- Modals & Toasts ---------- */
+  function computeBalanceFor(currency) {
+    if (currency === "NGN") return baseBalanceNgn;
+    const rate = fxRates[currency] || 1;
+    return baseBalanceNgn / rate;
+  }
 
-function openModal(title, bodyHtml, footerButtons = []) {
-  els.modalTitle.textContent = title;
-  els.modalBody.innerHTML = bodyHtml;
-  els.modalFooter.innerHTML = "";
+  function updateBalanceUI() {
+    const bal = computeBalanceFor(currentCurrency);
+    walletBalanceEl.textContent = formatMoney(bal, currentCurrency);
 
-  footerButtons.forEach((btnCfg) => {
-    const b = document.createElement("button");
-    b.textContent = btnCfg.label;
-    b.className = "btn-chip btn-small";
-    b.addEventListener("click", btnCfg.onClick);
-    els.modalFooter.appendChild(b);
-  });
+    // Wallet label text
+    walletLabelEl.textContent = `${currentCurrency} Wallet`;
 
-  els.modalRoot.classList.remove("hidden");
-}
+    // Account number — keep same NGN account for demo simplicity
+    accountNumberEl.textContent = "0224519873";
+  }
 
-function closeModal() {
-  els.modalRoot.classList.add("hidden");
-}
+  // Sample initial demo transactions
+  const demoTransactions = [
+    { text: "Wallet Top-Up • ₦52,000", currency: "NGN" },
+    { text: "MTN Airtime • ₦12,000", currency: "NGN" },
+    { text: "FX – USD Purchase • ₦10,000", currency: "NGN" },
+    { text: "JumiaFood • ₦9,200", currency: "NGN" }
+  ];
 
-function showToast(message) {
-  const div = document.createElement("div");
-  div.className = "toast";
-  div.textContent = message;
-  els.toastContainer.appendChild(div);
-  setTimeout(() => {
-    div.remove();
-  }, 3000);
-}
+  function renderTransactions() {
+    txListEl.innerHTML = "";
 
-/* ---------- Action handlers ---------- */
-
-function recordTx({ type, label, amount, currency }) {
-  state.transactions.push({
-    type,
-    label,
-    amount,
-    currency,
-    ts: new Date().toISOString(),
-  });
-  renderTxList();
-}
-
-function handleAddMoney() {
-  openModal(
-    "Add money",
-    `
-      <p>Top up your PAY54 wallet (demo only).</p>
-      <label>Amount (NGN)</label>
-      <input id="addAmount" type="number" min="1" placeholder="5000" />
-      <label>Source</label>
-      <select id="addSource">
-        <option value="card">Linked card</option>
-        <option value="bank">Bank transfer</option>
-        <option value="agent">Agent deposit</option>
-      </select>
-    `,
-    [
-      {
-        label: "Cancel",
-        onClick: closeModal,
-      },
-      {
-        label: "Add funds",
-        onClick: () => {
-          const amount = Number(
-            document.getElementById("addAmount").value || "0"
-          );
-          if (!amount || amount <= 0) {
-            alert("Enter a valid amount.");
-            return;
-          }
-          const source = document.getElementById("addSource").value;
-          state.balance += amount;
-          renderBalance();
-          recordTx({
-            type: "credit",
-            label: `Wallet top-up (${source})`,
-            amount,
-            currency: "NGN",
-          });
-          closeModal();
-          showToast("Wallet topped up (demo).");
-        },
-      },
-    ]
-  );
-}
-
-function handleWithdraw() {
-  openModal(
-    "Withdraw",
-    `
-      <p>Withdraw funds to your bank (demo).</p>
-      <label>Amount (NGN)</label>
-      <input id="wdAmount" type="number" min="1" placeholder="5000" />
-      <label>Destination bank</label>
-      <input id="wdBank" placeholder="UBA / GTBank / Access…" />
-      <label>Account number</label>
-      <input id="wdAccount" placeholder="0123456789" />
-    `,
-    [
-      { label: "Cancel", onClick: closeModal },
-      {
-        label: "Withdraw",
-        onClick: () => {
-          const amount = Number(
-            document.getElementById("wdAmount").value || "0"
-          );
-          if (!amount || amount <= 0 || amount > state.balance) {
-            alert("Invalid amount or insufficient balance.");
-            return;
-          }
-          state.balance -= amount;
-          renderBalance();
-          recordTx({
-            type: "debit",
-            label: "Withdrawal to bank",
-            amount,
-            currency: "NGN",
-          });
-          closeModal();
-          showToast("Withdrawal simulated.");
-        },
-      },
-    ]
-  );
-}
-
-function handleSend() {
-  openModal(
-    "Send PAY54 → PAY54",
-    `
-      <p>Send money to another PAY54 wallet (demo).</p>
-      <label>Recipient PayTag / Email / Phone</label>
-      <input id="sendRecipient" placeholder="@prem54 / user@example.com" />
-      <label>Amount (NGN)</label>
-      <input id="sendAmount" type="number" min="1" placeholder="2000" />
-      <label>Note (optional)</label>
-      <input id="sendNote" placeholder="Match day snacks…" />
-    `,
-    [
-      { label: "Cancel", onClick: closeModal },
-      {
-        label: "Send now",
-        onClick: () => {
-          const amount = Number(
-            document.getElementById("sendAmount").value || "0"
-          );
-          const rec = document.getElementById("sendRecipient").value.trim();
-          if (!rec || !amount || amount <= 0 || amount > state.balance) {
-            alert("Enter recipient and a valid amount within your balance.");
-            return;
-          }
-          state.balance -= amount;
-          renderBalance();
-          recordTx({
-            type: "debit",
-            label: `P2P to ${rec}`,
-            amount,
-            currency: "NGN",
-          });
-          closeModal();
-          showToast("P2P transfer simulated.");
-        },
-      },
-    ]
-  );
-}
-
-function handleReceive() {
-  const tag = "@pay54/" + (user?.name?.split(" ")[0] || "user");
-  openModal(
-    "Receive money",
-    `
-      <p>Share your details to receive PAY54 transfers (demo).</p>
-      <label>Wallet ID</label>
-      <input value="PAY54-${user?.phone || "0000"}" readonly />
-      <label>PayTag</label>
-      <input value="${tag}" readonly />
-      <p>QR code (placeholder):</p>
-      <div style="padding:16px;border-radius:12px;background:#020617;text-align:center;">
-        <span>QR • Demo Only</span>
-      </div>
-      <p style="font-size:12px;opacity:0.8;margin-top:8px;">
-        Use WhatsApp or SMS to share your PayTag with friends &amp; family.
-      </p>
-    `,
-    [
-      { label: "Close", onClick: closeModal },
-      {
-        label: "Copy tag",
-        onClick: () => {
-          navigator.clipboard
-            .writeText(tag)
-            .then(() => showToast("PayTag copied"))
-            .catch(() => showToast("Copy failed (browser limit)"));
-        },
-      },
-    ]
-  );
-}
-
-function handleRequestMoney() {
-  openModal(
-    "Request money",
-    `
-      <p>Create a payment request (demo only).</p>
-      <label>From (name or PayTag)</label>
-      <input id="rqFrom" placeholder="@friend54" />
-      <label>Amount (NGN)</label>
-      <input id="rqAmount" type="number" min="1" placeholder="5000" />
-      <label>Message</label>
-      <input id="rqMessage" placeholder="For match tickets…" />
-    `,
-    [
-      { label: "Cancel", onClick: closeModal },
-      {
-        label: "Create request",
-        onClick: () => {
-          const from = document.getElementById("rqFrom").value.trim();
-          const amount = Number(
-            document.getElementById("rqAmount").value || "0"
-          );
-          if (!from || !amount || amount <= 0) {
-            alert("Enter who and how much.");
-            return;
-          }
-          state.alerts.unshift(`Request sent to ${from} for ₦${amount}`);
-          renderAlerts();
-          closeModal();
-          showToast("Request created (demo).");
-        },
-      },
-    ]
-  );
-}
-
-function handleFx() {
-  openModal(
-    "Cross-border FX",
-    `
-      <p>Simulate sending NGN abroad (demo).</p>
-      <label>You send (NGN)</label>
-      <input id="fxAmount" type="number" min="1" placeholder="50000" />
-      <label>They receive currency</label>
-      <select id="fxCurrency">
-        <option value="USD">USD</option>
-        <option value="GBP">GBP</option>
-        <option value="EUR">EUR</option>
-      </select>
-      <label>Country</label>
-      <select id="fxCountry">
-        <option value="US">United States</option>
-        <option value="UK">United Kingdom</option>
-        <option value="NG">Nigeria</option>
-        <option value="GH">Ghana</option>
-        <option value="KE">Kenya</option>
-        <option value="ZA">South Africa</option>
-      </select>
-    `,
-    [
-      { label: "Cancel", onClick: closeModal },
-      {
-        label: "Preview FX",
-        onClick: () => {
-          const amount = Number(
-            document.getElementById("fxAmount").value || "0"
-          );
-          const ccy = document.getElementById("fxCurrency").value;
-          if (!amount || amount <= 0) {
-            alert("Enter amount in NGN.");
-            return;
-          }
-          const rate = ccy === "USD" ? 1500 : ccy === "GBP" ? 1900 : 1600;
-          const fxValue = amount / rate;
-          alert(
-            `FX preview (demo): You send ₦${amount.toLocaleString()} → They receive ${ccy} ${fxValue.toFixed(
-              2
-            )}`
-          );
-        },
-      },
-    ]
-  );
-}
-
-function handleBills() {
-  openModal(
-    "Pay bills",
-    `
-      <p>Simulate airtime or utility top-up.</p>
-      <label>Service</label>
-      <select id="billService">
-        <option value="airtime">Airtime</option>
-        <option value="data">Data</option>
-        <option value="power">Power</option>
-        <option value="tv">TV</option>
-      </select>
-      <label>Account / Meter / Phone</label>
-      <input id="billRef" placeholder="0803…, meter ID, IUC no…" />
-      <label>Amount (NGN)</label>
-      <input id="billAmount" type="number" min="1" placeholder="3000" />
-    `,
-    [
-      { label: "Cancel", onClick: closeModal },
-      {
-        label: "Pay bill",
-        onClick: () => {
-          const amount = Number(
-            document.getElementById("billAmount").value || "0"
-          );
-          if (!amount || amount <= 0 || amount > state.balance) {
-            alert("Enter a valid amount within your balance.");
-            return;
-          }
-          const svc = document.getElementById("billService").value;
-          state.balance -= amount;
-          renderBalance();
-          recordTx({
-            type: "debit",
-            label: `Bill payment (${svc})`,
-            amount,
-            currency: "NGN",
-          });
-          closeModal();
-          showToast("Bill payment simulated.");
-        },
-      },
-    ]
-  );
-}
-
-function simpleInfoAction(title, message) {
-  openModal(
-    title,
-    `<p>${message}</p><p style="font-size:12px;opacity:0.8;">This is a demo preview. No real payments are processed.</p>`,
-    [{ label: "Close", onClick: closeModal }]
-  );
-}
-
-/* ---------- Wire events ---------- */
-
-function wireEvents() {
-  // Header
-  els.logoutBtn.addEventListener("click", () => logout());
-
-  els.profileBtn.addEventListener("click", () => {
-    const nm = user?.name || "PAY54 User";
-    const em = user?.email || "demo@example.com";
-    const ph = user?.phone || "N/A";
-    simpleInfoAction(
-      "Profile",
-      `Name: ${nm}<br />Email: ${em}<br />Phone: ${ph}<br />Tier: Demo wallet`
-    );
-  });
-
-  els.themeToggle.addEventListener("click", () => {
-    state.theme = state.theme === "dark" ? "light" : "dark";
-    setTheme(state.theme);
-    initTheme();
-  });
-
-  // FX buttons
-  els.fxButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.currency = btn.dataset.currency;
-      setFxCurrency(state.currency);
-      initFxButtons();
-      renderBalance();
-    });
-  });
-
-  // Balance buttons
-  els.addMoneyBtn.addEventListener("click", handleAddMoney);
-  els.withdrawBtn.addEventListener("click", handleWithdraw);
-
-  // Tiles
-  els.tiles.forEach((tile) => {
-    const action = tile.dataset.action;
-    tile.addEventListener("click", () => {
-      switch (action) {
-        case "send":
-          handleSend();
-          break;
-        case "receive":
-          handleReceive();
-          break;
-        case "add":
-          handleAddMoney();
-          break;
-        case "withdraw":
-          handleWithdraw();
-          break;
-        case "bank-transfer":
-          handleBills(); // simple reuse
-          break;
-        case "request":
-          handleRequestMoney();
-          break;
-        case "fx":
-          handleFx();
-          break;
-        case "savings":
-          simpleInfoAction(
-            "Savings & goals",
-            "Create and track savings pots. In this demo, behaviour is mocked."
-          );
-          break;
-        case "bills":
-          handleBills();
-          break;
-        case "cards":
-          simpleInfoAction(
-            "Virtual & linked cards",
-            "Manage virtual cards, lock/unlock and choose default card. UI demo only."
-          );
-          break;
-        case "checkout":
-          simpleInfoAction(
-            "PAY54 Smart Checkout",
-            "When you choose PAY54 at checkout, payment requests will appear here for approval."
-          );
-          break;
-        case "shop":
-          simpleInfoAction(
-            "Shop on the Fly",
-            "Browse partner categories like Taxi, Food, Tickets, and Shops. Demo only."
-          );
-          break;
-        case "invest":
-          simpleInfoAction(
-            "Investments & stocks",
-            "View mock assets, see performance, and simulate small investments."
-          );
-          break;
-        case "bet":
-          simpleInfoAction(
-            "Bet funding",
-            "Simulates topping up licensed betting wallets with age verification (18+)."
-          );
-          break;
-        case "risk":
-          simpleInfoAction(
-            "AI Risk Watch",
-            "Preview of suspicious logins and high-risk activities monitored by PAY54."
-          );
-          break;
-        case "agent":
-          simpleInfoAction(
-            "Become an Agent",
-            "Submit details to become a PAY54 agent. In this demo, we show a preview only."
-          );
-          break;
-        default:
-          showToast("Coming soon (demo).");
-      }
-    });
-  });
-
-  // Alerts
-  els.clearAlerts.addEventListener("click", () => {
-    state.alerts = [];
-    renderAlerts();
-    showToast("Alerts cleared (demo).");
-  });
-
-  // Transactions
-  els.viewAllTx.addEventListener("click", () => {
-    if (!state.transactions.length) {
-      simpleInfoAction("Transactions", "No transactions yet in this demo.");
+    if (!demoTransactions.length) {
+      txEmptyEl.style.display = "block";
       return;
     }
-    const rows = state.transactions
-      .slice()
-      .reverse()
-      .map(
-        (tx) =>
-          `<li>${tx.type.toUpperCase()} · ${tx.label} · ${formatMoney(
-            tx.amount,
-            tx.currency
-          )}</li>`
-      )
-      .join("");
-    openModal(
-      "All transactions",
-      `<ul class="list-plain">${rows}</ul>`,
-      [{ label: "Close", onClick: closeModal }]
-    );
-  });
 
-  // Modal
-  els.modalClose.addEventListener("click", closeModal);
-  els.modalRoot.addEventListener("click", (e) => {
-    if (e.target === els.modalRoot) closeModal();
-  });
-}
+    txEmptyEl.style.display = "none";
 
-/* ---------- Initial boot ---------- */
+    demoTransactions.forEach((tx) => {
+      const li = document.createElement("li");
+      li.textContent = tx.text;
+      txListEl.appendChild(li);
+    });
+  }
 
-function init() {
-  initTheme();
-  initFxButtons();
-  initProfile();
-  renderBalance();
-  renderAlerts();
-  renderTxList();
-  wireEvents();
-}
+  // Requests / alerts list
+  const requests = [];
 
-init();
+  function renderRequests() {
+    requestsListEl.innerHTML = "";
+
+    if (!requests.length) {
+      requestsEmptyEl.style.display = "block";
+      return;
+    }
+
+    requestsEmptyEl.style.display = "none";
+
+    requests.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      requestsListEl.appendChild(li);
+    });
+  }
+
+
+  // ====== MODAL + TOAST UTILS ======
+
+  function openModal(title, htmlBody) {
+    modalTitleEl.textContent = title;
+    modalBodyEl.innerHTML = htmlBody;
+    modalOverlay.classList.add("show");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("show");
+  }
+
+  function showToast(message) {
+    if (!toastEl) return;
+    toastEl.textContent = message;
+    toastEl.classList.add("show");
+    setTimeout(() => {
+      toastEl.classList.remove("show");
+    }, 2800);
+  }
+
+
+  // ====== THEME TOGGLE ======
+
+  let darkMode = true;
+
+  function applyTheme() {
+    if (darkMode) {
+      body.classList.remove("pay54-light");
+      body.classList.add("pay54-dark");
+      modeToggle.textContent = "◐ Dark";
+    } else {
+      body.classList.remove("pay54-dark");
+      body.classList.add("pay54-light");
+      modeToggle.textContent = "◑ Light";
+    }
+  }
+
+  if (modeToggle) {
+    modeToggle.addEventListener("click", () => {
+      darkMode = !darkMode;
+      applyTheme();
+    });
+  }
+
+
+  // ====== CURRENCY TOGGLE ======
+
+  function setActiveCurrencyButton(cur) {
+    if (!currencyToggle) return;
+    const buttons = currencyToggle.querySelectorAll("button[data-currency]");
+    buttons.forEach((btn) => {
+      const c = btn.getAttribute("data-currency");
+      if (c === cur) {
+        btn.classList.add("chip-active");
+      } else {
+        btn.classList.remove("chip-active");
+      }
+    });
+  }
+
+  if (currencyToggle) {
+    currencyToggle.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-currency]");
+      if (!btn) return;
+
+      const cur = btn.getAttribute("data-currency");
+      currentCurrency = cur;
+      setActiveCurrencyButton(cur);
+      updateBalanceUI();
+      showToast(`Switched to ${cur} Wallet (FX simulated)`);
+    });
+  }
+
+
+  // ====== LOGOUT + PROFILE ======
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      try {
+        localStorage.removeItem("pay54_session_active");
+      } catch (e) {
+        // ignore
+      }
+      showToast("Signed out of PAY54 demo.");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 600);
+    });
+  }
+
+  if (profileBtn) {
+    profileBtn.addEventListener("click", () => {
+      openModal(
+        "PAY54 Profile",
+        `
+        <p>This is a demo PAY54 profile summary.</p>
+        <ul>
+          <li><strong>Name:</strong> Demi (Demo user)</li>
+          <li><strong>Tag:</strong> @demi_p54</li>
+          <li><strong>KYC:</strong> Tier 2 • Verified (demo)</li>
+        </ul>
+        <p>Use this demo to showcase:</p>
+        <ul>
+          <li>Settings &amp; Support Centre flows</li>
+          <li>Logout and device sign-in model</li>
+        </ul>
+        `
+      );
+    });
+  }
+
+
+  // ====== MONEY MOVES HANDLERS ======
+
+  if (btnSend) {
+    btnSend.addEventListener("click", () => {
+      openModal(
+        "Send PAY54 → PAY54",
+        `
+        <p>Demo flow:</p>
+        <ul>
+          <li>Choose PAY54 Tag / phone / email</li>
+          <li>Enter amount in ${currentCurrency}</li>
+          <li>Preview fee (₦0.00 in demo)</li>
+          <li>Confirm • balance updates • receipt generated</li>
+          <li>Share via WhatsApp / email</li>
+        </ul>
+        <p><em>Note: This is a UI simulation only – no real money moves.</em></p>
+        `
+      );
+      showToast("Send PAY54 → PAY54 (demo)");
+    });
+  }
+
+  if (btnReceive) {
+    btnReceive.addEventListener("click", () => {
+      openModal(
+        "Receive Money",
+        `
+        <p>Your PAY54 details (demo):</p>
+        <ul>
+          <li><strong>Account:</strong> 0224519873</li>
+          <li><strong>Tag:</strong> @demi_p54</li>
+          <li><strong>QR Code:</strong> (placeholder)</li>
+        </ul>
+        <p>You can share these via WhatsApp or SMS in a real build.</p>
+        `
+      );
+      showToast("Receive money details shown (demo)");
+    });
+  }
+
+  if (btnAdd) {
+    btnAdd.addEventListener("click", () => {
+      openModal(
+        "Add Money",
+        `
+        <p>Select top-up source:</p>
+        <ul>
+          <li>Linked debit card</li>
+          <li>Bank transfer reference</li>
+          <li>PAY54 Agent deposit</li>
+        </ul>
+        <p>Confirm amount • Preview • Add transaction to Recent Transactions.</p>
+        `
+      );
+      showToast("Add money flow (demo)");
+    });
+  }
+
+  if (btnWithdrawMM) {
+    btnWithdrawMM.addEventListener("click", () => {
+      openModal(
+        "Withdraw",
+        `
+        <p>Withdraw from PAY54 wallet to:</p>
+        <ul>
+          <li>NUBAN bank account</li>
+          <li>PAY54 Agent cash-out</li>
+        </ul>
+        <p>Enter amount • Confirm • show receipt &amp; update balance.</p>
+        `
+      );
+      showToast("Withdraw flow (demo)");
+    });
+  }
+
+  if (btnBankTransfer) {
+    btnBankTransfer.addEventListener("click", () => {
+      openModal(
+        "Bank Transfer",
+        `
+        <p>Demo NGN bank transfer:</p>
+        <ul>
+          <li>Select bank from dropdown</li>
+          <li>Enter NUBAN account number</li>
+          <li>Enter amount in ${currentCurrency}</li>
+          <li>Confirm • show mock receipt &amp; update transactions.</li>
+        </ul>
+        `
+      );
+      showToast("Bank transfer (demo)");
+    });
+  }
+
+  if (btnRequest) {
+    btnRequest.addEventListener("click", () => {
+      const label = `Request ₦25,000 from @friend_p54 (demo)`;
+      requests.push(label);
+      renderRequests();
+      openModal(
+        "Request Money",
+        `
+        <p>A demo money request has been added:</p>
+        <p><strong>${label}</strong></p>
+        <p>This would appear in the recipient’s PAY54 app as a pending request.</p>
+        `
+      );
+      showToast("Request created (demo)");
+    });
+  }
+
+
+  // Balance card Add / Withdraw buttons (same as Money Moves)
+  if (btnAddMoney) {
+    btnAddMoney.addEventListener("click", () => {
+      if (btnAdd) btnAdd.click();
+    });
+  }
+  if (btnWithdraw) {
+    btnWithdraw.addEventListener("click", () => {
+      if (btnWithdrawMM) btnWithdrawMM.click();
+    });
+  }
+
+
+  // ====== SERVICES HANDLERS ======
+
+  if (btnFx) {
+    btnFx.addEventListener("click", () => {
+      openModal(
+        "Cross-border FX (Demo)",
+        `
+        <p>FX demo flow:</p>
+        <ul>
+          <li>You send: NGN / USD / GBP / EUR</li>
+          <li>They receive: picked currency in NG, GH, KE, ZA</li>
+          <li>Show mock FX rate and payout estimate</li>
+          <li>Confirm • generate FX receipt for records (demo only)</li>
+        </ul>
+        `
+      );
+      showToast("Cross-border FX preview (demo)");
+    });
+  }
+
+  if (btnSavings) {
+    btnSavings.addEventListener("click", () => {
+      openModal(
+        "Savings & Goals",
+        `
+        <p>Create a savings goal:</p>
+        <ul>
+          <li>Goal name • Target amount</li>
+          <li>Frequency (daily/weekly/monthly)</li>
+          <li>Track progress with a simple progress bar</li>
+        </ul>
+        <p>Demo only – no real savings integration yet.</p>
+        `
+      );
+      showToast("Savings & Goals (demo)");
+    });
+  }
+
+  if (btnBills) {
+    btnBills.addEventListener("click", () => {
+      openModal(
+        "Pay Bills & Top-Up",
+        `
+        <p>Select service type:</p>
+        <ul>
+          <li>Airtime • Data</li>
+          <li>Power (Disco)</li>
+          <li>TV (DSTV/GOtv etc.)</li>
+        </ul>
+        <p>Pick bundle • Show amount • Confirm • log transaction (demo).</p>
+        `
+      );
+      showToast("Bills & Top-up (demo)");
+    });
+  }
+
+  if (btnCards) {
+    btnCards.addEventListener("click", () => {
+      openModal(
+        "Virtual & Linked Cards",
+        `
+        <p>Card demo:</p>
+        <ul>
+          <li>Show masked virtual card</li>
+          <li>List linked bank cards</li>
+          <li>Actions: Set default • Freeze • Remove (UI only)</li>
+        </ul>
+        `
+      );
+      showToast("Cards control (demo)");
+    });
+  }
+
+  if (btnCheckout) {
+    btnCheckout.addEventListener("click", () => {
+      openModal(
+        "PAY54 Smart Checkout",
+        `
+        <p>Demo use-case:</p>
+        <ul>
+          <li>User selects PAY54 at an e-commerce checkout</li>
+          <li>PAY54 app pops up with payment approval screen</li>
+          <li>On approve → site confirms payment</li>
+        </ul>
+        <p>This screen is to explain how PAY54 would behave like PayPal/Flutterwave at checkout.</p>
+        `
+      );
+      showToast("Smart Checkout concept (demo)");
+    });
+  }
+
+  if (btnShop) {
+    btnShop.addEventListener("click", () => {
+      openModal(
+        "Shop on the Fly",
+        `
+        <p>Partner categories:</p>
+        <ul>
+          <li>Taxi (Uber/Bolt)</li>
+          <li>Food (Jumia Food, JustEat)</li>
+          <li>Tickets &amp; Events</li>
+          <li>Online shops</li>
+        </ul>
+        <p>In production: click → open partner site with PAY54 linked as a funding source.</p>
+        `
+      );
+      showToast("Shop on the Fly (demo)");
+    });
+  }
+
+  if (btnInvest) {
+    btnInvest.addEventListener("click", () => {
+      openModal(
+        "Investments & Stocks",
+        `
+        <p>Demo portfolio:</p>
+        <ul>
+          <li>US stocks (e.g. AAPL, TSLA)</li>
+          <li>Index funds</li>
+          <li>Lagos fractional real estate</li>
+        </ul>
+        <p>Balance in ${currentCurrency} converts to NGN equivalent for local reporting.</p>
+        `
+      );
+      showToast("Investments & Stocks (demo)");
+    });
+  }
+
+  if (btnBet) {
+    btnBet.addEventListener("click", () => {
+      openModal(
+        "Bet Funding (+18)",
+        `
+        <p>Age-gated flow:</p>
+        <ul>
+          <li>Verify DOB / ID (18+)</li>
+          <li>Select bet platform (Bet9ja, 1xBet, etc.)</li>
+          <li>Enter customer ID &amp; amount</li>
+        </ul>
+        <p>Demo: Show responsible gaming messaging and educational prompts.</p>
+        `
+      );
+      showToast("Bet funding (demo)");
+    });
+  }
+
+  if (btnRisk) {
+    btnRisk.addEventListener("click", () => {
+      const alertMsg = "AI Risk Watch: Unusual login from new device (demo).";
+      requests.push(alertMsg);
+      renderRequests();
+      openModal(
+        "AI Risk Watch",
+        `
+        <p>Example alerts:</p>
+        <ul>
+          <li>Unusual high-value transfer</li>
+          <li>Login from new country/device</li>
+          <li>Multiple failed PIN attempts</li>
+        </ul>
+        <p>This educates users on risk, even in demo mode.</p>
+        `
+      );
+      showToast("AI Risk Watch alert (demo)");
+    });
+  }
+
+  if (btnAgent) {
+    btnAgent.addEventListener("click", () => {
+      openModal(
+        "Become an Agent",
+        `
+        <p>Agent onboarding form (demo):</p>
+        <ul>
+          <li>Full name &amp; business name</li>
+          <li>Address &amp; location</li>
+          <li>NIN / ID details</li>
+          <li>Photo / selfie capture (future)</li>
+        </ul>
+        <p>After approval, agents can onboard users &amp; perform cash in/out.</p>
+        `
+      );
+      showToast("Agent onboarding (demo)");
+    });
+  }
+
+
+  // Shortcuts reuse the same handlers
+  if (qsAgent && btnAgent) qsAgent.addEventListener("click", () => btnAgent.click());
+  if (qsSavings && btnSavings) qsSavings.addEventListener("click", () => btnSavings.click());
+  if (qsShop && btnShop) qsShop.addEventListener("click", () => btnShop.click());
+  if (qsInvest && btnInvest) qsInvest.addEventListener("click", () => btnInvest.click());
+
+
+  // ====== REQUESTS & TX EXTRA CONTROLS ======
+
+  if (btnClearAlerts) {
+    btnClearAlerts.addEventListener("click", () => {
+      requests.splice(0, requests.length);
+      renderRequests();
+      showToast("All requests & alerts cleared (demo).");
+    });
+  }
+
+  if (btnViewAllTx) {
+    btnViewAllTx.addEventListener("click", () => {
+      openModal(
+        "All Transactions (Demo)",
+        `
+        <p>This would show a full transaction history screen.</p>
+        <p>For now, only a small sample is loaded for demo purposes.</p>
+        `
+      );
+      showToast("Viewing demo transaction history.");
+    });
+  }
+
+
+  // ====== MODAL CLOSE EVENTS ======
+  if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeModal);
+  if (modalPrimaryBtn) modalPrimaryBtn.addEventListener("click", closeModal);
+  if (modalOverlay) {
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
+
+
+  // ====== INITIALISE DASHBOARD ======
+
+  applyTheme();
+  updateBalanceUI();
+  renderTransactions();
+  renderRequests();
+});
