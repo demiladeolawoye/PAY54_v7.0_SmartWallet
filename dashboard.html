@@ -5,41 +5,52 @@
   <title>PAY54 • Smart Wallet Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Base + dashboard styles -->
+  <!-- Base + Dashboard Styles -->
   <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/dashboard.css" />
 </head>
+
 <body class="pay54-body">
 
   <div class="dashboard-shell">
 
     <!-- HEADER -->
     <header class="pay54-header">
+      <!-- Left: Logo + Title + Tagline -->
       <div class="brand-block">
         <div class="brand-logo">
-          <!-- Use the agreed P54 logo -->
+          <!-- Preferred PAY54 logo -->
           <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" />
         </div>
+
         <div class="brand-text">
           <div class="brand-title">PAY54 Wallet • v7.0</div>
-          <div class="brand-sub">Hybrid Money • NG ⇄ Global</div>
+          <div class="brand-sub">ONE WALLET. EVERYWHERE.</div>
         </div>
       </div>
 
+      <!-- Right: Theme toggle + Currencies + Logout + Profile -->
       <div class="header-right">
+
+        <!-- Light / Dark Mode -->
+        <button class="chip chip-mode" id="modeToggle">◐ Dark</button>
+
+        <!-- Currency row: NGN | USD | GBP | EUR -->
         <div class="currency-toggle" id="currencyToggle">
           <button class="chip chip-active" data-currency="NGN">NGN</button>
           <button class="chip" data-currency="USD">USD</button>
           <button class="chip" data-currency="GBP">GBP</button>
-          <button class="chip chip-mode" id="modeToggle">◐ Dark</button>
+          <button class="chip" data-currency="EUR">EUR</button>
         </div>
 
+        <!-- Logout -->
         <button class="btn-logout" id="logoutBtn">Logout</button>
 
+        <!-- Profile Pill -->
         <button class="profile-pill" id="profileBtn">
-          <span class="profile-avatar">D</span>
+          <span class="profile-avatar" id="profileAvatar">D</span>
           <span class="profile-meta">
-            <span class="profile-name">Demi</span>
+            <span class="profile-name" id="profileName">Demi</span>
             <span class="profile-tag">PAY54 demo profile</span>
           </span>
         </button>
@@ -62,16 +73,16 @@
             <div class="balance-amount" id="walletBalance">₦0.00</div>
           </div>
 
-          <!-- NEW: Hybrid account grid (Option C format + Option B realistic style) -->
+          <!-- Account Details (keep clean, NGN-based demo) -->
           <div class="account-grid">
             <div class="account-col">
               <div class="account-row">
-                <span class="account-label">NGN Account:</span>
-                <span class="account-value">0224519873</span>
+                <span class="account-label">Account:</span>
+                <span class="account-value" id="accountNumber">0224519873</span>
               </div>
               <div class="account-row">
                 <span class="account-label">KYC Level:</span>
-                <span class="account-value">Tier 2 · Verified (Demo)</span>
+                <span class="account-value" id="kycLevel">Tier 2 • Verified (Demo)</span>
               </div>
               <div class="account-row">
                 <span class="account-label">Compliance:</span>
@@ -81,16 +92,12 @@
 
             <div class="account-col">
               <div class="account-row">
-                <span class="account-label">USD Account:</span>
-                <span class="account-value">7410 983 442</span>
+                <span class="account-label">Current Wallet:</span>
+                <span class="account-value" id="walletLabel">NGN Wallet</span>
               </div>
               <div class="account-row">
-                <span class="account-label">GBP Account:</span>
-                <span class="account-value">88-10-223344</span>
-              </div>
-              <div class="account-row">
-                <span class="account-label">Tag ID:</span>
-                <span class="account-value">@demi_p54</span>
+                <span class="account-label">PAY54 Tag:</span>
+                <span class="account-value" id="tagId">@demi_p54</span>
               </div>
             </div>
           </div>
@@ -100,18 +107,18 @@
             <button class="btn-pill btn-outline" id="btnWithdraw">Withdraw</button>
           </div>
 
-          <!-- Security & financial stamps -->
+          <!-- Security & Financial Stamps -->
           <div class="balance-meta">
             <div>Security: Device • Wallet PIN • AI Risk Watch (Demo)</div>
             <div>Financial Stamps: PCI-DSS • AML/CFT • PAY54 Sandbox</div>
           </div>
         </section>
 
-        <!-- MONEY MOVES (capitalisation fix) -->
+        <!-- MONEY MOVES -->
         <section class="card-glass section-card">
           <header class="section-header">
             <h2>Money Moves</h2>
-            <p>Instant P2P + banks + QR requests</p>
+            <p>Instant P2P • Bank • QR • Requests</p>
           </header>
 
           <div class="grid-2">
@@ -137,12 +144,12 @@
 
             <button class="tile-btn" id="mmBankTransfer">
               <span class="tile-title">Bank transfer</span>
-              <span class="tile-sub">To NG banks &amp; wallets</span>
+              <span class="tile-sub">NG banks &amp; wallets</span>
             </button>
 
             <button class="tile-btn" id="mmRequest">
               <span class="tile-title">Request money</span>
-              <span class="tile-sub">With notification list</span>
+              <span class="tile-sub">With notifications</span>
             </button>
           </div>
         </section>
@@ -167,7 +174,7 @@
 
             <button class="tile-btn" id="svcBills">
               <span class="tile-title">Pay bills</span>
-              <span class="tile-sub">(Airtime/Data/Power/TV)</span>
+              <span class="tile-sub">Airtime • Data • Power • TV</span>
             </button>
 
             <button class="tile-btn" id="svcCards">
@@ -192,7 +199,7 @@
 
             <button class="tile-btn" id="svcBet">
               <span class="tile-title">Bet funding</span>
-              <span class="tile-sub">+18 age verification</span>
+              <span class="tile-sub">18+ age verification</span>
             </button>
 
             <button class="tile-btn" id="svcRisk">
@@ -211,28 +218,23 @@
       <!-- RIGHT COLUMN -->
       <section class="right-column">
 
-        <!-- REQUESTS & ALERTS (capitalisation fix) -->
+        <!-- REQUESTS & ALERTS -->
         <section class="card-glass section-card requests-card">
           <header class="section-header section-header-row">
-            <div>
-              <h2>Requests &amp; Alerts</h2>
-            </div>
+            <div><h2>Requests &amp; Alerts</h2></div>
             <button class="chip chip-small" id="btnClearAlerts">Clear all</button>
           </header>
 
-          <ul class="requests-list" id="requestsList">
-            <!-- Initially empty, can be filled by JS later -->
-          </ul>
-          <div class="empty-state" id="requestsEmpty">
-            No requests or alerts yet.
-          </div>
+          <ul class="requests-list" id="requestsList"></ul>
+          <div class="empty-state" id="requestsEmpty">No requests or alerts yet.</div>
         </section>
 
-        <!-- QUICK SHORTCUTS (capitalisation fix) -->
+        <!-- QUICK SHORTCUTS -->
         <section class="card-glass section-card quick-shortcuts-card">
           <header class="section-header">
             <h2>Quick Shortcuts</h2>
           </header>
+
           <div class="quick-grid">
             <button class="chip wide-chip" id="qsAgent">Become an Agent</button>
             <button class="chip wide-chip" id="qsSavings">Open Savings Pot</button>
@@ -241,20 +243,17 @@
           </div>
         </section>
 
-        <!-- RECENT TRANSACTIONS (capitalisation fix + demo data) -->
+        <!-- RECENT TRANSACTIONS -->
         <section class="card-glass section-card">
           <header class="section-header section-header-row">
-            <div>
-              <h2>Recent Transactions</h2>
-            </div>
+            <div><h2>Recent Transactions</h2></div>
             <button class="chip chip-small" id="btnViewAllTx">View all</button>
           </header>
 
           <ul class="tx-list" id="txList">
-            <li>PAY54 → PAY54 • Sent ₦5,000 to @prem54</li>
-            <li>Card Top-Up • Added ₦20,000</li>
-            <li>Bill Payment • DSTV • ₦6,500</li>
+            <!-- JS will populate sample demo tx -->
           </ul>
+
           <div class="empty-state" id="txEmpty" style="display:none;">
             No transactions yet.
           </div>
@@ -263,16 +262,16 @@
     </main>
   </div>
 
-  <!-- MODAL OVERLAY (for future flows) -->
+  <!-- MODAL OVERLAY -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal card-glass" id="modalCard">
       <header class="modal-header">
         <h3 id="modalTitle">Action</h3>
         <button class="modal-close" id="modalClose">×</button>
       </header>
-      <div class="modal-body" id="modalBody">
-        <!-- dynamic content -->
-      </div>
+
+      <div class="modal-body" id="modalBody"></div>
+
       <footer class="modal-footer">
         <button class="btn-pill" id="modalPrimary">OK</button>
       </footer>
@@ -282,7 +281,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- JS wiring (we’ll enhance behaviour later) -->
+  <!-- JS wiring -->
   <script type="module" src="assets/js/ui/dashboardUI.js"></script>
 </body>
 </html>
