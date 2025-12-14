@@ -2,56 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 · Sign in</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="icon" href="assets/img/logo/pay54-icon.svg" />
-  <link rel="stylesheet" href="assets/css/core.css" />
-  <link rel="stylesheet" href="assets/css/theme.css" />
+  <title>PAY54 • Sign in</title>
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 
-<body class="dark">
+<body class="auth">
+
   <div class="auth-container">
 
-    <!-- HEADER -->
-    <header class="auth-header">
-      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
-      <p class="tagline">ONE WALLET. EVERYWHERE.</p>
-    </header>
+    <div class="auth-logo">
+      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54">
+    </div>
+    <div class="auth-tagline">ONE WALLET. EVERYWHERE.</div>
 
-    <!-- WHY PAY54 -->
-    <section class="auth-why">
-      <h3>Why PAY54?</h3>
-      <ul class="why-list">
-        <li><span>🌍</span> One wallet for NGN & global currencies</li>
-        <li><span>⚡</span> Send, receive & spend — all in one place</li>
-        <li><span>💱</span> FX remittance rails (NG ↔ US / UK / EU)</li>
-        <li><span>📱</span> Airtime, data, power, TV & more</li>
-        <li><span>💳</span> Virtual card & linked cards control</li>
-        <li><span>📈</span> Savings pots & investments + stocks</li>
-      </ul>
-    </section>
+    <div class="auth-card">
 
-    <!-- LOGIN CARD -->
-    <section class="auth-card">
-      <h2>Sign in</h2>
+      <div class="auth-why">
+        <h3>Why PAY54?</h3>
+        <ul>
+          <li>🌍 One wallet for NGN & global currencies</li>
+          <li>⚡ Send, receive & spend — all in one place</li>
+          <li>💱 FX remittance rails (NG ↔ US / UK / EU)</li>
+          <li>📱 Airtime, data, power, TV & more</li>
+          <li>💳 Virtual & linked cards control</li>
+          <li>📈 Savings, investments & stocks</li>
+        </ul>
+      </div>
 
-      <label>Email</label>
-      <input type="email" id="email" placeholder="you@example.com" />
+      <h1>Sign in</h1>
 
-      <label>Wallet PIN</label>
-      <input type="password" id="pin" maxlength="4" placeholder="••••" />
+      <form class="auth-form" onsubmit="event.preventDefault(); PAY54_SESSION.login();">
+        <label>Email</label>
+        <input type="email" required>
 
-      <button onclick="PAY54_SESSION.loginDemo()">Continue</button>
+        <label>Wallet PIN</label>
+        <input type="password" required>
+
+        <button type="submit">Continue</button>
+      </form>
 
       <div class="auth-links">
-        <a href="recover.html">Forgot PIN?</a>
-        <span>·</span>
+        <a href="recover.html">Forgot PIN?</a> ·
         <a href="signup.html">Create account</a>
       </div>
-    </section>
 
+    </div>
   </div>
 
   <script src="assets/js/session.js"></script>
