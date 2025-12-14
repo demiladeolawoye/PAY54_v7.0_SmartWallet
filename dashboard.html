@@ -1,29 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PAY54 – Dashboard</title>
-  <link rel="stylesheet" href="../css/app.css">
-  <script src="../js/theme.js" defer></script>
+  <meta charset="UTF-8" />
+  <title>PAY54 • Dashboard</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="PAY54 Smart Wallet dashboard — one wallet, everywhere."
+  />
+  <meta name="theme-color" content="#020617" />
+
+  <!-- Security -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
 </head>
 
-<body onload="guard()">
-  <header>
-    <img id="pay54Logo" alt="PAY54 Logo" height="48">
-    <button onclick="toggleTheme()">🌓</button>
+<body class="dashboard-body">
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+
+    <div class="app-brand">
+      <img
+        id="pay54Logo"
+        src="assets/img/logo/pay54-logo-dark.svg"
+        alt="PAY54"
+        class="app-logo"
+      />
+      <div class="brand-text">
+        <span class="brand-name">PAY54</span>
+        <span class="brand-tagline">ONE WALLET. EVERYWHERE.</span>
+      </div>
+    </div>
+
+    <div class="app-actions">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
   </header>
 
-  <main style="padding:40px;">
-    <h1>Dashboard</h1>
-    <p>ONE WALLET. EVERYWHERE.</p>
+  <!-- MAIN DASHBOARD -->
+  <main class="dashboard-main">
+
+    <!-- BALANCE CARD -->
+    <section class="card balance-card">
+      <h3>Available balance</h3>
+      <div class="balance-amount">₦52,000.00</div>
+      <div class="balance-sub">Primary wallet (NGN)</div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="card actions-card">
+      <h3>Quick actions</h3>
+      <div class="actions-grid">
+        <button>Send</button>
+        <button>Receive</button>
+        <button>Add money</button>
+        <button>Withdraw</button>
+      </div>
+    </section>
+
+    <!-- REQUESTS & ALERTS -->
+    <section class="card alerts-card">
+      <h3>Requests & alerts</h3>
+      <ul class="alerts-list">
+        <li>Prem requested ₦12,000</li>
+        <li>Agent onboarding pending</li>
+        <li>AI Risk Watch flagged unusual login</li>
+      </ul>
+    </section>
+
+    <!-- RECENT TRANSACTIONS -->
+    <section class="card transactions-card">
+      <h3>Recent transactions</h3>
+      <ul class="tx-list">
+        <li>
+          <span>Wallet top-up</span>
+          <strong class="credit">+₦52,000.00</strong>
+        </li>
+        <li>
+          <span>MTN Airtime</span>
+          <strong class="debit">-₦12,000.00</strong>
+        </li>
+      </ul>
+    </section>
+
   </main>
 
+  <!-- SCRIPTS -->
+  <script src="assets/js/theme.js"></script>
+
   <script>
-    function guard() {
-      if (localStorage.getItem('p54_session') !== 'active') {
-        window.location.href = 'login.html';
-      }
+    // Session guard
+    if (localStorage.getItem("p54_session") !== "active") {
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("p54_session");
+      window.location.href = "login.html";
     }
   </script>
+
 </body>
 </html>
