@@ -1,50 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PAY54 • Smart Wallet</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="./assets/css/theme.css">
-    <link rel="stylesheet" href="./assets/css/auth.css">
-
-    <style>
-        #app {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ccc;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>PAY54 • Launch</title>
+  <meta http-equiv="refresh" content="0; url=login.html" />
 </head>
-
 <body>
-
-    <!-- Page Root -->
-    <div id="app">Launching PAY54 Wallet v7.0…</div>
-
-    <!-- Load Core Engine (order matters!) -->
-    <script type="module" src="./assets/js/core/state.js"></script>
-    <script type="module" src="./assets/js/core/session.js"></script>
-    <script type="module" src="./assets/js/core/router.js"></script>
-    <script type="module" src="./assets/js/core/loader.js"></script>
-
-    <!-- Boot Script -->
-    <script type="module">
-        import { getUser } from "./assets/js/core/session.js";
-
-        const user = getUser();
-
-        // Determine first page:
-        if (!user) {
-            window.location.href = "./login.html";
-        } else {
-            window.location.href = "./dashboard.html";
-        }
-    </script>
-
+  <p>Launching PAY54 Wallet…</p>
 </body>
 </html>
