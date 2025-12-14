@@ -1,8 +1,0 @@
-<!-- assets/p54-logo.svg -->
-<svg width="160" height="48" viewBox="0 0 160 48" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="4" rx="10" ry="10" width="48" height="40" fill="#0B1C2D"/>
-  <text x="10" y="32" font-size="24" font-weight="700" fill="#00E0B8">P</text>
-
-  <text x="62" y="32" font-size="26" font-weight="800" fill="#0B1C2D">54</text>
-  <line x1="62" y1="38" x2="102" y2="38" stroke="#00E0B8" stroke-width="3"/>
-</svg>
