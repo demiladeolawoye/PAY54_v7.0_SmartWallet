@@ -1,29 +1,19 @@
-(function () {
-  const SESSION_KEY = "p54_session";
+/* PAY54 DEMO SESSION CONTROLLER */
+/* v7.0 — UI Simulation Only */
 
-  function isAuthenticated() {
-    return localStorage.getItem(SESSION_KEY) === "active";
+window.PAY54_SESSION = {
+  loginDemo() {
+    localStorage.setItem("pay54_session", "active");
+    window.location.replace("dashboard.html");
+  },
+
+  createDemoUser() {
+    localStorage.setItem("pay54_session", "active");
+    window.location.replace("dashboard.html");
+  },
+
+  resetDemoPin() {
+    alert("Demo reset code sent.");
+    window.location.replace("login.html");
   }
-
-  function requireAuth() {
-    if (!isAuthenticated()) {
-      window.location.href = "login.html";
-    }
-  }
-
-  function loginSession() {
-    localStorage.setItem(SESSION_KEY, "active");
-  }
-
-  function logoutSession() {
-    localStorage.removeItem(SESSION_KEY);
-    window.location.href = "login.html";
-  }
-
-  // expose
-  window.P54Session = {
-    requireAuth,
-    loginSession,
-    logoutSession
-  };
-})();
+};
