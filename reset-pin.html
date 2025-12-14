@@ -4,55 +4,69 @@
   <meta charset="UTF-8" />
   <title>PAY54 • Reset PIN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#020617" />
-  <link rel="icon" type="image/svg+xml" href="assets/img/pay54-icon.svg" />
-  <link rel="stylesheet" href="assets/css/global.css" />
+  <meta name="theme-color" content="#020814" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/core.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
+
+  <!-- Theme (force dark for auth) -->
+  <script src="assets/js/theme.js"></script>
+  <script>
+    window.PAY54_THEME?.set("dark");
+  </script>
 </head>
-<body class="auth-body">
-  <div class="auth-wrapper">
-    <header class="auth-header">
-      <div class="auth-logo-pill">
-        <img src="assets/img/pay54-logo.svg" alt="PAY54" class="auth-logo" />
-      </div>
-      <div class="auth-brand-block">
-        <span class="auth-brand">PAY54</span>
-        <span class="auth-sub">ONE WALLET. EVERYWHERE.</span>
-      </div>
-    </header>
 
-    <main class="auth-card">
-      <h1 class="auth-title">Reset wallet PIN</h1>
-      <p class="auth-subtitle">
-        This demo will update the PIN stored in your browser only.
-      </p>
+<body class="auth-body dark">
 
-      <form id="resetPinForm" class="auth-form">
-        <div class="form-group">
-          <label for="resetId">Registered email or phone</label>
-          <input id="resetId" name="resetId" required />
-        </div>
-        <div class="form-group">
-          <label for="resetNewPin">New PIN (4 digits)</label>
-          <input id="resetNewPin" name="resetNewPin" type="password"
-                 maxlength="4" inputmode="numeric" required />
-        </div>
-        <div class="form-group">
-          <label for="resetConfirmPin">Confirm PIN</label>
-          <input id="resetConfirmPin" name="resetConfirmPin" type="password"
-                 maxlength="4" inputmode="numeric" required />
-        </div>
-        <button type="submit" class="btn-primary">Update PIN</button>
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <!-- HEADER -->
+      <div class="auth-header">
+        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+      </div>
+
+      <!-- TITLE -->
+      <h1 class="auth-title">Set a new PIN</h1>
+
+      <!-- FORM -->
+      <form class="auth-form" onsubmit="return false;">
+
+        <label for="code">Verification code</label>
+        <input
+          id="code"
+          type="text"
+          placeholder="6-digit code"
+          maxlength="6"
+          required
+        />
+
+        <label for="newPin">New PIN</label>
+        <input
+          id="newPin"
+          type="password"
+          placeholder="••••"
+          maxlength="4"
+          required
+        />
+
+        <button
+          type="button"
+          onclick="window.location.href='login.html'"
+        >
+          Reset PIN
+        </button>
       </form>
 
-      <div class="auth-footer-text">
-        <span>Remembered it?</span>
-        <a href="index.html" class="link-accent">Back to sign in</a>
+      <!-- LINKS -->
+      <div class="auth-links">
+        <a href="login.html">Return to sign in</a>
       </div>
-    </main>
+
+    </div>
   </div>
 
-  <script src="assets/js/utils.js"></script>
-  <script src="assets/js/reset-pin.js"></script>
 </body>
 </html>
