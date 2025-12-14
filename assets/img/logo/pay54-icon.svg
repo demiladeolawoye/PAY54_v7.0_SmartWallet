@@ -1,1 +1,20 @@
+<svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="p54Grad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#0B1C2D"/>
+    </radialGradient>
+  </defs>
 
+  <circle cx="48" cy="48" r="44" fill="url(#p54Grad)" />
+  <text
+    x="48"
+    y="58"
+    text-anchor="middle"
+    font-size="30"
+    font-weight="700"
+    fill="#FFFFFF"
+    font-family="Inter, Arial, sans-serif">
+    P54
+  </text>
+</svg>
