@@ -54,10 +54,11 @@
 }
 
 .auth-header img {
-  width: 64px;
-  height: auto;
-  margin-bottom: 10px;
+  width: 140px;
+  max-width: 100%;
+  margin-bottom: 12px;
 }
+
 
 .auth-header .tagline {
   font-size: 12px;
