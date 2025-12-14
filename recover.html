@@ -2,37 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 · Recover PIN</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="icon" href="assets/img/logo/pay54-icon.svg" />
-  <link rel="stylesheet" href="assets/css/core.css" />
-  <link rel="stylesheet" href="assets/css/theme.css" />
+  <title>PAY54 • Recover PIN</title>
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 
-<body class="dark">
+<body class="auth">
+
   <div class="auth-container">
 
-    <header class="auth-header">
-      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
-      <p class="tagline">ONE WALLET. EVERYWHERE.</p>
-    </header>
+    <div class="auth-logo">
+      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54">
+    </div>
+    <div class="auth-tagline">ONE WALLET. EVERYWHERE.</div>
 
-    <section class="auth-card">
-      <h2>Recover your PIN</h2>
-      <p class="muted">Enter your email or phone number and we’ll send a reset code.</p>
+    <div class="auth-card">
 
-      <label>Email or phone</label>
-      <input type="text" placeholder="you@example.com or +234..." />
+      <h1>Recover your PIN</h1>
 
-      <button onclick="PAY54_SESSION.resetDemoPin()">Send reset code</button>
+      <form class="auth-form" onsubmit="event.preventDefault(); PAY54_SESSION.recover();">
+        <label>Email or phone</label>
+        <input type="text" required>
+
+        <button type="submit">Send reset code</button>
+      </form>
 
       <div class="auth-links">
         <a href="login.html">Back to sign in</a>
       </div>
-    </section>
 
+    </div>
   </div>
 
   <script src="assets/js/session.js"></script>
