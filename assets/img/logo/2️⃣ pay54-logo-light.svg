@@ -1,0 +1,44 @@
+<svg width="360" height="96" viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="p54Grad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#0B1C2D"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Icon -->
+  <circle cx="48" cy="48" r="40" fill="url(#p54Grad)" />
+  <text
+    x="48"
+    y="58"
+    text-anchor="middle"
+    font-size="30"
+    font-weight="700"
+    fill="#FFFFFF"
+    font-family="Inter, Arial, sans-serif">
+    P54
+  </text>
+
+  <!-- PAY54 -->
+  <text
+    x="108"
+    y="46"
+    font-size="34"
+    font-weight="800"
+    fill="#0B1C2D"
+    font-family="Inter, Arial, sans-serif">
+    PAY54
+  </text>
+
+  <!-- Tagline -->
+  <text
+    x="108"
+    y="70"
+    font-size="14"
+    letter-spacing="1.2"
+    font-weight="500"
+    fill="#374151"
+    font-family="Inter, Arial, sans-serif">
+    ONE WALLET. EVERYWHERE.
+  </text>
+</svg>
