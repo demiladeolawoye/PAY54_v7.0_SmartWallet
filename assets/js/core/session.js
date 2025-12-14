@@ -1,19 +1,22 @@
-/* PAY54 DEMO SESSION CONTROLLER */
-/* v7.0 — UI Simulation Only */
+// PAY54 v7.0 — Demo Session Controller (SAFE FOR GITHUB PAGES)
 
 window.PAY54_SESSION = {
-  loginDemo() {
-    localStorage.setItem("pay54_session", "active");
-    window.location.replace("dashboard.html");
+  login() {
+    localStorage.setItem("p54_session", "active");
+    window.location.href = "dashboard.html";
   },
 
-  createDemoUser() {
-    localStorage.setItem("pay54_session", "active");
-    window.location.replace("dashboard.html");
+  signup() {
+    localStorage.setItem("p54_session", "active");
+    window.location.href = "dashboard.html";
   },
 
-  resetDemoPin() {
-    alert("Demo reset code sent.");
-    window.location.replace("login.html");
+  recover() {
+    alert("Demo reset code sent (123456)");
+  },
+
+  resetDone() {
+    alert("PIN updated (demo)");
+    window.location.href = "login.html";
   }
 };
