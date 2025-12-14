@@ -3,95 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <title>PAY54 • Sign in</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Sign in to PAY54 Smart Wallet — one wallet, everywhere for NGN and global payments."
-  />
-  <meta name="theme-color" content="#020617" />
-
-  <!-- Security -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
-  />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
+  <meta name="theme-color" content="#020814" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/core.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
+
+  <!-- Theme (force dark for auth) -->
+  <script src="assets/js/theme.js"></script>
+  <script>
+    window.PAY54_THEME?.set("dark");
+  </script>
 </head>
 
-<body class="auth-body">
+<body class="auth-body dark">
 
-  <div class="auth-wrapper">
+  <div class="auth-page">
+    <div class="auth-card">
 
-    <!-- HEADER / BRAND -->
-    <header class="auth-header">
+      <!-- HEADER -->
+      <div class="auth-header">
+        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+      </div>
 
-      <div class="auth-logo-pill">
-        <img
-          id="pay54Logo"
-          src="assets/img/logo/pay54-logo-dark.svg"
-          alt="PAY54"
+      <!-- WHY PAY54 -->
+      <div class="auth-why">
+        <h3>Why PAY54?</h3>
+        <ul>
+          <li>One wallet for NGN & global currencies</li>
+          <li>Send, receive & spend — all in one place</li>
+          <li>Built for Africa ↔ Global payments</li>
+        </ul>
+      </div>
+
+      <!-- TITLE -->
+      <h1 class="auth-title">Sign in</h1>
+
+      <!-- FORM -->
+      <form class="auth-form" onsubmit="return false;">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          required
         />
-      </div>
 
-      <div class="auth-brand-block">
-        <span class="auth-brand">PAY54</span>
-        <span class="auth-sub">ONE WALLET. EVERYWHERE.</span>
-      </div>
+        <label for="pin">PIN</label>
+        <input
+          id="pin"
+          type="password"
+          placeholder="••••"
+          maxlength="4"
+          required
+        />
 
-    </header>
+        <button type="button" onclick="PAY54_SESSION.loginDemo()">
+          Continue
+        </button>
+      </form>
 
-    <!-- WHY PAY54 -->
-    <section class="auth-why">
-      <h3>Why PAY54?</h3>
-      <ul>
-        <li>One wallet for <strong>NGN & global currencies</strong></li>
-        <li>Send, receive, pay bills & shop — all in one place</li>
-        <li>Built for <strong>Africa ↔ Global</strong> payments</li>
-      </ul>
-    </section>
-
-    <!-- LOGIN FORM -->
-    <main class="auth-card">
-
-      <h2 class="auth-title">Sign in</h2>
-
-      <div class="auth-field">
-        <label>Email</label>
-        <input type="email" placeholder="you@email.com" required />
-      </div>
-
-      <div class="auth-field">
-        <label>PIN</label>
-        <input type="password" placeholder="••••" required />
-      </div>
-
-      <button class="auth-primary-btn" onclick="login()">
-        Continue
-      </button>
-
+      <!-- LINKS -->
       <div class="auth-links">
         <a href="recover.html">Forgot PIN?</a>
+        &nbsp;•&nbsp;
         <a href="signup.html">Create account</a>
       </div>
 
-    </main>
-
+    </div>
   </div>
 
-  <!-- Minimal session logic (placeholder) -->
-  <script>
-    function login() {
-      localStorage.setItem("p54_session", "active");
-      window.location.href = "dashboard.html";
-    }
-  </script>
+  <!-- Scripts -->
+  <script src="assets/js/session.js"></script>
 
 </body>
 </html>
