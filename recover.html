@@ -2,64 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Recover PIN</title>
+  <title>PAY54 · Recover PIN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#020814" />
 
-  <!-- Styles -->
+  <link rel="icon" href="assets/img/logo/pay54-icon.svg" />
   <link rel="stylesheet" href="assets/css/core.css" />
+  <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
-
-  <!-- Theme (force dark for auth) -->
-  <script src="assets/js/theme.js"></script>
-  <script>
-    window.PAY54_THEME?.set("dark");
-  </script>
 </head>
 
-<body class="auth-body dark">
+<body class="dark">
+  <div class="auth-container">
 
-  <div class="auth-page">
-    <div class="auth-card">
+    <header class="auth-header">
+      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+      <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+    </header>
 
-      <!-- HEADER -->
-      <div class="auth-header">
-        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
-        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
-      </div>
+    <section class="auth-card">
+      <h2>Recover your PIN</h2>
+      <p class="muted">Enter your email or phone number and we’ll send a reset code.</p>
 
-      <!-- TITLE -->
-      <h1 class="auth-title">Recover your PIN</h1>
+      <label>Email or phone</label>
+      <input type="text" placeholder="you@example.com or +234..." />
 
-      <p class="auth-why" style="color: var(--text-muted);">
-        Enter your email or phone number and we’ll send you a reset code.
-      </p>
+      <button onclick="PAY54_SESSION.resetDemoPin()">Send reset code</button>
 
-      <!-- FORM -->
-      <form class="auth-form" onsubmit="return false;">
-        <label for="identifier">Email or phone</label>
-        <input
-          id="identifier"
-          type="text"
-          placeholder="you@example.com or +234…"
-          required
-        />
-
-        <button
-          type="button"
-          onclick="window.location.href='reset-pin.html'"
-        >
-          Send reset code
-        </button>
-      </form>
-
-      <!-- LINKS -->
       <div class="auth-links">
         <a href="login.html">Back to sign in</a>
       </div>
+    </section>
 
-    </div>
   </div>
 
+  <script src="assets/js/session.js"></script>
 </body>
 </html>
