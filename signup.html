@@ -2,96 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Create account</title>
+  <title>PAY54 · Create account</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#020814" />
 
-  <!-- Styles -->
+  <link rel="icon" href="assets/img/logo/pay54-icon.svg" />
   <link rel="stylesheet" href="assets/css/core.css" />
+  <link rel="stylesheet" href="assets/css/theme.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
-
-  <!-- Theme (force dark for auth) -->
-  <script src="assets/js/theme.js"></script>
-  <script>
-    window.PAY54_THEME?.set("dark");
-  </script>
 </head>
 
-<body class="auth-body dark">
+<body class="dark">
+  <div class="auth-container">
 
-  <div class="auth-page">
-    <div class="auth-card">
+    <header class="auth-header">
+      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+      <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+    </header>
 
-      <!-- HEADER -->
-      <div class="auth-header">
-        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
-        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
-      </div>
+    <section class="auth-card">
+      <h2>Create your account</h2>
 
-      <!-- WHY PAY54 -->
-      <div class="auth-why">
-        <h3>Why PAY54?</h3>
-        <ul>
-          <li>One wallet for NGN & global currencies</li>
-          <li>Send, receive & spend — all in one place</li>
-          <li>Built for Africa ↔ Global money movement</li>
-        </ul>
-      </div>
+      <label>Full name</label>
+      <input type="text" placeholder="Your full name" />
 
-      <!-- TITLE -->
-      <h1 class="auth-title">Create your account</h1>
+      <label>Email</label>
+      <input type="email" placeholder="you@example.com" />
 
-      <!-- FORM -->
-      <form class="auth-form" onsubmit="return false;">
+      <label>Phone number</label>
+      <input type="tel" placeholder="+234..." />
 
-        <label for="name">Full name</label>
-        <input
-          id="name"
-          type="text"
-          placeholder="Your full name"
-          required
-        />
+      <label>Create PIN</label>
+      <input type="password" maxlength="4" placeholder="••••" />
 
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-          required
-        />
+      <button onclick="PAY54_SESSION.createDemoUser()">Create account</button>
 
-        <label for="phone">Phone number</label>
-        <input
-          id="phone"
-          type="tel"
-          placeholder="+234…"
-          required
-        />
-
-        <label for="pin">Create PIN</label>
-        <input
-          id="pin"
-          type="password"
-          placeholder="••••"
-          maxlength="4"
-          required
-        />
-
-        <button type="button" onclick="PAY54_SESSION.createDemoUser()">
-          Create account
-        </button>
-      </form>
-
-      <!-- LINKS -->
       <div class="auth-links">
         <a href="login.html">Already have an account?</a>
       </div>
+    </section>
 
-    </div>
   </div>
 
-  <!-- Scripts -->
   <script src="assets/js/session.js"></script>
-
 </body>
 </html>
