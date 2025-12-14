@@ -3,94 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <title>PAY54 • Sign in</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description"
-        content="Sign in to PAY54 Smart Wallet – one wallet, everywhere for NGN and global payments." />
+  <meta
+    name="description"
+    content="Sign in to PAY54 Smart Wallet — one wallet, everywhere for NGN and global payments."
+  />
   <meta name="theme-color" content="#020617" />
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';" />
-  <link rel="icon" type="image/svg+xml" href="assets/img/pay54-icon.svg" />
+
+  <!-- Security -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/global.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
+
 <body class="auth-body">
+
   <div class="auth-wrapper">
+
+    <!-- HEADER / BRAND -->
     <header class="auth-header">
+
       <div class="auth-logo-pill">
-        <img src="assets/img/pay54-logo.svg" alt="PAY54" />
+        <img
+          id="pay54Logo"
+          src="assets/img/logo/pay54-logo-dark.svg"
+          alt="PAY54"
+        />
       </div>
+
       <div class="auth-brand-block">
         <span class="auth-brand">PAY54</span>
         <span class="auth-sub">ONE WALLET. EVERYWHERE.</span>
       </div>
+
     </header>
 
-    <div class="auth-layout">
-      <!-- LEFT: Sign-in form -->
-      <main class="auth-card">
-        <h1 class="auth-title">Sign in to PAY54</h1>
-        <p class="auth-subtitle">
-          Secure login • PIN + device. This demo stores everything locally on your browser.
-        </p>
+    <!-- WHY PAY54 -->
+    <section class="auth-why">
+      <h3>Why PAY54?</h3>
+      <ul>
+        <li>One wallet for <strong>NGN & global currencies</strong></li>
+        <li>Send, receive, pay bills & shop — all in one place</li>
+        <li>Built for <strong>Africa ↔ Global</strong> payments</li>
+      </ul>
+    </section>
 
-        <form id="loginForm" class="auth-form">
-          <div class="form-group">
-            <label for="loginId">Email or phone</label>
-            <input id="loginId" name="loginId" type="text"
-                   placeholder="e.g. demi@example.com" required />
-          </div>
+    <!-- LOGIN FORM -->
+    <main class="auth-card">
 
-          <div class="form-group">
-            <label for="loginPin">Wallet PIN (4 digits)</label>
-            <div class="password-row">
-              <input id="loginPin" name="loginPin" type="password"
-                     maxlength="4" inputmode="numeric"
-                     placeholder="••••" required />
-              <button type="button" class="eye-toggle" data-target="loginPin">👁</button>
-            </div>
-          </div>
+      <h2 class="auth-title">Sign in</h2>
 
-          <div class="form-row">
-            <label class="remember-check">
-              <input type="checkbox" id="rememberMe" />
-              <span>Remember this device</span>
-            </label>
-            <a href="reset-pin.html" class="link-small">Forgot PIN?</a>
-          </div>
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com" required />
+      </div>
 
-          <button type="submit" class="btn-primary">Sign in to PAY54</button>
-        </form>
+      <div class="auth-field">
+        <label>PIN</label>
+        <input type="password" placeholder="••••" required />
+      </div>
 
-        <div class="auth-footer-text">
-          <span>New to PAY54?</span>
-          <a href="signup.html" class="link-accent">Create account</a>
-        </div>
-      </main>
+      <button class="auth-primary-btn" onclick="login()">
+        Continue
+      </button>
 
-      <!-- RIGHT: Why PAY54 -->
-      <aside class="auth-side">
-        <h2 class="why-title">Why PAY54?</h2>
-        <ul class="why-list">
-          <li><span class="why-icon">⚡</span>
-              <span>Instant P2P transfers and bank payouts across NGN and FX rails.</span></li>
-          <li><span class="why-icon">🌍</span>
-              <span>ONE WALLET. EVERYWHERE. Designed for local and global flows.</span></li>
-          <li><span class="why-icon">💳</span>
-              <span>Virtual & linked cards, Smart Checkout and Shop on the Fly for online payments.</span></li>
-          <li><span class="why-icon">🛡</span>
-              <span>AI Risk Watch, secure PIN, device checks and clear alerts to keep you in control.</span></li>
-          <li><span class="why-icon">💰</span>
-              <span>Savings pots, investments & stocks, bet funding and bill payments in one wallet.</span></li>
-        </ul>
-        <p class="auth-banner">
-          PAY54 DEMO VERSION — wallet UI simulation only. No real payments or sensitive data are processed.
-        </p>
-      </aside>
-    </div>
+      <div class="auth-links">
+        <a href="recover.html">Forgot PIN?</a>
+        <a href="signup.html">Create account</a>
+      </div>
+
+    </main>
+
   </div>
 
-  <script src="assets/js/utils.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/session.js"></script>
+  <!-- Minimal session logic (placeholder) -->
+  <script>
+    function login() {
+      localStorage.setItem("p54_session", "active");
+      window.location.href = "dashboard.html";
+    }
+  </script>
+
 </body>
 </html>
