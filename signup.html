@@ -3,85 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <title>PAY54 • Create account</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Create your PAY54 Smart Wallet — one wallet, everywhere for NGN and global payments."
+  />
   <meta name="theme-color" content="#020617" />
-  <link rel="icon" type="image/svg+xml" href="assets/img/pay54-icon.svg" />
+
+  <!-- Security -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/global.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
+
 <body class="auth-body">
+
   <div class="auth-wrapper">
+
+    <!-- HEADER / BRAND -->
     <header class="auth-header">
+
       <div class="auth-logo-pill">
-        <img src="assets/img/pay54-logo.svg" alt="PAY54" />
+        <img
+          id="pay54Logo"
+          src="assets/img/logo/pay54-logo-dark.svg"
+          alt="PAY54"
+        />
       </div>
+
       <div class="auth-brand-block">
         <span class="auth-brand">PAY54</span>
         <span class="auth-sub">ONE WALLET. EVERYWHERE.</span>
       </div>
+
     </header>
 
-    <div class="auth-layout">
-      <main class="auth-card">
-        <h1 class="auth-title">Create your PAY54 wallet</h1>
-        <p class="auth-subtitle">
-          This demo stores your profile and PIN only on this device.
-        </p>
+    <!-- WHY PAY54 -->
+    <section class="auth-why">
+      <h3>Why PAY54?</h3>
+      <ul>
+        <li>One wallet for <strong>NGN & global currencies</strong></li>
+        <li>Send, receive, pay bills & shop globally</li>
+        <li>Built for <strong>Africa ↔ Global</strong> money movement</li>
+      </ul>
+    </section>
 
-        <form id="signupForm" class="auth-form">
-          <div class="form-group">
-            <label for="signupName">Full name</label>
-            <input id="signupName" name="signupName" required />
-          </div>
-          <div class="form-group">
-            <label for="signupEmail">Email</label>
-            <input id="signupEmail" type="email" name="signupEmail" required />
-          </div>
-          <div class="form-group">
-            <label for="signupPhone">Phone</label>
-            <input id="signupPhone" name="signupPhone" required />
-          </div>
-          <div class="form-group">
-            <label for="signupPin">Wallet PIN (4 digits)</label>
-            <div class="password-row">
-              <input id="signupPin" name="signupPin" type="password"
-                     maxlength="4" inputmode="numeric" required />
-              <button type="button" class="eye-toggle" data-target="signupPin">👁</button>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="signupPinConfirm">Confirm PIN</label>
-            <input id="signupPinConfirm" name="signupPinConfirm" type="password"
-                   maxlength="4" inputmode="numeric" required />
-          </div>
+    <!-- SIGNUP FORM -->
+    <main class="auth-card">
 
-          <button type="submit" class="btn-primary">Continue to OTP</button>
-        </form>
+      <h2 class="auth-title">Create your account</h2>
 
-        <div class="auth-footer-text">
-          <span>Already have an account?</span>
-          <a href="index.html" class="link-accent">Sign in</a>
-        </div>
-      </main>
+      <div class="auth-field">
+        <label>Full name</label>
+        <input type="text" placeholder="Your full name" required />
+      </div>
 
-      <aside class="auth-side">
-        <h2 class="why-title">Why PAY54?</h2>
-        <ul class="why-list">
-          <li><span class="why-icon">🔐</span>
-              <span>Secure PIN + device sign-in with clear privacy messaging.</span></li>
-          <li><span class="why-icon">💵</span>
-              <span>Send & receive money, pay bills and fund bets in one smart wallet.</span></li>
-          <li><span class="why-icon">🌍</span>
-              <span>ONE WALLET. EVERYWHERE. Built for NGN and FX rails.</span></li>
-        </ul>
-        <p class="auth-banner">
-          Demo only — for product design, UX and investor preview.
-        </p>
-      </aside>
-    </div>
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com" required />
+      </div>
+
+      <div class="auth-field">
+        <label>Phone number</label>
+        <input type="tel" placeholder="+234…" required />
+      </div>
+
+      <div class="auth-field">
+        <label>Create PIN</label>
+        <input type="password" placeholder="••••" required />
+      </div>
+
+      <button class="auth-primary-btn" onclick="signup()">
+        Create account
+      </button>
+
+      <div class="auth-links">
+        <a href="login.html">Already have an account?</a>
+      </div>
+
+    </main>
+
   </div>
 
-  <script src="assets/js/utils.js"></script>
-  <script src="assets/js/auth.js"></script>
+  <!-- Minimal signup flow placeholder -->
+  <script>
+    function signup() {
+      // Placeholder for real signup / OTP flow
+      window.location.href = "verify.html";
+    }
+  </script>
+
 </body>
 </html>
