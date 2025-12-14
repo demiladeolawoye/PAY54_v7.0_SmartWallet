@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body.dark {
+  background: #0B1C2D;
+  color: #ffffff;
+}
+
+body.light {
+  background: #ffffff;
+  color: #0B1C2D;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
