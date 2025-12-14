@@ -33,16 +33,21 @@
   function adjust(amount, type, note) {
     const wallet = loadWallet();
     wallet.balances[wallet.currency] += amount;
-    wallet.transactions.unshift({
-      type,
-      amount,
-      currency: wallet.currency,
-      note,
-      date: new Date().toISOString()
-    });
-    saveWallet(wallet);
-    render();
-  }
+  const tx = {
+  type,
+  amount,
+  currency: wallet.currency,
+  note,
+  date: new Date().toISOString()
+};
+
+wallet.transactions.unshift(tx);
+saveWallet(wallet);
+render();
+
+if (window.P54Receipt) {
+  P54Receipt.openReceipt(tx);
+}
 
   function render() {
     const wallet = loadWallet();
