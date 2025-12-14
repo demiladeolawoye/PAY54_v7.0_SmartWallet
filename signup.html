@@ -2,45 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 · Create account</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="icon" href="assets/img/logo/pay54-icon.svg" />
-  <link rel="stylesheet" href="assets/css/core.css" />
-  <link rel="stylesheet" href="assets/css/theme.css" />
+  <title>PAY54 • Create account</title>
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 
-<body class="dark">
+<body class="auth">
+
   <div class="auth-container">
 
-    <header class="auth-header">
-      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
-      <p class="tagline">ONE WALLET. EVERYWHERE.</p>
-    </header>
+    <div class="auth-logo">
+      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54">
+    </div>
+    <div class="auth-tagline">ONE WALLET. EVERYWHERE.</div>
 
-    <section class="auth-card">
-      <h2>Create your account</h2>
+    <div class="auth-card">
 
-      <label>Full name</label>
-      <input type="text" placeholder="Your full name" />
+      <h1>Create your account</h1>
 
-      <label>Email</label>
-      <input type="email" placeholder="you@example.com" />
+      <form class="auth-form" onsubmit="event.preventDefault(); PAY54_SESSION.signup();">
+        <label>Full name</label>
+        <input type="text" required>
 
-      <label>Phone number</label>
-      <input type="tel" placeholder="+234..." />
+        <label>Email</label>
+        <input type="email" required>
 
-      <label>Create PIN</label>
-      <input type="password" maxlength="4" placeholder="••••" />
+        <label>Phone number</label>
+        <input type="tel" placeholder="+234…">
 
-      <button onclick="PAY54_SESSION.createDemoUser()">Create account</button>
+        <label>Create PIN</label>
+        <input type="password" required>
+
+        <button type="submit">Create account</button>
+      </form>
 
       <div class="auth-links">
         <a href="login.html">Already have an account?</a>
       </div>
-    </section>
 
+    </div>
   </div>
 
   <script src="assets/js/session.js"></script>
