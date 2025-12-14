@@ -2,91 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Reset PIN</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/css/theme.css" />
+  <title>PAY54 • Recover PIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#020814" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/core.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
+
+  <!-- Theme (force dark for auth) -->
+  <script src="assets/js/theme.js"></script>
+  <script>
+    window.PAY54_THEME?.set("dark");
+  </script>
 </head>
-<body class="auth-body">
-  <div class="auth-shell">
-    <header class="auth-header">
-      <img src="assets/img/logo/pay54-logo.svg" alt="PAY54" class="auth-logo" />
-      <div class="auth-badge">Reset Wallet PIN</div>
-    </header>
 
-    <main class="auth-main single">
-      <section class="auth-panel">
-        <h1 class="auth-title">Reset PIN</h1>
-        <p class="auth-sub">
-          Demo flow only: we’ll “send” a mock OTP and let you set a new PIN.
-        </p>
+<body class="auth-body dark">
 
-        <form id="recoverForm" class="auth-form">
-          <label for="identifier">Email or phone</label>
-          <input id="identifier" type="text" required />
+  <div class="auth-page">
+    <div class="auth-card">
 
-          <label for="otp">OTP (demo)</label>
-          <input
-            id="otp"
-            type="text"
-            placeholder="123456"
-            maxlength="6"
-            required
-          />
+      <!-- HEADER -->
+      <div class="auth-header">
+        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+      </div>
 
-          <label for="newPin">New PIN (4 digits)</label>
-          <input
-            id="newPin"
-            type="password"
-            maxlength="4"
-            inputmode="numeric"
-            required
-          />
+      <!-- TITLE -->
+      <h1 class="auth-title">Recover your PIN</h1>
 
-          <button type="submit" class="auth-btn primary">Update PIN</button>
+      <p class="auth-why" style="color: var(--text-muted);">
+        Enter your email or phone number and we’ll send you a reset code.
+      </p>
 
-          <div class="auth-links">
-            <a href="login.html">Back to sign in</a>
-          </div>
-        </form>
-      </section>
-    </main>
+      <!-- FORM -->
+      <form class="auth-form" onsubmit="return false;">
+        <label for="identifier">Email or phone</label>
+        <input
+          id="identifier"
+          type="text"
+          placeholder="you@example.com or +234…"
+          required
+        />
+
+        <button
+          type="button"
+          onclick="window.location.href='reset-pin.html'"
+        >
+          Send reset code
+        </button>
+      </form>
+
+      <!-- LINKS -->
+      <div class="auth-links">
+        <a href="login.html">Back to sign in</a>
+      </div>
+
+    </div>
   </div>
 
-  <script type="module">
-    import { getUser, saveUser } from "./assets/js/core/session.js";
-
-    const form = document.getElementById("recoverForm");
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const otp = document.getElementById("otp").value.trim();
-      const newPin = document.getElementById("newPin").value.trim();
-
-      if (otp.length < 4) {
-        alert("Enter the demo OTP (any 4–6 digits).");
-        return;
-      }
-
-      if (newPin.length !== 4) {
-        alert("PIN must be 4 digits.");
-        return;
-      }
-
-      const user = getUser();
-      if (!user) {
-        alert("No PAY54 wallet found. Please create an account first.");
-        return;
-      }
-
-      user.pin = newPin;
-      saveUser(user);
-
-      alert("PIN updated successfully. Use it to sign in.");
-      window.location.href = "login.html";
-    });
-  </script>
 </body>
 </html>
-
