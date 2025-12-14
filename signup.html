@@ -3,104 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <title>PAY54 • Create account</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Create your PAY54 Smart Wallet — one wallet, everywhere for NGN and global payments."
-  />
-  <meta name="theme-color" content="#020617" />
-
-  <!-- Security -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
-  />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
+  <meta name="theme-color" content="#020814" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/core.css" />
   <link rel="stylesheet" href="assets/css/auth.css" />
+
+  <!-- Theme (force dark for auth) -->
+  <script src="assets/js/theme.js"></script>
+  <script>
+    window.PAY54_THEME?.set("dark");
+  </script>
 </head>
 
-<body class="auth-body">
+<body class="auth-body dark">
 
-  <div class="auth-wrapper">
+  <div class="auth-page">
+    <div class="auth-card">
 
-    <!-- HEADER / BRAND -->
-    <header class="auth-header">
+      <!-- HEADER -->
+      <div class="auth-header">
+        <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54 logo" />
+        <p class="tagline">ONE WALLET. EVERYWHERE.</p>
+      </div>
 
-      <div class="auth-logo-pill">
-        <img
-          id="pay54Logo"
-          src="assets/img/logo/pay54-logo-dark.svg"
-          alt="PAY54"
+      <!-- WHY PAY54 -->
+      <div class="auth-why">
+        <h3>Why PAY54?</h3>
+        <ul>
+          <li>One wallet for NGN & global currencies</li>
+          <li>Send, receive & spend — all in one place</li>
+          <li>Built for Africa ↔ Global money movement</li>
+        </ul>
+      </div>
+
+      <!-- TITLE -->
+      <h1 class="auth-title">Create your account</h1>
+
+      <!-- FORM -->
+      <form class="auth-form" onsubmit="return false;">
+
+        <label for="name">Full name</label>
+        <input
+          id="name"
+          type="text"
+          placeholder="Your full name"
+          required
         />
-      </div>
 
-      <div class="auth-brand-block">
-        <span class="auth-brand">PAY54</span>
-        <span class="auth-sub">ONE WALLET. EVERYWHERE.</span>
-      </div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+        />
 
-    </header>
+        <label for="phone">Phone number</label>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="+234…"
+          required
+        />
 
-    <!-- WHY PAY54 -->
-    <section class="auth-why">
-      <h3>Why PAY54?</h3>
-      <ul>
-        <li>One wallet for <strong>NGN & global currencies</strong></li>
-        <li>Send, receive, pay bills & shop globally</li>
-        <li>Built for <strong>Africa ↔ Global</strong> money movement</li>
-      </ul>
-    </section>
+        <label for="pin">Create PIN</label>
+        <input
+          id="pin"
+          type="password"
+          placeholder="••••"
+          maxlength="4"
+          required
+        />
 
-    <!-- SIGNUP FORM -->
-    <main class="auth-card">
+        <button type="button" onclick="PAY54_SESSION.createDemoUser()">
+          Create account
+        </button>
+      </form>
 
-      <h2 class="auth-title">Create your account</h2>
-
-      <div class="auth-field">
-        <label>Full name</label>
-        <input type="text" placeholder="Your full name" required />
-      </div>
-
-      <div class="auth-field">
-        <label>Email</label>
-        <input type="email" placeholder="you@email.com" required />
-      </div>
-
-      <div class="auth-field">
-        <label>Phone number</label>
-        <input type="tel" placeholder="+234…" required />
-      </div>
-
-      <div class="auth-field">
-        <label>Create PIN</label>
-        <input type="password" placeholder="••••" required />
-      </div>
-
-      <button class="auth-primary-btn" onclick="signup()">
-        Create account
-      </button>
-
+      <!-- LINKS -->
       <div class="auth-links">
         <a href="login.html">Already have an account?</a>
       </div>
 
-    </main>
-
+    </div>
   </div>
 
-  <!-- Minimal signup flow placeholder -->
-  <script>
-    function signup() {
-      // Placeholder for real signup / OTP flow
-      window.location.href = "verify.html";
-    }
-  </script>
+  <!-- Scripts -->
+  <script src="assets/js/session.js"></script>
 
 </body>
 </html>
