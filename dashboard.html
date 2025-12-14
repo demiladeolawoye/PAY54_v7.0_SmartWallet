@@ -3,100 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <title>PAY54 • Dashboard</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="PAY54 Smart Wallet dashboard — one wallet, everywhere."
-  />
-  <meta name="theme-color" content="#020617" />
 
-  <!-- Security -->
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'self';"
-  />
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/img/logo/pay54-icon.svg" />
-
-  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/global.css" />
   <link rel="stylesheet" href="assets/css/dashboard.css" />
+
+  <style>
+    /* Receipt modal */
+    .receipt-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .receipt-card {
+      background: #fff;
+      color: #111;
+      padding: 24px;
+      border-radius: 12px;
+      width: 320px;
+      text-align: center;
+    }
+    body.dark .receipt-card {
+      background: #0B1C2D;
+      color: #fff;
+    }
+    .receipt-card h3 { margin-bottom: 12px; }
+    .receipt-row { margin: 6px 0; font-size: 14px; }
+    .receipt-actions a,
+    .receipt-actions button {
+      display: block;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      background: #25D366;
+      color: #fff;
+      font-weight: 600;
+    }
+    .receipt-actions button {
+      background: #64748b;
+    }
+  </style>
 </head>
 
 <body class="dashboard-body">
 
-  <!-- HEADER -->
-  <header class="app-header">
-
-    <div class="app-brand">
-      <img
-        id="pay54Logo"
-        src="assets/img/logo/pay54-logo-dark.svg"
-        alt="PAY54"
-        class="app-logo"
-        height="48"
-      />
-      <div class="brand-text">
-        <span class="brand-name">PAY54</span>
-        <span class="brand-tagline">ONE WALLET. EVERYWHERE.</span>
-      </div>
+<header class="app-header">
+  <div class="app-brand">
+    <img id="pay54Logo" src="assets/img/logo/pay54-logo-dark.svg" height="44" />
+    <div>
+      <strong>PAY54</strong><br />
+      <small>ONE WALLET. EVERYWHERE.</small>
     </div>
+  </div>
 
-    <div class="app-actions">
-      <select class="currency-switch" onchange="P54Wallet.setCurrency(this.value)">
-        <option value="NGN">NGN</option>
-        <option value="USD">USD</option>
-        <option value="GBP">GBP</option>
-        <option value="EUR">EUR</option>
-      </select>
+  <div class="app-actions">
+    <select onchange="P54Wallet.setCurrency(this.value)">
+      <option>NGN</option>
+      <option>USD</option>
+      <option>GBP</option>
+      <option>EUR</option>
+    </select>
+    <button onclick="toggleTheme()">🌓</button>
+    <button onclick="P54Session.logoutSession()">Logout</button>
+  </div>
+</header>
 
-      <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-      <button class="logout-btn" onclick="P54Session.logoutSession()">Logout</button>
+<main class="dashboard-main">
+
+  <section class="card balance-card">
+    <h3>Available balance</h3>
+    <div id="walletBalance" class="balance-amount">₦0.00</div>
+  </section>
+
+  <section class="card actions-card">
+    <h3>Quick actions</h3>
+    <div class="actions-grid">
+      <button onclick="P54Wallet.send(5000)">Send</button>
+      <button onclick="P54Wallet.add(10000)">Add money</button>
+      <button onclick="P54Wallet.withdraw(2000)">Withdraw</button>
     </div>
+  </section>
 
-  </header>
+  <section class="card transactions-card">
+    <h3>Recent transactions</h3>
+    <ul id="txList" class="tx-list"></ul>
+  </section>
 
-  <!-- MAIN -->
-  <main class="dashboard-main">
+</main>
 
-    <!-- BALANCE -->
-    <section class="card balance-card">
-      <h3>Available balance</h3>
-      <div class="balance-amount" id="walletBalance">₦0.00</div>
-      <div class="balance-sub">Primary wallet</div>
-    </section>
+<!-- RECEIPT MODAL -->
+<div id="receiptModal" class="receipt-modal">
+  <div class="receipt-card">
+    <h3>PAY54 Receipt</h3>
+    <div class="receipt-row">Type: <strong id="rType"></strong></div>
+    <div class="receipt-row">Amount: <strong id="rAmount"></strong></div>
+    <div class="receipt-row">Note: <span id="rNote"></span></div>
+    <div class="receipt-row">Date: <span id="rDate"></span></div>
 
-    <!-- QUICK ACTIONS -->
-    <section class="card actions-card">
-      <h3>Quick actions</h3>
-      <div class="actions-grid">
-        <button onclick="P54Wallet.send(5000)">Send</button>
-        <button onclick="P54Wallet.add(10000)">Add money</button>
-        <button onclick="P54Wallet.withdraw(2000)">Withdraw</button>
-      </div>
-    </section>
+    <div class="receipt-actions">
+      <a id="waShare" target="_blank">Share via WhatsApp</a>
+      <button onclick="P54Receipt.closeReceipt()">Close</button>
+    </div>
+  </div>
+</div>
 
-    <!-- RECENT TRANSACTIONS -->
-    <section class="card transactions-card">
-      <h3>Recent transactions</h3>
-      <ul class="tx-list" id="txList">
-        <!-- populated by wallet.js -->
-      </ul>
-    </section>
+<!-- SCRIPTS -->
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/session.js"></script>
+<script src="assets/js/wallet.js"></script>
+<script src="assets/js/receipt.js"></script>
 
-  </main>
-
-  <!-- SCRIPTS -->
-  <script src="assets/js/theme.js"></script>
-  <script src="assets/js/session.js"></script>
-  <script src="assets/js/wallet.js"></script>
-
-  <!-- SESSION GUARD -->
-  <script>
-    P54Session.requireAuth();
-  </script>
+<script>
+  P54Session.requireAuth();
+</script>
 
 </body>
 </html>
