@@ -7,69 +7,31 @@
 
   <link rel="stylesheet" href="assets/css/global.css" />
   <link rel="stylesheet" href="assets/css/dashboard.css" />
-
-  <style>
-    /* PIN modal */
-    .pin-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .pin-card {
-      background: #fff;
-      color: #111;
-      padding: 24px;
-      border-radius: 12px;
-      width: 300px;
-      text-align: center;
-    }
-    body.dark .pin-card {
-      background: #0B1C2D;
-      color: #fff;
-    }
-    .pin-card input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 18px;
-      text-align: center;
-    }
-    .pin-actions button {
-      margin-top: 10px;
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body class="dashboard-body">
 
 <header class="app-header">
+
   <div class="app-brand">
     <img id="pay54Logo" src="assets/img/logo/pay54-logo-dark.svg" height="44" />
-    <div>
-      <strong>PAY54</strong><br />
-      <small>ONE WALLET. EVERYWHERE.</small>
+    <div class="brand-text">
+      <div class="brand-name">PAY54</div>
+      <div class="brand-tagline">ONE WALLET. EVERYWHERE.</div>
     </div>
   </div>
 
   <div class="app-actions">
     <select onchange="P54Wallet.setCurrency(this.value)">
-      <option>NGN</option>
-      <option>USD</option>
-      <option>GBP</option>
-      <option>EUR</option>
+      <option value="NGN">NGN</option>
+      <option value="USD">USD</option>
+      <option value="GBP">GBP</option>
+      <option value="EUR">EUR</option>
     </select>
     <button onclick="toggleTheme()">🌓</button>
     <button onclick="P54Session.logoutSession()">Logout</button>
   </div>
+
 </header>
 
 <main class="dashboard-main">
@@ -88,6 +50,34 @@
     </div>
   </section>
 
+  <section class="card fx-card">
+    <h3>Cross-border transfer</h3>
+
+    <div class="fx-grid">
+      <input id="fxSend" type="number" placeholder="You send" oninput="P54FX.updateFX()" />
+      <select id="fxFrom" onchange="P54FX.updateFX()">
+        <option>NGN</option>
+        <option>USD</option>
+        <option>GBP</option>
+        <option>EUR</option>
+      </select>
+      <select id="fxTo" onchange="P54FX.updateFX()">
+        <option>USD</option>
+        <option>NGN</option>
+        <option>GBP</option>
+        <option>EUR</option>
+      </select>
+    </div>
+
+    <div class="fx-summary">
+      <div id="fxRate">Rate: —</div>
+      <div id="fxFee">Fee: —</div>
+      <strong id="fxReceive">They receive: —</strong>
+    </div>
+
+    <button onclick="P54FX.confirmFX()">Send cross-border</button>
+  </section>
+
   <section class="card transactions-card">
     <h3>Recent transactions</h3>
     <ul id="txList" class="tx-list"></ul>
@@ -99,16 +89,26 @@
 <div id="pinModal" class="pin-modal">
   <div class="pin-card">
     <h3>Confirm PIN</h3>
-    <input
-      id="pinInput"
-      type="password"
-      maxlength="4"
-      placeholder="••••"
-      inputmode="numeric"
-    />
+    <input id="pinInput" type="password" maxlength="4" placeholder="••••" />
     <div class="pin-actions">
       <button onclick="P54Pin.confirmPin()">Confirm</button>
       <button onclick="P54Pin.closePin()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div id="receiptModal" class="receipt-modal">
+  <div class="receipt-card">
+    <h3>PAY54 Receipt</h3>
+    <div>Type: <strong id="rType"></strong></div>
+    <div>Amount: <strong id="rAmount"></strong></div>
+    <div>Note: <span id="rNote"></span></div>
+    <div>Date: <span id="rDate"></span></div>
+
+    <div class="receipt-actions">
+      <a id="waShare" target="_blank">Share via WhatsApp</a>
+      <button onclick="P54Receipt.closeReceipt()">Close</button>
     </div>
   </div>
 </div>
@@ -119,6 +119,7 @@
 <script src="assets/js/wallet.js"></script>
 <script src="assets/js/receipt.js"></script>
 <script src="assets/js/pin-auth.js"></script>
+<script src="assets/js/fx.js"></script>
 
 <script>
   P54Session.requireAuth();
