@@ -1,22 +1,12 @@
-// PAY54 v7.0 — Demo Session Controller (SAFE FOR GITHUB PAGES)
+/* session.js — PAY54 v7.0 (FULL REPLACEMENT) */
 
-window.PAY54_SESSION = {
-  login() {
-    localStorage.setItem("p54_session", "active");
-    window.location.href = "dashboard.html";
-  },
+(function () {
+  const protectedPages = ["dashboard.html"];
+  const session = localStorage.getItem("pay54_session");
 
-  signup() {
-    localStorage.setItem("p54_session", "active");
-    window.location.href = "dashboard.html";
-  },
+  const current = window.location.pathname.split("/").pop();
 
-  recover() {
-    alert("Demo reset code sent (123456)");
-  },
-
-  resetDone() {
-    alert("PIN updated (demo)");
-    window.location.href = "login.html";
+  if (protectedPages.includes(current) && session !== "active") {
+    window.location.href = "index.html";
   }
-};
+})();
