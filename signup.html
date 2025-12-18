@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>PAY54 • Create Account</title>
 
-  <!-- Auth styles -->
   <link rel="stylesheet" href="assets/css/auth.css" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -16,7 +14,6 @@
 
     <!-- Logo -->
     <div class="auth-logo">
-      <!-- ✅ use v6.7 compatible logo path -->
       <img src="assets/img/pay54-logo.svg" alt="PAY54 Logo" />
     </div>
 
@@ -26,16 +23,16 @@
 
       <h1>Create your account</h1>
 
-      <!-- ✅ ERROR MESSAGE CONTAINER -->
-      <div id="authError" class="auth-error" style="display:none;"></div>
+      <!-- ✅ MUST MATCH signup.js -->
+      <div id="signupError" class="auth-error" style="display:none;"></div>
 
-      <!-- ✅ SIGNUP FORM -->
+      <!-- ✅ MUST MATCH signup.js -->
       <form id="signupForm" class="auth-form">
 
-        <label for="fullName">Full name</label>
+        <label for="name">Full name</label>
         <input
-          id="fullName"
-          name="fullName"
+          id="name"
+          name="name"
           type="text"
           placeholder="John Doe"
           required
@@ -70,7 +67,9 @@
           required
         />
 
-        <button type="submit">Create account</button>
+        <button id="signupBtn" type="submit">
+          Create account
+        </button>
 
       </form>
 
@@ -81,10 +80,10 @@
     </div>
   </div>
 
-  <!-- ✅ CORE SESSION + AUTH -->
+  <!-- Core session -->
   <script src="assets/js/session.js"></script>
 
-  <!-- ✅ SIGNUP LOGIC -->
+  <!-- Signup logic -->
   <script src="assets/js/auth/signup.js"></script>
 
 </body>
