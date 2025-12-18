@@ -2,37 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Create account</title>
+  <title>PAY54 • Create Account</title>
+
+  <!-- Auth styles -->
   <link rel="stylesheet" href="assets/css/auth.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body class="auth">
 
   <div class="auth-container">
 
+    <!-- Logo -->
     <div class="auth-logo">
-      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54">
+      <!-- ✅ use v6.7 compatible logo path -->
+      <img src="assets/img/pay54-logo.svg" alt="PAY54 Logo" />
     </div>
+
     <div class="auth-tagline">ONE WALLET. EVERYWHERE.</div>
 
     <div class="auth-card">
 
       <h1>Create your account</h1>
 
-      <form class="auth-form" onsubmit="event.preventDefault(); PAY54_SESSION.signup();">
-        <label>Full name</label>
-        <input type="text" required>
+      <!-- ✅ ERROR MESSAGE CONTAINER -->
+      <div id="authError" class="auth-error" style="display:none;"></div>
 
-        <label>Email</label>
-        <input type="email" required>
+      <!-- ✅ SIGNUP FORM -->
+      <form id="signupForm" class="auth-form">
 
-        <label>Phone number</label>
-        <input type="tel" placeholder="+234…">
+        <label for="fullName">Full name</label>
+        <input
+          id="fullName"
+          name="fullName"
+          type="text"
+          placeholder="John Doe"
+          required
+        />
 
-        <label>Create PIN</label>
-        <input type="password" required>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@email.com"
+          required
+        />
+
+        <label for="phone">Phone number</label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder="+4479..."
+          required
+        />
+
+        <label for="pin">Create PIN</label>
+        <input
+          id="pin"
+          name="pin"
+          type="password"
+          placeholder="••••"
+          minlength="4"
+          maxlength="6"
+          required
+        />
 
         <button type="submit">Create account</button>
+
       </form>
 
       <div class="auth-links">
@@ -42,7 +81,11 @@
     </div>
   </div>
 
+  <!-- ✅ CORE SESSION + AUTH -->
   <script src="assets/js/session.js"></script>
-  <script src="assets/js/signup.js"></script>
+
+  <!-- ✅ SIGNUP LOGIC -->
+  <script src="assets/js/auth/signup.js"></script>
+
 </body>
 </html>
