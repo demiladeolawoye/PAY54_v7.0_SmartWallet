@@ -2,53 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PAY54 • Sign in</title>
+  <title>PAY54 • Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 
 <body class="auth">
 
-  <div class="auth-container">
+<div class="auth-container">
 
-    <div class="auth-logo">
-      <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54">
-    </div>
-    <div class="auth-tagline">ONE WALLET. EVERYWHERE.</div>
-
-    <div class="auth-card">
-
-      <div class="auth-why">
-        <h3>Why PAY54?</h3>
-        <ul>
-          <li>🌍 One wallet for NGN & global currencies</li>
-          <li>⚡ Send, receive & spend — all in one place</li>
-          <li>💱 FX remittance rails (NG ↔ US / UK / EU)</li>
-          <li>📱 Airtime, data, power, TV & more</li>
-          <li>💳 Virtual & linked cards control</li>
-          <li>📈 Savings, investments & stocks</li>
-        </ul>
-      </div>
-
-      <h1>Sign in</h1>
-
-      <form class="auth-form" onsubmit="event.preventDefault(); PAY54_SESSION.login();">
-        <label>Email</label>
-        <input type="email" required>
-
-        <label>Wallet PIN</label>
-        <input type="password" required>
-
-        <button type="submit">Continue</button>
-      </form>
-
-      <div class="auth-links">
-        <a href="recover.html">Forgot PIN?</a> ·
-        <a href="signup.html">Create account</a>
-      </div>
-
-    </div>
+  <div class="auth-logo">
+    <img src="assets/img/logo/pay54-logo-dark.svg" alt="PAY54" />
   </div>
 
-  <script src="assets/js/session.js"></script>
+  <div class="auth-card">
+    <h1>Login</h1>
+
+    <div id="authError" class="auth-error" style="display:none;"></div>
+
+    <form id="loginForm" class="auth-form">
+      <label>Email</label>
+      <input name="email" type="email" required />
+
+      <label>PIN</label>
+      <div class="pin-field">
+        <input name="pin" type="password" required />
+        <span class="eye" onclick="this.previousElementSibling.type =
+          this.previousElementSibling.type === 'password' ? 'text' : 'password'">👁</span>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="auth-links">
+      <a href="recover.html">Forgot PIN?</a>
+      <a href="signup.html">Create account</a>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/auth/login.js"></script>
 </body>
 </html>
