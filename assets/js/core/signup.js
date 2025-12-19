@@ -1,76 +1,47 @@
-/* ============================================================
-   PAY54 v7.0 — SIGNUP ENGINE (FULL)
-   - Create account
-   - Validate inputs
-   - Save user
-   - Create session
-   - Redirect to dashboard
-   ============================================================ */
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("signupForm");
-  const btn = document.getElementById("signupBtn");
-  const errorBox = document.getElementById("signupError");
-
-  if (!form) {
-    console.error("Signup form not found");
-    return;
-  }
+  const errorBox = document.getElementById("authError");
 
   const showError = (msg) => {
-    if (errorBox) {
-      errorBox.textContent = msg;
-      errorBox.style.display = "block";
-    } else {
-      alert(msg);
-    }
+    errorBox.textContent = msg;
+    errorBox.style.display = "block";
   };
 
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // 🚨 CRITICAL
+    e.preventDefault();
 
-    const name = form.querySelector('[name="name"]')?.value.trim();
-    const email = form.querySelector('[name="email"]')?.value.trim();
-    const phone = form.querySelector('[name="phone"]')?.value.trim();
-    const pin = form.querySelector('[name="pin"]')?.value.trim();
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const phone = form.phone.value.trim();
+    const pin = form.pin.value.trim();
+    const confirmPin = form.confirmPin.value.trim();
 
-    if (!name || !email || !phone || !pin) {
-      showError("All fields are required");
-      return;
+    if (!name || !email || !phone || !pin || !confirmPin) {
+      return showError("All fields are required");
+    }
+
+    if (pin !== confirmPin) {
+      return showError("PINs do not match");
     }
 
     if (pin.length < 4) {
-      showError("PIN must be at least 4 digits");
-      return;
+      return showError("PIN must be at least 4 digits");
     }
 
-    // Save user (v6.7 compatible)
-    const user = {
-      name,
-      email,
-      phone,
-      createdAt: new Date().toISOString(),
-    };
-
+    const user = { name, email, phone };
     localStorage.setItem("pay54_demo_user", JSON.stringify(user));
+    localStorage.setItem("pay54_pin", pin);
     localStorage.setItem("pay54_verified", "1");
     localStorage.setItem("pay54_session_active", "1");
 
-    // Initialise dashboard state if missing
-    if (!localStorage.getItem("pay54_dash_state_v70")) {
-      localStorage.setItem(
-        "pay54_dash_state_v70",
-        JSON.stringify({
-          activeCurrency: "NGN",
-          balances: { NGN: 250000, USD: 0, GBP: 0, EUR: 0 },
-          accountNo: "012 345 6789",
-          payTag: "@pay54demo",
-          kyc: "Tier 2 · Verified (Demo)",
-        })
-      );
-    }
+    localStorage.setItem("pay54_dash_state_v70", JSON.stringify({
+      activeCurrency: "NGN",
+      balances: { NGN: 250000, USD: 0, GBP: 0, EUR: 0 },
+      accountNo: "012 345 6789",
+      payTag: "@pay54demo",
+      kyc: "Tier 2 · Verified (Demo)"
+    }));
 
-    // Redirect
     window.location.href = "dashboard.html";
   });
 });
