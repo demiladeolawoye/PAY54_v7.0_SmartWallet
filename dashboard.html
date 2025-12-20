@@ -120,6 +120,26 @@
 <script src="assets/js/receipt.js"></script>
 <script src="assets/js/pin-auth.js"></script>
 <script src="assets/js/fx.js"></script>
+// 🚧 TEMP DEV AUTH BYPASS
+localStorage.setItem("pay54_session_active", "1");
+
+if (!localStorage.getItem("pay54_demo_user")) {
+  localStorage.setItem("pay54_demo_user", JSON.stringify({
+    name: "Demo User",
+    email: "demo@pay54.app",
+    phone: "+447900000000"
+  }));
+}
+
+if (!localStorage.getItem("pay54_dash_state_v70")) {
+  localStorage.setItem("pay54_dash_state_v70", JSON.stringify({
+    activeCurrency: "NGN",
+    balances: { NGN: 540000, USD: 1200, GBP: 850, EUR: 980 },
+    accountNo: "012 345 6789",
+    payTag: "@pay54demo",
+    kyc: "Tier 2 · Verified (Demo)"
+  }));
+}
 
 <script>
   P54Session.requireAuth();
